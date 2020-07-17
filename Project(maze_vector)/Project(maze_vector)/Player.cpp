@@ -76,9 +76,9 @@ bool Player::MoveCheck(vector<vector<int>>& v, Point Exit_Potal[])
 			v[rand() % 9 + 1][rand() % 9 + 1] = EMPTY;
 		}
 	}
-	if (index == GAMEOVER)
+	if (index == GAMECLEAR)
 	{
-		cout << "Game Over";
+		cout << "Game Clear";
 		return false;
 	}
 

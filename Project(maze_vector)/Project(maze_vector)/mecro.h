@@ -43,7 +43,7 @@ using namespace std;
 #define S 115
 #define D 100
 #define KEY 9
-#define GAMEOVER 4
+#define GAMECLEAR 4
 #define RESET 7
 
 struct Point
