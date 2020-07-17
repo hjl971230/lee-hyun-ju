@@ -58,7 +58,7 @@ bool Player::MovePlayer(vector<vector<int>>& v, Point Exit_Potal[])
 bool Player::MoveCheck(vector<vector<int>>& v, Point Exit_Potal[])
 {
 	int index = v[CharacterPoint.y][CharacterPoint.x];
-
+	int random = (rand() % 4);
 	if (index >= ENTRY_START && index < ENTRY_START + POTAL_MAX)
 	{
 		CharacterPoint.x = Exit_Potal[index - ENTRY_START].x;
@@ -66,8 +66,8 @@ bool Player::MoveCheck(vector<vector<int>>& v, Point Exit_Potal[])
 	}
 	if (index >= RANDOM_START && index < RANDOM_START + POTAL_MAX)
 	{
-		CharacterPoint.x = Exit_Potal[(rand() % 4) + 0].x;
-		CharacterPoint.y = Exit_Potal[(rand() % 4) + 0].y;
+		CharacterPoint.x = Exit_Potal[random].x;
+		CharacterPoint.y = Exit_Potal[random].y;
 	}
 	if (index == KEY)
 	{
