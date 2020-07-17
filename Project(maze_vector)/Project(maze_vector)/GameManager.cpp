@@ -33,11 +33,11 @@ void GameManager::PlayGame()
 
 void GameManager::Init()
 {
-	/*int Width = (WIDTH * 2) + 10;
+	int Width = (WIDTH * 2) + 10;
 	int Height = HEIGHT + 10;
 	char buf[256];
 	sprintf(buf, "mode con: lines=%d cols=%d", Height, Width);
-	system(buf);*/
+	system(buf);
 
 	m_vecMap =
 	{
@@ -165,7 +165,7 @@ void GameManager::Guide()
 	ORIGINAL
 
 		GREEN
-		cout << "¡Ü: ·£´ý Æ÷Å»" << "\t";
+		cout << "¡Ü: ·£´ý Æ÷Å»(Ãâ±¸ Áß ·£´ýÇÑ À§Ä¡)" << endl;
 	ORIGINAL
 
 		SKY_BLUE
