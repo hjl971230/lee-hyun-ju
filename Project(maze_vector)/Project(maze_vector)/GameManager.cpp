@@ -155,7 +155,7 @@ void GameManager::Guide()
 	ORIGINAL
 
 		SKY_BLUE
-		cout << "¡Ú: ·£´ý »èÁ¦" << endl;
+		cout << "¡Ú: ·£´ý »èÁ¦(º®¸¸ »èÁ¦, È®·üÀû)" << endl;
 	ORIGINAL
 
 		GOLD

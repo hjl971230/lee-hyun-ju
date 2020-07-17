@@ -59,6 +59,7 @@ bool Player::MoveCheck(vector<vector<int>>& v, Point Exit_Potal[])
 {
 	int index = v[CharacterPoint.y][CharacterPoint.x];
 	int random = (rand() % 4);
+	int deleterandom = (rand() % 9) + 1;
 	if (index >= ENTRY_START && index < ENTRY_START + POTAL_MAX)
 	{
 		CharacterPoint.x = Exit_Potal[index - ENTRY_START].x;
@@ -71,9 +72,9 @@ bool Player::MoveCheck(vector<vector<int>>& v, Point Exit_Potal[])
 	}
 	if (index == KEY)
 	{
-		if (index == WALL)
+		if (v[deleterandom][deleterandom] == WALL)
 		{
-			v[rand() % 9 + 1][rand() % 9 + 1] = EMPTY;
+			v[deleterandom][deleterandom] = EMPTY;
 		}
 	}
 	if (index == GAMECLEAR)
