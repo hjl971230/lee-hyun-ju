@@ -36,6 +36,7 @@ using namespace std;
 #define EXIT_START 20//출구 포탈의 시작 위치
 #define WIDTH 12//가로
 #define HEIGHT 12//세로
+#define MAX_SIZE 12
 #define RANDOM_START 30//랜덤
 #define W 119//2p 상하좌우
 #define A 97

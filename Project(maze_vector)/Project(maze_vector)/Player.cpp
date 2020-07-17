@@ -66,8 +66,8 @@ bool Player::MoveCheck(vector<vector<int>>& v, Point Exit_Potal[])
 	}
 	if (index >= RANDOM_START && index < RANDOM_START + POTAL_MAX)
 	{
-		CharacterPoint.x = Exit_Potal[(rand() % 4)].x;
-		CharacterPoint.y = Exit_Potal[(rand() % 4)].y;
+		CharacterPoint.x = Exit_Potal[(rand() % 4) + 0].x;
+		CharacterPoint.y = Exit_Potal[(rand() % 4) + 0].y;
 	}
 	if (index == KEY)
 	{

@@ -4,7 +4,8 @@ GameManager* GameManager::m_this = NULL;
 
 GameManager::GameManager()
 {
-	//m_vecMap.reserve(12, vector<int>(12));
+	for (auto iter = m_vecMap.begin(); iter != m_vecMap.end(); iter++)
+		(*iter).reserve(MAX_SIZE);
 }
 
 GameManager::~GameManager()
