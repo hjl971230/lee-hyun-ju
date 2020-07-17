@@ -6,6 +6,7 @@ class GameManager
 {
 	static GameManager* m_this;
 	vector<vector<int>> m_vecMap;
+	bool m_bResetflag;
 	Player P1;
 	Point Entry_Potal[POTAL_MAX];
 	Point Exit_Potal[POTAL_MAX];

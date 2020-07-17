@@ -9,9 +9,10 @@ public:
 	Player();
 	~Player();
 	inline void setCharacterPoint(int x, int y) { CharacterPoint.x = x; CharacterPoint.y = y;}
-	bool Move(vector<vector<int>>& v, Point Exit_Potal[]);
-	bool PlayerMoveCheck(char ch, vector<vector<int>>& v, Point Exit_Potal[]);
-	bool MovePlayer(vector<vector<int>>& v, Point Exit_Potal[]);
-	bool MoveCheck(vector<vector<int>>& v, Point Exit_Potal[]);
+	inline void setLastObjectindex(int i) { m_iLastObjectindex = i;}
+	bool Move(vector<vector<int>>& v, Point Exit_Potal[], bool &resetflag);
+	bool PlayerMoveCheck(char ch, vector<vector<int>>& v, Point Exit_Potal[], bool &resetflag);
+	bool MovePlayer(vector<vector<int>>& v, Point Exit_Potal[], bool &resetflag);
+	bool MoveCheck(vector<vector<int>>& v, Point Exit_Potal[], bool &resetflag);
 };
 

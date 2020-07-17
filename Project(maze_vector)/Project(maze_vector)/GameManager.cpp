@@ -6,6 +6,7 @@ GameManager::GameManager()
 {
 	for (auto iter = m_vecMap.begin(); iter != m_vecMap.end(); iter++)
 		(*iter).reserve(MAX_SIZE);
+	m_bResetflag = false;
 }
 
 GameManager::~GameManager()
@@ -21,7 +22,12 @@ void GameManager::PlayGame()
 	{
 		Mapdraw();
 		Guide();
-		gameFlag = P1.Move(m_vecMap, Exit_Potal);
+		gameFlag = P1.Move(m_vecMap, Exit_Potal, m_bResetflag);
+		if (m_bResetflag)
+		{
+			Init();
+			m_bResetflag = false;
+		}
 	}
 }
 
@@ -42,7 +48,7 @@ void GameManager::Init()
 		{WALL, EMPTY, RANDOM_START + 3, EMPTY, WALL, EMPTY, WALL, EMPTY, ENTRY_START + 1, EMPTY, EMPTY, WALL},
 		{WALL, EMPTY, ENTRY_START + 3, EXIT_START + 5, WALL, EMPTY, WALL, WALL, EMPTY, WALL, EMPTY, WALL},
 		{WALL, EMPTY, WALL, EMPTY, WALL, EMPTY, WALL, EMPTY, EMPTY, KEY, EMPTY, WALL},
-		{WALL, EMPTY, RANDOM_START + 4, EMPTY, WALL, EMPTY, WALL, ENTRY_START + 2, EMPTY, WALL, EMPTY, GAMECLEAR},
+		{WALL, EMPTY, RANDOM_START + 4, EMPTY, WALL, RESET, WALL, ENTRY_START + 2, EMPTY, WALL, EMPTY, GAMECLEAR},
 		{WALL, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, WALL, EXIT_START + 4, EMPTY, EMPTY, EMPTY, WALL},
 		{WALL, EMPTY, EXIT_START, EMPTY, WALL, EMPTY, WALL, EMPTY, EMPTY, WALL, RANDOM_START, WALL},
 		{WALL, KEY, EMPTY, EMPTY, WALL, EMPTY, WALL, EMPTY, EMPTY, EXIT_START + 2, EMPTY, WALL},
@@ -75,6 +81,8 @@ void GameManager::Init()
 
 		}
 	}
+
+	P1.setLastObjectindex(0);
 }
 
 void GameManager::Mapdraw()
@@ -115,6 +123,12 @@ void GameManager::Mapdraw()
 			{
 				GREEN
 					cout << "¡Ü";
+				ORIGINAL
+			}
+			else if (m_vecMap[y][x] == RESET)
+			{
+				GOLD
+					cout << "¡Ú";
 				ORIGINAL
 			}
 			else if (m_vecMap[y][x] == KEY)

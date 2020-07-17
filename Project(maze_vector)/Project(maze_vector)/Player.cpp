@@ -11,18 +11,18 @@ Player::~Player()
 {
 }
 
-bool Player::Move(vector<vector<int>>& v, Point Exit_Potal[])
+bool Player::Move(vector<vector<int>>& v,  Point Exit_Potal[], bool &resetflag)
 {
 	char ch;
 	ch = getch();
 	system("cls");
 	if ((ch == W) || (ch == A) || (ch == S) || (ch == D))
 	{
-		return PlayerMoveCheck(ch, v, Exit_Potal);
+		return PlayerMoveCheck(ch, v, Exit_Potal, resetflag);
 	}
 }
 
-bool Player::PlayerMoveCheck(char ch, vector<vector<int>>& v, Point Exit_Potal[])
+bool Player::PlayerMoveCheck(char ch, vector<vector<int>>& v, Point Exit_Potal[], bool &resetflag)
 {
 	v[CharacterPoint.y][CharacterPoint.x] = m_iLastObjectindex;
 	switch (ch)
@@ -44,18 +44,18 @@ bool Player::PlayerMoveCheck(char ch, vector<vector<int>>& v, Point Exit_Potal[]
 			CharacterPoint.y++;
 		break;
 	}
-	return MovePlayer(v, Exit_Potal);
+	return MovePlayer(v, Exit_Potal, resetflag);
 }
 
-bool Player::MovePlayer(vector<vector<int>>& v, Point Exit_Potal[])
+bool Player::MovePlayer(vector<vector<int>>& v,  Point Exit_Potal[], bool &resetflag)
 {
-	bool tmp = MoveCheck(v, Exit_Potal);
+	bool tmp = MoveCheck(v, Exit_Potal, resetflag);
 	m_iLastObjectindex = v[CharacterPoint.y][CharacterPoint.x];
 	v[CharacterPoint.y][CharacterPoint.x] = CHARACTER;
 	return tmp;
 }
 
-bool Player::MoveCheck(vector<vector<int>>& v, Point Exit_Potal[])
+bool Player::MoveCheck(vector<vector<int>>& v,  Point Exit_Potal[], bool &resetflag)
 {
 	int index = v[CharacterPoint.y][CharacterPoint.x];
 	int random = (rand() % 4);
@@ -76,6 +76,10 @@ bool Player::MoveCheck(vector<vector<int>>& v, Point Exit_Potal[])
 		{
 			v[deleterandom][deleterandom] = EMPTY;
 		}
+	}
+	if (index == RESET)
+	{
+		resetflag = true;
 	}
 	if (index == GAMECLEAR)
 	{
