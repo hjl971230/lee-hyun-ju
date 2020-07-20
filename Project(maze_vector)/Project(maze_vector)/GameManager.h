@@ -20,6 +20,7 @@ public:
 			m_this = new GameManager;
 		return m_this;
 	}
+	void Mapload(string filename);
 	void PlayGame();
 	void Init();
 	void Mapdraw();
