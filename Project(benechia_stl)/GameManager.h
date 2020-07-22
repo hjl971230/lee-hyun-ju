@@ -7,6 +7,14 @@ class GameManager
 {
 private:
 	static GameManager* m_GameManger_this;
+	int m_iLife;
+	int m_iScore;
+	string m_strName;
+	int m_istage;
+	int m_icreatspeed;
+	bool m_bitemflag;
+	int m_iItemclock;
+	int m_ifailedclock;
 public:
 	static GameManager* GetInstance()
 	{
@@ -16,5 +24,11 @@ public:
 	}
 	GameManager();
 	~GameManager();
+	void GameBoot();
+	void GameStart();
+	void NameInput();
+	void PlayGame();
+	bool InputCheck(string str, ITEM& i);
+	void Gameover();
 };
 

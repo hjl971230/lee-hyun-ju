@@ -43,13 +43,21 @@ void Interface::GameScroll()
 	int y = 6;
 	int story_max = 0;
 	string scroll;
-	string allscroll[MAX_SCROLL];
+	//string allscroll[MAX_SCROLL];
+	list<string> allscroll;
+	list<string> viewline;
+	list<string>::iterator view_iter = viewline.begin();
 	ifstream load;
 	int oldclock = clock();
 	load.open("benechia_story.txt");
 	if (load.is_open())
 	{
 		load >> story_max;
+		while (!load.eof())
+		{
+			getline(load, scroll);
+			allscroll.push_back(scroll);
+		}
 		BLUE
 			while (story_max > 0)
 			{
@@ -64,15 +72,18 @@ void Interface::GameScroll()
 					{
 						if (clock() - oldclock >= 1000)
 						{
-							getline(load, scroll);
-							allscroll[i] = scroll;
-							DrawMidText(allscroll[i], X, y);
+							//allscroll[i] = scroll;
+							//DrawMidText(allscroll[i], X, y);
+							viewline.push_back(allscroll.front());
+							DrawMidText(*view_iter, X, y);
+							view_iter++;
+							allscroll.pop_front();
 							oldclock = clock();
 							break;
 						}
 					}
 					y++;
-					i++;
+					//i++;
 				}
 				else
 				{
@@ -80,11 +91,15 @@ void Interface::GameScroll()
 					for (i = 0; i < MAX_SCROLL; i++)
 					{
 						if (i < MAX_SCROLL - 1)
-							allscroll[i] = allscroll[i + 1];
+						{
+							viewline.push_back(allscroll.front());
+							allscroll.pop_front();
+						}
+							//allscroll[i] = allscroll[i + 1];
 						else
 						{
-							getline(load, scroll);
-							allscroll[MAX_SCROLL - 1] = scroll;
+							//getline(load, scroll);
+							//allscroll[MAX_SCROLL - 1] = scroll;
 						}
 					}
 					while (true)
@@ -95,7 +110,7 @@ void Interface::GameScroll()
 							{
 								if(i==0)
 									DrawMidText("                                                      ", X, y);
-								DrawMidText(allscroll[i], X, y);
+								//DrawMidText(allscroll[i], X, y);
 								y++;
 								DrawMidText("                                                      ", X, y);
 							}

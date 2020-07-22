@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapDraw.cpp" />
     <ClCompile Include="Rank.cpp" />
@@ -150,6 +151,7 @@
   <ItemGroup>
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Interface.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="MapDraw.h" />
     <ClInclude Include="Mecro.h" />
     <ClInclude Include="Rank.h" />
