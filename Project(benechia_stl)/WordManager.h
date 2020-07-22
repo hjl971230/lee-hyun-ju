@@ -11,6 +11,8 @@ private:
 	Word* m_Word;
 	bool m_bdropflag;
 public:
+	WordManager();
+	~WordManager();
 	static WordManager* GetInstance()
 	{
 		if (m_WordManager_this == NULL)

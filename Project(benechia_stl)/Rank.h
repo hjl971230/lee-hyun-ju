@@ -18,7 +18,10 @@ private:
 	Rank* m_Next;
 	Rank** m_Rankarr;
 	int m_icount;
+	list<Rankinfo> m_Ranklist;
 public:
+	Rank();
+	~Rank();
 	static Rank* GetInstance()
 	{
 		if (m_Rank_this == NULL)
@@ -29,11 +32,11 @@ public:
 	void RankLoad();
 	void DataInput(ifstream& load, Rankinfo& info);
 	void MakeNext(Rank* tmp);
-	void RankSort();
+	void RankSort(list<Rankinfo>::iterator begin, list<Rankinfo>::iterator end);
 	inline Rank* GetNext() { return m_Next; }
 	inline Rankinfo& GetRankinfo() { return m_Rankinfo; }
 	void ShowRank();
 	void Relese(Rank* Node);
-	void deleterank();
+	//void deleterank();
 };
 

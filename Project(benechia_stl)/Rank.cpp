@@ -10,7 +10,7 @@ Rank::Rank()
 }
 Rank::~Rank()
 {
-	deleterank();
+	//deleterank();
 }
 void Rank::MakeNext(Rank* tmp)
 {
@@ -21,22 +21,23 @@ void Rank::MakeNext(Rank* tmp)
 	}
 	m_Next->MakeNext(tmp);
 }
-void Rank::deleterank()
-{
-	for (int i = 0; i < m_icount; i++)
-	{
-		if (m_Rankarr[i] != NULL)
-		{
-			delete m_Rankarr[i];
-			m_Rankarr[i] = NULL;
-		}
-	}
-	if (m_Rankarr != NULL)
-		delete[] m_Rankarr;
-	m_FirstRank = NULL;
-	m_Next = NULL;
-	m_Rankarr = NULL;
-}
+//void Rank::deleterank()
+//{
+//	for (int i = 0; i < m_icount; i++)
+//	{
+//		if (m_Rankarr[i] != NULL)
+//		{
+//			delete m_Rankarr[i];
+//			m_Rankarr[i] = NULL;
+//		}
+//	}
+//	if (m_Rankarr != NULL)
+//		delete[] m_Rankarr;
+//	m_FirstRank = NULL;
+//	m_Next = NULL;
+//	m_Rankarr = NULL;
+//}
+
 void Rank::Ranksave(string name, int stage, int score)
 {
 	ofstream save;
@@ -47,66 +48,61 @@ void Rank::Ranksave(string name, int stage, int score)
 	}
 	save.close();
 }
+
 void Rank::RankLoad()
 {
-	deleterank();
+	if(!m_Ranklist.empty())
+		m_Ranklist.clear();
 	int count = 0;
-	Rank* tmp = NULL;
+	Rankinfo tmp;
 	ifstream load;
 	load.open("Rank.txt");
 	if (load.is_open())
 	{
 		while (!load.eof())
 		{
-			tmp = new Rank;
-			DataInput(load, tmp->m_Rankinfo);
-			if (m_FirstRank == NULL)
-				m_FirstRank = tmp;
-			else
-				m_FirstRank->MakeNext(tmp);
+			DataInput(load, tmp);
+			m_Ranklist.push_back(tmp);
 			count++;
 		}
 	}
 	m_icount = count;
 	load.close();
-	tmp = m_FirstRank;
-	m_Rankarr = new Rank * [count];
-	for (int i = 0; i < m_icount; i++)
-	{
-		if (m_Rankarr[i] != NULL)
-			m_Rankarr[i] = NULL;
-		m_Rankarr[i] = tmp;
-		if (tmp->GetNext() != NULL)
-			tmp = tmp->GetNext();
-	}
-	RankSort();
+	//m_Ranklist.sort();
+	RankSort(m_Ranklist.begin(), m_Ranklist.end());
 }
+
 void Rank::DataInput(ifstream& load, Rankinfo& info)
 {
 	load >> info.Name;
 	load >> info.stage;
 	load >> info.score;
 }
-void Rank::RankSort()
+
+void Rank::RankSort(list<Rankinfo>::iterator begin, list<Rankinfo>::iterator end)
 {
-	Rank* tmp = NULL;
-	for (int i = 0; i < m_icount - 1; i++)
+	Rankinfo tmp;
+	list<Rankinfo>::iterator next = begin;
+	list<Rankinfo>::iterator forward_end = end;
+	next++;
+	end--;
+	for (begin; begin != forward_end; begin++)
 	{
-		for (int j = i + 1; j < m_icount; j++)
+		for (next; next != end; next++)
 		{
-			if (m_Rankarr[i]->GetRankinfo().score < m_Rankarr[j]->GetRankinfo().score)
+			if ((*begin).score < (*next).score)
 			{
-				tmp = m_Rankarr[i];
-				m_Rankarr[i] = m_Rankarr[j];
-				m_Rankarr[j] = tmp;
+				tmp = (*begin);
+				(*begin) = (*next);
+				(*next) = tmp;
 			}
-			else if (m_Rankarr[i]->GetRankinfo().score == m_Rankarr[j]->GetRankinfo().score)
+			else if ((*begin).score == (*next).score)
 			{
-				if (m_Rankarr[i]->GetRankinfo().stage < m_Rankarr[j]->GetRankinfo().stage)
+				if ((*begin).stage < (*next).stage)
 				{
-					tmp = m_Rankarr[i];
-					m_Rankarr[i] = m_Rankarr[j];
-					m_Rankarr[j] = tmp;
+					tmp = (*begin);
+					(*begin) = (*next);
+					(*next) = tmp;
 				}
 			}
 		}
@@ -114,23 +110,25 @@ void Rank::RankSort()
 }
 void Rank::ShowRank()
 {
-	int y = 0;
+	int i = 0, y = 0;
+	list<Rankinfo>::iterator iter = m_Ranklist.begin();
 	SKY_BLUE
-		m_DrawManager.BoxDraw(0, 0, X, Y);
+		MapDraw::GetInstance()->BoxDraw(0, 0, X, Y);
 	ORIGINAL
 		BLUE
-		m_DrawManager.BoxDraw(X, 3, 20, 5);
-	m_DrawManager.DrawMidText("Ranking", X, 5);
+		MapDraw::GetInstance()->BoxDraw(X, 3, 20, 5);
+	MapDraw::GetInstance()->DrawMidText("Ranking", X, 5);
 	for (int i = 2; i < X * 2 - 2; i++)
-		m_DrawManager.TextDraw("=", i, 8);
-	m_DrawManager.DrawPoint("Name\t\t\tScore\t\t\tStage", X / 3, 11);
-	for (int i = 0; i < MAX_RANK; i++)
+		MapDraw::GetInstance()->TextDraw("=", i, 8);
+	MapDraw::GetInstance()->DrawPoint("Name\t\t\tScore\t\t\tStage", X / 3, 11);
+	for(int i = 0; i < MAX_RANK; i++)
 	{
-		m_DrawManager.DrawPoint(to_string(i + 1) + ". \t\t"
-			+ m_Rankarr[i]->GetRankinfo().Name + "\t\t\t"
-			+ to_string(m_Rankarr[i]->GetRankinfo().score) + "\t\t\t"
-			+ to_string(m_Rankarr[i]->GetRankinfo().stage), X / 5, 14 + y);
+		MapDraw::GetInstance()->DrawPoint(to_string(i + 1) + ". \t\t"
+			+ (*iter).Name + "\t\t\t"
+			+ to_string((*iter).score) + "\t\t\t"
+			+ to_string((*iter).stage), X / 5, 14 + y);
 		y += 2;
+		iter++;
 	}
 	ORIGINAL
 		char ch = getch();

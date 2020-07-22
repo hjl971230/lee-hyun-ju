@@ -43,10 +43,9 @@ void Interface::GameScroll()
 	int y = 6;
 	int story_max = 0;
 	string scroll;
-	//string allscroll[MAX_SCROLL];
 	list<string> allscroll;
-	list<string> viewline;
-	list<string>::iterator view_iter = viewline.begin();
+	list<string>::iterator iter;
+	list<string>::iterator view_iter;
 	ifstream load;
 	int oldclock = clock();
 	load.open("benechia_story.txt");
@@ -58,6 +57,7 @@ void Interface::GameScroll()
 			getline(load, scroll);
 			allscroll.push_back(scroll);
 		}
+		iter = allscroll.begin();
 		BLUE
 			while (story_max > 0)
 			{
@@ -66,60 +66,38 @@ void Interface::GameScroll()
 					if (getch() == 's' || getch() == 'S')
 						break;
 				}
-				if (story_max > 16)
+				if (clock() - oldclock >= 1000)
 				{
-					while (true)
+					if (story_max > 16)
 					{
-						if (clock() - oldclock >= 1000)
+						scroll = (*iter);
+						DrawMidText(scroll, X, y);
+						iter++;
+						y++;
+					}
+					else
+					{
+						if (story_max == 16)
 						{
-							//allscroll[i] = scroll;
-							//DrawMidText(allscroll[i], X, y);
-							viewline.push_back(allscroll.front());
-							DrawMidText(*view_iter, X, y);
+							iter = allscroll.begin();
+							iter++;
+						}
+						y = 6;
+						view_iter = iter;
+						for (i = 0; i < MAX_SCROLL; i++)
+						{
+							scroll = (*view_iter);
+							DrawMidText("                                                      ", X, y);
+							DrawMidText(scroll, X, y);
 							view_iter++;
-							allscroll.pop_front();
-							oldclock = clock();
-							break;
+							y++;
+							DrawMidText("                                                      ", X, y);
 						}
+						iter++;
 					}
-					y++;
-					//i++;
+					oldclock = clock();
+					story_max--;
 				}
-				else
-				{
-					y = 6;
-					for (i = 0; i < MAX_SCROLL; i++)
-					{
-						if (i < MAX_SCROLL - 1)
-						{
-							viewline.push_back(allscroll.front());
-							allscroll.pop_front();
-						}
-							//allscroll[i] = allscroll[i + 1];
-						else
-						{
-							//getline(load, scroll);
-							//allscroll[MAX_SCROLL - 1] = scroll;
-						}
-					}
-					while (true)
-					{
-						if (clock() - oldclock >= 1000)
-						{
-							for (i = 0; i < MAX_SCROLL; i++)
-							{
-								if(i==0)
-									DrawMidText("                                                      ", X, y);
-								//DrawMidText(allscroll[i], X, y);
-								y++;
-								DrawMidText("                                                      ", X, y);
-							}
-							oldclock = clock();
-							break;
-						}
-					}
-				}
-				story_max--;
 			}
 		ORIGINAL
 	}

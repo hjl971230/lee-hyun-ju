@@ -1,0 +1,2 @@
+D:\학원\github\project\Project(benechia_stl)\Debug\Project(benechia_stl).exe
+D:\학원\github\project\Project(benechia_stl)\Debug\Project(benechia_stl).pdb
