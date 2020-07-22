@@ -1,5 +1,7 @@
 #pragma once
 #include"MapDraw.h"
+#define SCROLL_TIME 500
+
 class Interface : public MapDraw
 {
 private:

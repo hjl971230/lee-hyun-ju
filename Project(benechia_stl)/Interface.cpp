@@ -66,7 +66,7 @@ void Interface::GameScroll()
 					if (getch() == 's' || getch() == 'S')
 						break;
 				}
-				if (clock() - oldclock >= 1000)
+				if (clock() - oldclock >= SCROLL_TIME)
 				{
 					if (story_max > 16)
 					{

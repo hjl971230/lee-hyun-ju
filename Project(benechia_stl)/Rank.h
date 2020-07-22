@@ -7,16 +7,29 @@ struct Rankinfo
 	string Name;
 	int stage;
 	int score;
+	Rankinfo& operator=(Rankinfo& r)
+	{
+		this->Name = r.Name;
+		this->stage = r.stage;
+		this->score = r.score;
+		return *this;
+	}
+};
+
+struct Rank_less
+{
+	bool operator()(Rankinfo left, Rankinfo right)
+	{
+		if (left.score == right.score)
+			return (left.stage > right.stage);
+		else return (left.score > right.score);
+	}
 };
 
 class Rank
 {
 private:
 	static Rank* m_Rank_this;
-	Rankinfo m_Rankinfo;
-	Rank* m_FirstRank;
-	Rank* m_Next;
-	Rank** m_Rankarr;
 	int m_icount;
 	list<Rankinfo> m_Ranklist;
 public:
@@ -31,12 +44,6 @@ public:
 	void Ranksave(string name, int stage, int score);
 	void RankLoad();
 	void DataInput(ifstream& load, Rankinfo& info);
-	void MakeNext(Rank* tmp);
-	void RankSort(list<Rankinfo>::iterator begin, list<Rankinfo>::iterator end);
-	inline Rank* GetNext() { return m_Next; }
-	inline Rankinfo& GetRankinfo() { return m_Rankinfo; }
 	void ShowRank();
-	void Relese(Rank* Node);
-	//void deleterank();
 };
 

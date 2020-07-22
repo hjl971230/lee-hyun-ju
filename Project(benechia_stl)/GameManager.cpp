@@ -189,7 +189,6 @@ void GameManager::PlayGame()
 					for (int j = 0; j < MAX_NAME * 2 + 1; j++)
 						ch[j] = '\0';
 					i = 0;
-
 				}
 			}
 			str = (string)ch;
@@ -218,10 +217,7 @@ void GameManager::PlayGame()
 			stageflag = true;
 			m_icreatspeed -= 100;
 			m_istage++;
-			for (int i = 0; i < WordManager::GetInstance()->Getwordcount(); i++)
-			{
-				WordManager::GetInstance()->GetWord()[i].Die();
-			}
+			WordManager::GetInstance()->WordDie();
 			WordManager::GetInstance()->SetSpeed(WordManager::GetInstance()->GetSpeed() - 20);
 			oldclock = clock();
 			m_ifailedclock = clock();
@@ -230,20 +226,22 @@ void GameManager::PlayGame()
 }
 bool GameManager::InputCheck(string str, ITEM& item)
 {
-	for (int i = 0; i < WordManager::GetInstance()->Getwordcount(); i++)
+	list<Word>::iterator iter = WordManager::GetInstance()->GetWordList_begin();
+	list<Word>::iterator iter_end = WordManager::GetInstance()->GetWordList_end();
+	for (iter; iter != iter_end; iter++)
 	{
-		if (WordManager::GetInstance()->GetWord()[i].Getstrflag())
+		if ((*iter).Getstrflag())
 		{
-			if (str == WordManager::GetInstance()->GetWord()[i].Getstr())
+			if (str == (*iter).Getstr())
 			{
-				if (WordManager::GetInstance()->GetWord()[i].GetItemflag())
+				if ((*iter).GetItemflag())
 				{
 					m_bitemflag = true;
-					item = WordManager::GetInstance()->GetWord()[i].GetItem()->ItemValue();
+					item = (*iter).GetItem()->ItemValue();
 					WordManager::GetInstance()->ItemOn(item, m_iScore, m_istage);
 					m_iItemclock = clock();
 				}
-				WordManager::GetInstance()->GetWord()[i].Die();
+				(*iter).Die();
 				m_iScore += 30 + m_istage;
 				return true;
 			}
@@ -251,6 +249,7 @@ bool GameManager::InputCheck(string str, ITEM& item)
 	}
 	return false;
 }
+
 void GameManager::Gameover()
 {
 	Rank::GetInstance()->Ranksave(m_strName, m_istage, m_iScore);
@@ -266,8 +265,5 @@ void GameManager::Gameover()
 	m_strName = "? ? ?";
 	m_istage = 1;
 	m_icreatspeed = 3000;
-	for (int i = 0; i < WordManager::GetInstance()->Getwordcount(); i++)
-	{
-		WordManager::GetInstance()->GetWord()[i].Die();
-	}
+	WordManager::GetInstance()->WordDie();
 }

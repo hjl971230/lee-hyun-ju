@@ -5,21 +5,17 @@ WordManager* WordManager::m_WordManager_this = NULL;
 WordManager::WordManager()
 {
 	m_iwordcount = 0;
-	m_Word = NULL;
 	m_ispeed = 500;
 	m_bdropflag = true;
 }
+
 WordManager::~WordManager()
 {
-	//Relese(m_Word);
-	if (m_Word != NULL)
-	{
-		delete[] m_Word;
-		m_Word = NULL;
-	}
 }
+
 void WordManager::Wordload()
 {
+	Word tmp;
 	string str;
 	ifstream load;
 	int count = 0;
@@ -27,25 +23,16 @@ void WordManager::Wordload()
 	if (load.is_open())
 	{
 		load >> m_iwordcount;
-		while (count < m_iwordcount)
+		while (!load.eof())
 		{
 			load >> str;
-			if (m_Word == NULL)
-				m_Word = new Word[m_iwordcount];
-			m_Word[count].Setstr(str);
-			count++;
+			tmp.Setstr(str);
+			m_Wordlist.push_back(tmp);
 		}
 		load.close();
 	}
 }
-void WordManager::Relese(Word* Node)
-{
-	if (Node == NULL)
-		return;
-	Relese(Node->GetNext());
-	delete Node;
-	Node = NULL;
-}
+
 bool WordManager::WordDrop()
 {
 	if (m_ispeed <= 200)
@@ -54,13 +41,13 @@ bool WordManager::WordDrop()
 	{
 		if (m_bdropflag)
 		{
-			for (int i = 0; i < m_iwordcount; i++)
+			for (list<Word>::iterator iter = m_Wordlist.begin(); iter != m_Wordlist.end(); iter++)
 			{
-				if (m_Word[i].Getstrflag())
-					m_Word[i].drop();
-				if (m_Word[i].Gety() >= Y - 2)
+				if ((*iter).Getstrflag())
+					(*iter).drop();
+				if ((*iter).Gety() >= Y - 2)
 				{
-					m_Word[i].Die();
+					(*iter).Die();
 					return false;
 				}
 			}
@@ -69,20 +56,29 @@ bool WordManager::WordDrop()
 	}
 	return true;
 }
+
+void WordManager::WordDie()
+{
+	for (list<Word>::iterator iter = m_Wordlist.begin(); iter != m_Wordlist.end(); iter++)
+	{
+		(*iter).Die();
+	}
+}
+
 void WordManager::Reversehideflag()
 {
-	for (int i = 0; i < m_iwordcount; i++)
+	for (list<Word>::iterator iter = m_Wordlist.begin(); iter != m_Wordlist.end(); iter++)
 	{
-		if (m_Word[i].Gethideflag())
-			m_Word[i].Sethideflag(false);
+		if ((*iter).Gethideflag())
+			(*iter).Sethideflag(false);
 		else
-			m_Word[i].Sethideflag(true);
+			(*iter).Sethideflag(true);
 	}
 }
 void WordManager::WordClear()
 {
-	for (int i = 0; i < m_iwordcount; i++)
-		m_Word[i].Die();
+	for (list<Word>::iterator iter = m_Wordlist.begin(); iter != m_Wordlist.end(); iter++)
+		(*iter).Die();
 }
 void WordManager::SpeedUpDown(bool b)
 {
@@ -94,13 +90,16 @@ void WordManager::SpeedUpDown(bool b)
 void WordManager::WordCreate()
 {
 	int rnum = 0;
-	rnum = rand() % 75; //WordManager ¿Ãµø
+	rnum = rand() % m_iwordcount;
+	list<Word>::iterator iter = m_Wordlist.begin();
+	for(int i = 0; i < rnum; i++)
+		iter++;
 	if (m_bdropflag)
 	{
-		if (!m_Word[rnum].Getstrflag())
-			m_Word[rnum].Live();
-		if (m_Word[rnum].GetItemflag())
-			m_Word[rnum].MakeItem();
+		if (!(*iter).Getstrflag())
+			(*iter).Live();
+		if ((*iter).GetItemflag())
+			(*iter).MakeItem();
 	}
 }
 void WordManager::ItemOn(ITEM item, int& score, int stage)

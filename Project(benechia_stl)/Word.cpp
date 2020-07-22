@@ -4,7 +4,6 @@ Word::Word()
 {
 	m_ix = 0;
 	m_iy = 1;
-	m_Next = NULL;
 	if (rand() % 100 >= 10)
 		m_bitemflag = false;
 	else
@@ -13,28 +12,30 @@ Word::Word()
 	m_bhideflag = false;
 	m_Item = NULL;
 }
+
 Word::~Word()
 {
 	deleteItem();
 }
+
 void Word::draw()
 {
 	if (m_bstrflag)
 	{
 		for (int i = 0; i < m_str.length(); i++)
-			m_DrawManager.DrawPoint("  ", m_ix + i, m_iy - 1);
+			MapDraw::GetInstance()->DrawPoint("  ", m_ix + i, m_iy - 1);
 		if (!m_bhideflag)
 		{
 			if (!m_bitemflag)
 			{
 				BLUE
-					m_DrawManager.DrawPoint(m_str, m_ix, m_iy);
+					MapDraw::GetInstance()->DrawPoint(m_str, m_ix, m_iy);
 				ORIGINAL
 			}
 			else
 			{
 				PUPPLE
-					m_DrawManager.DrawPoint(m_str, m_ix, m_iy);
+					MapDraw::GetInstance()->DrawPoint(m_str, m_ix, m_iy);
 				ORIGINAL
 			}
 		}
@@ -43,18 +44,19 @@ void Word::draw()
 			if (!m_bitemflag)
 			{
 				BLUE
-					m_DrawManager.DrawPoint("======", m_ix, m_iy);
+					MapDraw::GetInstance()->DrawPoint("======", m_ix, m_iy);
 				ORIGINAL
 			}
 			else
 			{
 				PUPPLE
-					m_DrawManager.DrawPoint("======", m_ix, m_iy);
+					MapDraw::GetInstance()->DrawPoint("======", m_ix, m_iy);
 				ORIGINAL
 			}
 		}
 	}
 }
+
 void Word::drop()
 {
 	m_iy++;
@@ -62,6 +64,7 @@ void Word::drop()
 		draw();
 	ORIGINAL
 }
+
 void Word::Live()
 {
 	m_bstrflag = true;
@@ -74,14 +77,16 @@ void Word::Live()
 			break;
 	}
 }
+
 void Word::Die()
 {
 	m_bstrflag = false;
 	for (int i = 0; i < m_str.length(); i++)
-		m_DrawManager.DrawPoint("  ", m_ix + i, m_iy);
+		MapDraw::GetInstance()->DrawPoint("  ", m_ix + i, m_iy);
 	m_ix = 0;
 	m_iy = 1;
 }
+
 void Word::MakeItem()
 {
 	deleteItem();
