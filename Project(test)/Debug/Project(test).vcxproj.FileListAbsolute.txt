@@ -1,0 +1,2 @@
+D:\학원\github\project\Project(test)\Debug\Project(test).exe
+D:\학원\github\project\Project(test)\Debug\Project(test).pdb
