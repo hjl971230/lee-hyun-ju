@@ -4,10 +4,7 @@ Word::Word()
 {
 	m_ix = 0;
 	m_iy = 1;
-	if (rand() % 100 >= 10)
-		m_bitemflag = false;
-	else
-		m_bitemflag = true;
+	m_bitemflag = false;
 	m_bstrflag = false;
 	m_bhideflag = false;
 	m_Item = NULL;
@@ -69,6 +66,10 @@ void Word::Live()
 {
 	m_bstrflag = true;
 	m_ix = (rand() % (X - 4)) + 2;
+	if (rand() % 100 >= 10)
+		m_bitemflag = false;
+	else
+		m_bitemflag = true;
 	while (true)
 	{
 		if (m_ix + m_str.length() >= X || m_ix - m_str.length() <= 1)
