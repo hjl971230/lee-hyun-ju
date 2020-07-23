@@ -6,6 +6,8 @@
 
 #define TRAP 9
 #define PLAYER 2
+#define WALL 1
+#define EMPTY 0
 using namespace std;
 
 void main()
