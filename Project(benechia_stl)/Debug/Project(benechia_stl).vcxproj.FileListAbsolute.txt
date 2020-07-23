@@ -1,2 +1,4 @@
 D:\학원\github\project\Project(benechia_stl)\Debug\Project(benechia_stl).exe
 D:\학원\github\project\Project(benechia_stl)\Debug\Project(benechia_stl).pdb
+F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Debug\Project(benechia_stl).exe
+F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Debug\Project(benechia_stl).pdb

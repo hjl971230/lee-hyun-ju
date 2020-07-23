@@ -12,8 +12,6 @@ protected:
 	bool m_bhideflag;
 	bool m_bstrflag;
 	string m_str;
-	MapDraw m_DrawManager;
-	Word* m_Next;
 	Item* m_Item;
 public:
 	Word();
@@ -24,16 +22,6 @@ public:
 	void Die();
 	inline void Setstr(string str) { m_str = str; }
 	inline string Getstr() { return m_str; }
-	inline void MakeNext(Word* tmp)
-	{
-		if (m_Next == NULL)
-		{
-			m_Next = tmp;
-			return;
-		}
-		m_Next->MakeNext(tmp);
-	}
-	inline Word* GetNext() { return m_Next; }
 	inline void Setx(int x) { m_ix = x; }
 	inline void Sety(int y) { m_iy = y; }
 	inline int Getx() { return m_ix; }

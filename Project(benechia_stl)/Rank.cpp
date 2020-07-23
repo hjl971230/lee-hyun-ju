@@ -4,39 +4,11 @@ Rank* Rank::m_Rank_this = NULL;
 
 Rank::Rank()
 {
-	m_FirstRank = NULL;
-	m_Next = NULL;
-	m_Rankarr = NULL;
+	m_icount = 0;
 }
 Rank::~Rank()
 {
-	//deleterank();
 }
-void Rank::MakeNext(Rank* tmp)
-{
-	if (m_Next == NULL)
-	{
-		m_Next = tmp;
-		return;
-	}
-	m_Next->MakeNext(tmp);
-}
-//void Rank::deleterank()
-//{
-//	for (int i = 0; i < m_icount; i++)
-//	{
-//		if (m_Rankarr[i] != NULL)
-//		{
-//			delete m_Rankarr[i];
-//			m_Rankarr[i] = NULL;
-//		}
-//	}
-//	if (m_Rankarr != NULL)
-//		delete[] m_Rankarr;
-//	m_FirstRank = NULL;
-//	m_Next = NULL;
-//	m_Rankarr = NULL;
-//}
 
 void Rank::Ranksave(string name, int stage, int score)
 {
@@ -53,7 +25,6 @@ void Rank::RankLoad()
 {
 	if(!m_Ranklist.empty())
 		m_Ranklist.clear();
-	int count = 0;
 	Rankinfo tmp;
 	ifstream load;
 	load.open("Rank.txt");
@@ -63,13 +34,11 @@ void Rank::RankLoad()
 		{
 			DataInput(load, tmp);
 			m_Ranklist.push_back(tmp);
-			count++;
+			m_icount++;
 		}
 	}
-	m_icount = count;
 	load.close();
-	//m_Ranklist.sort();
-	RankSort(m_Ranklist.begin(), m_Ranklist.end());
+	m_Ranklist.sort(Rank_less());
 }
 
 void Rank::DataInput(ifstream& load, Rankinfo& info)
@@ -79,35 +48,6 @@ void Rank::DataInput(ifstream& load, Rankinfo& info)
 	load >> info.score;
 }
 
-void Rank::RankSort(list<Rankinfo>::iterator begin, list<Rankinfo>::iterator end)
-{
-	Rankinfo tmp;
-	list<Rankinfo>::iterator next = begin;
-	list<Rankinfo>::iterator forward_end = end;
-	next++;
-	end--;
-	for (begin; begin != forward_end; begin++)
-	{
-		for (next; next != end; next++)
-		{
-			if ((*begin).score < (*next).score)
-			{
-				tmp = (*begin);
-				(*begin) = (*next);
-				(*next) = tmp;
-			}
-			else if ((*begin).score == (*next).score)
-			{
-				if ((*begin).stage < (*next).stage)
-				{
-					tmp = (*begin);
-					(*begin) = (*next);
-					(*next) = tmp;
-				}
-			}
-		}
-	}
-}
 void Rank::ShowRank()
 {
 	int i = 0, y = 0;
@@ -132,12 +72,4 @@ void Rank::ShowRank()
 	}
 	ORIGINAL
 		char ch = getch();
-}
-void Rank::Relese(Rank* Node)
-{
-	if (Node == NULL)
-		return;
-	Relese(Node->GetNext());
-	delete Node;
-	Node = NULL;
 }
