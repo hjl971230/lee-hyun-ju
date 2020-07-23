@@ -7,13 +7,6 @@ struct Rankinfo
 	string Name;
 	int stage;
 	int score;
-	Rankinfo& operator=(Rankinfo& r)
-	{
-		this->Name = r.Name;
-		this->stage = r.stage;
-		this->score = r.score;
-		return *this;
-	}
 };
 
 struct Rank_less
