@@ -7,6 +7,23 @@ struct Rankinfo
 	string Name;
 	int stage;
 	int score;
+	Rankinfo& operator=(Rankinfo& r)
+	{
+		this->Name = r.Name;
+		this->stage = r.stage;
+		this->score = r.score;
+		return *this;
+	}
+};
+
+struct Rank_less
+{
+	bool operator()(Rankinfo left, Rankinfo right)
+	{
+		if (left.score == right.score)
+			return (left.stage > right.stage);
+		else return (left.score > right.score);
+	}
 };
 
 struct Rank_less
