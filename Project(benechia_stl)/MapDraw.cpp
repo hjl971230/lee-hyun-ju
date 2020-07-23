@@ -14,6 +14,7 @@ void MapDraw::ErasePoint(int x, int y)
 	gotoxy(-1, -1);
 	return;
 }
+
 void MapDraw::DrawPoint(string str, int x, int y)
 {
 	gotoxy(x*2, y);
@@ -30,6 +31,7 @@ void MapDraw::DrawMidText(string str, int x, int y)
 	cout << str;
 	return;
 }
+
 void MapDraw::TextDraw(string str, int x, int y)
 {
 	gotoxy(x, y);
@@ -112,6 +114,7 @@ int MapDraw::MenuSelectCursor(int MenuLen, int AddCol, int x, int y)
 			ORIGINAL
 		}
 }
+
 MapDraw::~MapDraw()
 {
 }

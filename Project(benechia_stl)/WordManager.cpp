@@ -75,11 +75,13 @@ void WordManager::Reversehideflag()
 			(*iter).Sethideflag(true);
 	}
 }
+
 void WordManager::WordClear()
 {
 	for (list<Word>::iterator iter = m_Wordlist.begin(); iter != m_Wordlist.end(); iter++)
 		(*iter).Die();
 }
+
 void WordManager::SpeedUpDown(bool b)
 {
 	if (b)
@@ -87,6 +89,7 @@ void WordManager::SpeedUpDown(bool b)
 	else
 		m_ispeed -= 50;
 }
+
 void WordManager::WordCreate()
 {
 	int rnum = 0;
@@ -102,6 +105,7 @@ void WordManager::WordCreate()
 			(*iter).MakeItem();
 	}
 }
+
 void WordManager::ItemOn(ITEM item, int& score, int stage)
 {
 	switch (item)
@@ -126,6 +130,7 @@ void WordManager::ItemOn(ITEM item, int& score, int stage)
 		break;
 	}
 }
+
 void WordManager::ItemOff(ITEM item)
 {
 	switch (item)

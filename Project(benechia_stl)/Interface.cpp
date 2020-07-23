@@ -6,6 +6,7 @@ Interface::Interface()
 {
 	m_istage = 1;
 }
+
 void Interface::GameTitle()
 {
 	char buf[256];
@@ -22,6 +23,7 @@ void Interface::GameTitle()
 	ORIGINAL
 	
 }
+
 void Interface::InfoDraw(int life, int score, string name)
 {
 	for (int i = 0; i < X; i++)
@@ -36,6 +38,7 @@ void Interface::InfoDraw(int life, int score, string name)
 	DrawPoint("Name : " + name, X - 9, Y + 2);
 	ORIGINAL
 }
+
 void Interface::GameScroll()
 {
 	char ch;
@@ -103,6 +106,7 @@ void Interface::GameScroll()
 	}
 	load.close();
 }
+
 void Interface::ShowStage(int& stage)
 {
 	int oldclock = clock();

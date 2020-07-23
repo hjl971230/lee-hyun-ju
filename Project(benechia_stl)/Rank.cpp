@@ -6,6 +6,7 @@ Rank::Rank()
 {
 	m_icount = 0;
 }
+
 Rank::~Rank()
 {
 }
@@ -38,7 +39,7 @@ void Rank::RankLoad()
 		}
 	}
 	load.close();
-	m_Ranklist.sort(Rank_less());
+	m_Ranklist.sort(Rank_sort());
 }
 
 void Rank::DataInput(ifstream& load, Rankinfo& info)

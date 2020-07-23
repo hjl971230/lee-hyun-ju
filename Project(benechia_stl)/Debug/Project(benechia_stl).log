@@ -1,41 +1,17 @@
 ﻿  GameManager.cpp
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\GameManager.cpp(76,9): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\GameManager.cpp(156,7): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _kbhit. See online help for details.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\GameManager.cpp(158,10): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
-  Interface.cpp
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Interface.cpp(12,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Interface.cpp(64,9): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _kbhit. See online help for details.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Interface.cpp(66,10): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Interface.cpp(41,7): warning C4101: 'ch' :참조되지 않은 지역 변수입니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Interface.cpp(119,7): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _kbhit. See online help for details.
-  Item.cpp
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-  main.cpp
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\main.cpp(4,1): warning C4326: 'main'의 반환 형식이 'int'이어야 하는데 'void'입니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\main.cpp(7,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  MapDraw.cpp
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\MapDraw.cpp(27,8): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\MapDraw.cpp(89,12): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+D:\학원\github\project\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+D:\학원\github\project\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+D:\학원\github\project\Project(benechia_stl)\GameManager.cpp(78,9): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+D:\학원\github\project\Project(benechia_stl)\GameManager.cpp(159,7): warning C4996: 'kbhit': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _kbhit. See online help for details.
+D:\학원\github\project\Project(benechia_stl)\GameManager.cpp(161,10): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
   Rank.cpp
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Rank.cpp(74,13): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
-  Word.cpp
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Word.cpp(22,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Word.cpp(85,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-  WordManager.cpp
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+D:\학원\github\project\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+D:\학원\github\project\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+D:\학원\github\project\Project(benechia_stl)\Rank.cpp(75,13): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
+  main.cpp
+D:\학원\github\project\Project(benechia_stl)\Mecro.h(50,16): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+D:\학원\github\project\Project(benechia_stl)\Mecro.h(50,19): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
+D:\학원\github\project\Project(benechia_stl)\main.cpp(4,1): warning C4326: 'main'의 반환 형식이 'int'이어야 하는데 'void'입니다.
+D:\학원\github\project\Project(benechia_stl)\main.cpp(7,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...
-  Project(benechia_stl).vcxproj -> F:\학원\github\lee-hyun-ju\Project(benechia_stl)\Debug\Project(benechia_stl).exe
+  Project(benechia_stl).vcxproj -> D:\학원\github\project\Project(benechia_stl)\Debug\Project(benechia_stl).exe

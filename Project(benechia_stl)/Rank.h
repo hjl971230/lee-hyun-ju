@@ -9,17 +9,7 @@ struct Rankinfo
 	int score;
 };
 
-struct Rank_less
-{
-	bool operator()(Rankinfo left, Rankinfo right)
-	{
-		if (left.score == right.score)
-			return (left.stage > right.stage);
-		else return (left.score > right.score);
-	}
-};
-
-struct Rank_less
+struct Rank_sort
 {
 	bool operator()(Rankinfo left, Rankinfo right)
 	{

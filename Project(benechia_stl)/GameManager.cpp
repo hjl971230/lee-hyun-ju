@@ -47,6 +47,7 @@ void GameManager::GameBoot()
 		}
 	}
 }
+
 void GameManager::GameStart()
 {
 	SKY_BLUE
@@ -59,6 +60,7 @@ void GameManager::GameStart()
 	NameInput();
 	PlayGame();
 }
+
 void GameManager::NameInput()
 {
 	int i = 0;
@@ -97,6 +99,7 @@ void GameManager::NameInput()
 	}
 	ORIGINAL
 }
+
 void GameManager::PlayGame()
 {
 	ITEM item = ITEM_START;
@@ -224,6 +227,7 @@ void GameManager::PlayGame()
 		}
 	}
 }
+
 bool GameManager::InputCheck(string str, ITEM& item)
 {
 	list<Word>::iterator iter = WordManager::GetInstance()->GetWordList_begin();
