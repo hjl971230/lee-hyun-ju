@@ -1,17 +1,12 @@
 #pragma once
-#include"header.h"
-
-struct Point
-{
-	int x;
-	int y;
-};
+#include"Interface.h"
 
 class Player
 {
 private:
 	static Player* m_Player_this;
 	Point m_Point;
+	string m_stricon;
 public:
 	static Player* GetInstance()
 	{
@@ -22,6 +17,8 @@ public:
 	Player();
 	~Player();
 	void setPoint(int x, int y);
-	void move(vector<vector<int>> vecmap);
+	void move(char ch, int Width, int Height);
+	inline Point getPoint() { return m_Point; }
+	inline string geticon() { return m_stricon; }
 };
 

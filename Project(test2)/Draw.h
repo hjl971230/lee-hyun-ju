@@ -5,7 +5,7 @@ class Draw
 {
 public:
 	Draw();
-	~Draw();
+	virtual ~Draw();
 	inline void gotoxy(int x, int y)
 	{
 		COORD Pos = { x, y };

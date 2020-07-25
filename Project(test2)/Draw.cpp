@@ -46,24 +46,24 @@ void Draw::BoxDraw(int Start_x, int Start_y, int Width, int Height)
 		gotoxy(Start_x, Start_y + y);
 		if (y == 0)
 		{
-			cout << "¦£";
+			cout << "¢Ë";
 			for (int x = 1; x < Width - 1; x++)
-				cout << "¦¡";
-			cout << "¦¤";
+				cout << "¢Ë";
+			cout << "¢Ë";
 		}
 		else if (y == Height - 1)
 		{
-			cout << "¦¦";
+			cout << "¢Ë";
 			for (int x = 1; x < Width - 1; x++)
-				cout << "¦¡";
-			cout << "¦¥";
+				cout << "¢Ë";
+			cout << "¢Ë";
 		}
 		else
 		{
-			cout << "¦¢";
+			cout << "¢Ë";
 			for (int x = 1; x < Width - 1; x++)
 				cout << "  ";
-			cout << "¦¢";
+			cout << "¢Ë";
 		}
 	}
 	return;
