@@ -67,7 +67,7 @@ void GameManager::trap_setrandom(int count)
 			{
 				if (trap_count == 0)
 					break;
-				if (rand() % 100 < 20)
+				if (rand() % 100 < 1)
 				{
 					trap_count--;
 					m_vecmap[i][j].BlockNum = TRAP;
@@ -254,7 +254,8 @@ void GameManager::Input()
 		{
 			m_vecmap[Player::GetInstance()->getPoint().y][Player::GetInstance()->getPoint().x].hideflag = true;
 			m_vecmap[Player::GetInstance()->getPoint().y][Player::GetInstance()->getPoint().x].BlockNum -= FLAG;
-			m_vecmap[Player::GetInstance()->getPoint().y][Player::GetInstance()->getPoint().x].Blockshape = "¢Ë";
+			m_vecmap[Player::GetInstance()->getPoint().y][Player::GetInstance()->getPoint().x].Blockshape = " " 
+				+ to_string(m_vecmap[Player::GetInstance()->getPoint().y][Player::GetInstance()->getPoint().x].BlockNum);
 			m_iremaintrap++;
 			Interface::GetInstance()->vecmapDraw(m_vecmap);
 		}
@@ -297,14 +298,21 @@ void GameManager::DefaultCheck(int x, int y)
 {
 	if (x <= 0 || y <= 0 || x >= m_mapsize.width || y >= m_mapsize.height)
 		return;
-	for (int i = 1; i < m_mapsize.height - 1; i++)
+	if (m_vecmap[y][x].BlockNum < TRAP && m_vecmap[y][x].hideflag)
 	{
-		for (int j = 1; j < m_mapsize.width - 1; j++)
+		m_vecmap[y][x].hideflag = false;
+		if(m_vecmap[y][x].BlockNum > EMPTY)
+			return;
+		else
 		{
-			if (m_vecmap[y][x].BlockNum < TRAP && m_vecmap[y][x].hideflag)
-			{
-				m_vecmap[y][x].hideflag = false;
-			}
+			DefaultCheck(x - 1, y);
+			DefaultCheck(x + 1, y);
+			DefaultCheck(x, y - 1);
+			DefaultCheck(x, y + 1);
+			DefaultCheck(x - 1, y - 1);
+			DefaultCheck(x - 1, y + 1);
+			DefaultCheck(x + 1, y - 1);
+			DefaultCheck(x + 1, y + 1);
 		}
 	}
 }
