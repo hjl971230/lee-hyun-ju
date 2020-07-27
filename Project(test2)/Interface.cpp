@@ -34,8 +34,8 @@ void Interface::selectLevel()
 	BoxDraw(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 	DrawMidText(" ¢Ã LEVEL SELECT ¢Ã ", WINDOW_WIDTH, WINDOW_HEIGHT * 0.3);
 	DrawMidText("1. Easy (10 * 10) Mine : 10", WINDOW_WIDTH, WINDOW_HEIGHT * 0.4);
-	DrawMidText("2. Normal (30 * 30) Mine : 30", WINDOW_WIDTH, WINDOW_HEIGHT * 0.5);
-	DrawMidText("3. Hard (50 * 50) Mine : 50", WINDOW_WIDTH, WINDOW_HEIGHT * 0.6);
+	DrawMidText("2. Normal (30 * 30) Mine : 40", WINDOW_WIDTH, WINDOW_HEIGHT * 0.5);
+	DrawMidText("3. Hard (50 * 50) Mine : 80", WINDOW_WIDTH, WINDOW_HEIGHT * 0.6);
 	DrawMidText("4. Exit", WINDOW_WIDTH, WINDOW_HEIGHT * 0.7);
 	BoxDraw(WINDOW_WIDTH, WINDOW_HEIGHT * 0.8, WINDOW_WIDTH * 0.2, 3);
 	gotoxy(WINDOW_WIDTH, WINDOW_HEIGHT * 0.8 + 1);

@@ -2,3 +2,5 @@ F:\학원\github\project\Project(test2)\Debug\Project(test2).exe
 F:\학원\github\project\Project(test2)\Debug\Project(test2).pdb
 F:\학원\github\lee-hyun-ju\Project(test2)\Debug\Project(test2).exe
 F:\학원\github\lee-hyun-ju\Project(test2)\Debug\Project(test2).pdb
+D:\학원\github\project\Project(test2)\Debug\Project(test2).exe
+D:\학원\github\project\Project(test2)\Debug\Project(test2).pdb
