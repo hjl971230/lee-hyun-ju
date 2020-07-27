@@ -204,7 +204,7 @@ void GameManager::GamePlay()
 		Interface::GetInstance()->info(m_itrapCount, m_iremaintrap, m_mapsize.width, m_mapsize.height);
 		Interface::GetInstance()->DrawPoint(Player::GetInstance()->geticon(), Player::GetInstance()->getPoint().x, Player::GetInstance()->getPoint().y);
 		Input();
-		RESULT result = WinCheck();
+		result = WinCheck();
 		switch (result)
 		{
 		case RESULT_CLEAR:
