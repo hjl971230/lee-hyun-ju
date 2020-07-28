@@ -36,6 +36,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
+	int count = 1;
 	PAINTSTRUCT ps;
 	switch (iMessage)
 	{
@@ -58,9 +59,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		hdc = BeginPaint(hWnd, &ps);
 		for (int i = 0; i < 50; i++)
 		{
-			SetPixel(hdc, 50 + i, i, RGB(0, 0, 0));
-			for (int j = 0; j < 50; j++)
-				SetPixel(hdc, 50 + i + j, i, RGB(0, 0, 0));
+			for (int j = 0; j < count; j++)
+				SetPixel(hdc, i, i + j, RGB(0, 0, 0));
+			for (int j = 0; j < count; j++)
+				SetPixel(hdc, i + j, i, RGB(0, 0, 0));
+			count++;
 		}
 			
 		/*for (int i = 0; i < 100; i++)
