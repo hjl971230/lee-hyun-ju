@@ -1,7 +1,7 @@
 #include<windows.h>
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;//글로벌 인스턴스핸들값
-LPCTSTR lpszClass = TEXT("HelloWorld"); //창이름
+LPCTSTR lpszClass = TEXT("Circle"); //창이름
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -36,7 +36,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
-	int count = 1;
+	int radius = 21;
 	PAINTSTRUCT ps;
 	switch (iMessage)
 	{
@@ -57,17 +57,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		for (int i = 0; i < 50; i++)
+		//원 공식 : r * r == (x - r)^ + (y - r)^
+		for (int i = 0; i <= radius * 2; i++)
 		{
-			for (int j = 0; j < count; j++)
-				SetPixel(hdc, i, i + j, RGB(0, 0, 0));
-			for (int j = 0; j < count; j++)
-				SetPixel(hdc, i + j, i, RGB(0, 0, 0));
-			count++;
+			for (int j = 0; j <= radius * 2; j++)
+			{
+				if (radius * radius > (i - radius) * (i - radius) + (j - radius) * (j - radius))
+					SetPixel(hdc, 120 + i, j, RGB(0, 0, 0));
+			}
 		}
-			
-		/*for (int i = 0; i < 100; i++)
-			SetPixel(hdc, 10 + i, 10, RGB(255, 0, 0));*/
+		
 		//Ellipse(hdc, 100, 100, 200, 200);//반지름이 동일하려면 left와 right, top과 bottom차이가 같으면 된다
 		//Ellipse(hdc, 220, 100, 400, 200);
 		EndPaint(hWnd, &ps);
