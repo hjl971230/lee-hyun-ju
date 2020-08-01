@@ -1,7 +1,7 @@
 #include<windows.h>
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;//글로벌 인스턴스핸들값
-LPCTSTR lpszClass = TEXT("HelloWorld"); //창이름
+LPCTSTR lpszClass = TEXT("Circle"); //창이름
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -36,8 +36,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
-	int count = 1;
+	int radius = 21;
 	PAINTSTRUCT ps;
+	int a = 20;
+	int b = 40;
 	switch (iMessage)
 	{
 	case WM_DESTROY:// 윈도우가 파괴되었다는 메세지
@@ -57,18 +59,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		for (int i = 0; i < 50; i++)
-		{
-			for (int j = 0; j < count; j++)
-				SetPixel(hdc, i, i + j, RGB(0, 0, 0));
-			for (int j = 0; j < count; j++)
-				SetPixel(hdc, i + j, i, RGB(0, 0, 0));
-			count++;
-		}
-			
-		/*for (int i = 0; i < 100; i++)
-			SetPixel(hdc, 10 + i, 10, RGB(255, 0, 0));*/
-		//Ellipse(hdc, 100, 100, 200, 200);//반지름이 동일하려면 left와 right, top과 bottom차이가 같으면 된다
+		//원 공식 : r * r == (x - r)^ + (y - r)^
+		for (int x = 0; x <= radius * 2; x++)//x, y 반지름 * 2 == 지름만큼
+			for (int y = 0; y <= radius * 2; y++)
+				if (radius * radius > (x - radius) * (x - radius) + (y - radius) * (y - radius))//해당 공식의 범위값 안에서 점을 그림
+					SetPixel(hdc, 120 + x, y, RGB(0, 0, 0));
+
+		//타원 공식 : x^ / a^ + y^ / b^ = 1
+		//x^ + y^ * a^ / b^ = a^
+		//x^ * b^ + y^ * a^ = a^ * b^
+		for (int x = -a; x <= a; x++)
+			for (int y = -b; y <= b; y++)
+				if (a * a * b * b > x * x * b * b + y * y * a * a)
+					SetPixel(hdc, 120 + x, 100 + y, RGB(0, 0, 0));
+		//Ellipse(hdc, 100, 100, 200, 200);
 		//Ellipse(hdc, 220, 100, 400, 200);
 		EndPaint(hWnd, &ps);
 		return 0;
