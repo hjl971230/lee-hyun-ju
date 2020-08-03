@@ -60,8 +60,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		//원 공식 : r * r == (x - r)^ + (y - r)^
-		for (int x = 0; x <= radius * 2; x++)//x, y 반지름 * 2 == 지름만큼
-			for (int y = 0; y <= radius * 2; y++)
+		for (int x = -radius; x <= radius * 2; x++)//x, y 반지름 * 2 == 지름만큼
+			for (int y = -radius; y <= radius * 2; y++)
 				if (radius * radius > (x - radius) * (x - radius) + (y - radius) * (y - radius))//해당 공식의 범위값 안에서 점을 그림
 					SetPixel(hdc, 120 + x, y, RGB(0, 0, 0));
 
@@ -72,6 +72,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			for (int y = -b; y <= b; y++)
 				if (a * a * b * b > x * x * b * b + y * y * a * a)
 					SetPixel(hdc, 120 + x, 100 + y, RGB(0, 0, 0));
+
 		//Ellipse(hdc, 100, 100, 200, 200);
 		//Ellipse(hdc, 220, 100, 400, 200);
 		EndPaint(hWnd, &ps);
