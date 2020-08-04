@@ -105,8 +105,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				SetPixel(hdc, x + c_x, y + c_y, RGB(0, 0, 0));
 			}
 		}
-		else 
-			Rectangle(hdc, x - 50, y - 50, x + 50, y + 50);
+		else
+		{
+			for (int i = -radius; i <= radius; i++)
+			{
+				for (int j = -radius; j <= radius; j++)
+				{
+					if (i == -radius || j == -radius || i == radius || j == radius)
+						SetPixel(hdc, x + j, y + i, RGB(0, 0, 0));
+				}
+			}
+			//Rectangle(hdc, x - 50, y - 50, x + 50, y + 50);
+		}
 		EndPaint(hWnd, &ps);
 		return 0;
 	}
