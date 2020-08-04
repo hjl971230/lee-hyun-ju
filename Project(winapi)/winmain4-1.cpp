@@ -4,8 +4,15 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void CALLBACK TimeProc(HWND, UINT, UINT, DWORD);
 HINSTANCE g_hInst;//글로벌 인스턴스핸들값
 LPCTSTR lpszClass = TEXT("Shapes"); //창이름
-int x = 100;
-int y = 200;
+#define MID_X 230
+#define MID_Y 300
+#define MIN_X 160
+#define MIN_Y 300
+#define MAX_X 300
+#define MAX_Y 370
+int x = MIN_X;
+int y = MIN_Y;
+int cycle = -60;
 bool xflag = true;
 bool yflag = true;
 bool flag = true;
@@ -53,7 +60,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	switch (iMessage)
 	{
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
-		SetTimer(hWnd, 1, 10, TimeProc);
+		SetTimer(hWnd, 1, 100, TimeProc);
 		SendMessage(hWnd, WM_TIMER, 1, 0);
 		return 0;
 	case WM_DESTROY:// 윈도우가 파괴되었다는 메세지
@@ -63,19 +70,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_TIMER:
 		//GetLocalTime(&st);
 		//wsprintf(sTime, TEXT("지금 시간은 %d:%d:%d입니다."), st.wHour, st.wMinute, st.wSecond);
-		wsprintf(sPoint, TEXT("(%d, %d)"), x, y);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		/*MoveToEx(hdc, 10, 10, NULL);
-		LineTo(hdc, 100, 100);*/
+		MoveToEx(hdc, MID_X * 2, MID_Y, NULL);
+		LineTo(hdc, MID_X + x, MID_Y + y);
 		TextOut(hdc, 100, 100, sPoint, lstrlen(sPoint));
 		for (int i = 0; i <= 360; i++)
 		{
 			c_x = cos(i) * radius;
 			c_y = sin(i) * radius;
-			SetPixel(hdc, x + c_x, y + c_y, RGB(0, 0, 0));
+			SetPixel(hdc, x + MID_X + c_x, y + MID_Y + c_y, RGB(0, 0, 0));
 		}
 		EndPaint(hWnd, &ps);
 		return 0;
@@ -85,15 +91,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 void CALLBACK TimeProc(HWND hWnd, UINT uMsg, UINT idEvent, DWORD dwTime)
 {
-	if (x <= 50) xflag = true;
-	else if (x >= 250)xflag = false;
-	if (y >= 300) yflag = true;
-	else if (y <= 400) yflag = false;
+	if (x <= MIN_X) xflag = true;
+	else if (x >= MAX_X)xflag = false;
+	if (y >= MAX_Y) yflag = true;
+	else if (y <= MIN_Y) yflag = false;
 
 	if (xflag)x++;
 	else x--;
 	if (yflag)y--;
 	else y++;
+	
+	if (cos(cycle) < 0)
+	{
+		x = sin(cycle) * MID_X + MID_X;
+		y = -cos(cycle) * MID_Y;
+	}
+	if (flag) cycle++;
+	else cycle--;
+	
 	wsprintf(sPoint, TEXT("(%d, %d)"), x, y);
 	InvalidateRect(hWnd, NULL, TRUE);
 }

@@ -1,5 +1,7 @@
 ﻿  winmain4-1.cpp
-D:\학원\github\project\Project(winapi)\winmain4-1.cpp(76,17): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(winapi)\winmain4-1.cpp(77,17): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(winapi)\winmain4-1.cpp(51,13): warning C4101: 'st' :참조되지 않은 지역 변수입니다.
-  Project(winapi).vcxproj -> D:\학원\github\project\Project(winapi)\Debug\Project(winapi).exe
+F:\학원\github\lee-hyun-ju\Project(winapi)\winmain4-1.cpp(82,17): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\학원\github\lee-hyun-ju\Project(winapi)\winmain4-1.cpp(83,17): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\학원\github\lee-hyun-ju\Project(winapi)\winmain4-1.cpp(58,13): warning C4101: 'st' :참조되지 않은 지역 변수입니다.
+F:\학원\github\lee-hyun-ju\Project(winapi)\winmain4-1.cpp(106,26): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\학원\github\lee-hyun-ju\Project(winapi)\winmain4-1.cpp(107,19): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Project(winapi).vcxproj -> F:\학원\github\lee-hyun-ju\Project(winapi)\Debug\Project(winapi).exe
