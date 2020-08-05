@@ -1,4 +1,11 @@
 ﻿  winmain4-2.cpp
-F:\학원\github\lee-hyun-ju\Project(winapi)\winmain4-2.cpp(72,31): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\학원\github\lee-hyun-ju\Project(winapi)\winmain4-2.cpp(73,32): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Project(winapi).vcxproj -> F:\학원\github\lee-hyun-ju\Project(winapi)\Debug\Project(winapi).exe
+D:\학원\github\project\Project(winapi)\winmain4-2.cpp(127,31): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi)\winmain4-2.cpp(128,31): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi)\winmain4-2.cpp(133,31): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi)\winmain4-2.cpp(134,31): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi)\winmain4-2.cpp(153,31): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi)\winmain4-2.cpp(154,31): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi)\winmain4-2.cpp(158,25): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi)\winmain4-2.cpp(161,55): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi)\winmain4-2.cpp(161,30): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Project(winapi).vcxproj -> D:\학원\github\project\Project(winapi)\Debug\Project(winapi).exe
