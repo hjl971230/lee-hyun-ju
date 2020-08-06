@@ -19,7 +19,7 @@ public:
 	inline int getbmpid() { return m_ibmpid; }
 	inline void setPoint(int x, int y) { m_Point.x = x, m_Point.y = y; }
 	inline Point getPoint() { return m_Point; }
-	inline void setName(TCHAR* name) { *m_szName = *name; }
+	inline void setName(TCHAR name[]) { wsprintf(m_szName, name);}
 	inline TCHAR* getName() { return m_szName; }
 };
 

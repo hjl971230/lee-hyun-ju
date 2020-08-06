@@ -1,2 +1,4 @@
 D:\학원\github\project\Project(winapi5)\Debug\Project(winapi5).exe
 D:\학원\github\project\Project(winapi5)\Debug\Project(winapi5).pdb
+F:\학원\github\lee-hyun-ju\Project(winapi5)\Debug\Project(winapi5).exe
+F:\학원\github\lee-hyun-ju\Project(winapi5)\Debug\Project(winapi5).pdb

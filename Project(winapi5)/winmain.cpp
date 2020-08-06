@@ -1,11 +1,8 @@
-#include"Animal.h"
+#include "AnimalManager.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-void vectorinit();
-void setname();
 HINSTANCE g_hInst;//글로벌 인스턴스핸들값
 LPCTSTR lpszClass = TEXT("Image"); //창이름
-std::vector<Animal> vec_animal;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -34,6 +31,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 		TranslateMessage(&Message); //  키보드 입력 메시지 처리함수
 		DispatchMessage(&Message); //받은 메시지를 WndProc에 전달하는 함수
 	}
+	delete AnimalManager::GetInstance();
 	return (int)Message.wParam;
 }
 
@@ -43,13 +41,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	HBRUSH MyBrush, OldBrush;
 	HBITMAP myBitmap, oldBitmap;
-	int bmpid = IDB_BITMAP1;
-	int x = 0;
-	int y = 0;
 	int mouse_x = 0;
 	int mouse_y = 0;
-	TCHAR Name[128];
-	wsprintf(Name, TEXT(""));
+	TCHAR Message[128];
+	vector<Animal> tmp = AnimalManager::GetInstance()->getvec_animal();
+	vector<Animal>::iterator iter = tmp.begin();
 	switch (iMessage)
 	{
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
@@ -60,49 +56,34 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		mouse_x = LOWORD(lParam);
 		mouse_y = HIWORD(lParam);
-		if (MessageBox(hWnd, TEXT("animal"), TEXT("MessageBox"), MB_OK) == IDOK)
+		for (iter; iter != tmp.end(); iter++)
 		{
+			if (((*iter).getPoint().x <= mouse_x && mouse_x <= (*iter).getPoint().x + 145) 
+				&& ((*iter).getPoint().y <= mouse_y && mouse_y <= (*iter).getPoint().y + 235))
+			{
+				wsprintf(Message, (*iter).getName());
+				break;
+			}	
+			else
+				wsprintf(Message, TEXT("빈 곳입니다"));
 		}
+		MessageBox(hWnd, Message, TEXT("MessageBox"), MB_OK);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		memDC = CreateCompatibleDC(hdc);
-		for (int i = 0; i < 10; i++)
+		for (iter = tmp.begin(); iter != tmp.end(); iter++)
 		{
-			myBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE(bmpid));
+			myBitmap = LoadBitmap(g_hInst, MAKEINTRESOURCE((*iter).getbmpid()));
 			oldBitmap = (HBITMAP)SelectObject(memDC, myBitmap);
-			BitBlt(hdc, x, y, 145, 235, memDC, 0, 0, SRCCOPY);
+			BitBlt(hdc, (*iter).getPoint().x, (*iter).getPoint().y, 145, 235, memDC, 0, 0, SRCCOPY);
 			SelectObject(memDC, oldBitmap);
-			bmpid++;
-			x += 145;
-			if (i == 4)
-			{
-				x = 0;
-				y += 235;
-			}
+			DeleteObject(myBitmap);
 		}
-		DeleteObject(myBitmap);
 		DeleteDC(memDC);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}
 	return(DefWindowProc(hWnd, iMessage, wParam, lParam)); // case에 있는 메시지를 제외한 나머지 메시지를 처리한다.
-}
-
-void vectorinit()
-{
-	Animal tmp;
-	int bmpid = IDB_BITMAP1;
-	vec_animal.reserve(10);
-	for (int i = 0; i < 10; i++)
-	{
-		tmp.setbmpid(bmpid++);
-		vec_animal.push_back(tmp);
-	}
-}
-
-void setname()
-{
-
 }
