@@ -147,18 +147,34 @@ void DrawNiddle(HDC hdc)
 	int radius = 50;
 	int c_x = 0;
 	int c_y = 0;
-	float hour_go = 0;
+	float hour_go_x = 0;
+	float hour_go_y = 0;
 	for (int i = -90; i <= 270; i++)
 	{
 		c_x = cos((i) * 3.14 / 180) * radius;
 		c_y = sin((i) * 3.14 / 180) * radius;
-		MoveToEx(hdc, x + 200, y + 200, NULL);
 		if ((i + 90) % 30 == 0 && (i + 90) / 30 == st.wHour)
 		{
-			hour_go = st.wMinute / 2;
-			if (st.wHour > 6) hour_go *= -1;
+			if (st.wMinute != 0)
+			{
+				hour_go_x = st.wMinute / 4;
+				hour_go_y = st.wMinute / 4;
+				if (st.wHour > 3 && st.wHour <= 6)
+				{
+					hour_go_x *= -1;
+				}
+				else if (st.wHour > 6 && st.wHour <= 9)
+				{
+					hour_go_x *= -1;
+					hour_go_y *= -1;
+				}
+				else if (st.wHour > 9 && st.wHour <= 12)
+				{
+					hour_go_y *= -1;
+				}
+			}
 			MoveToEx(hdc, x + 200, y + 200, NULL);
-			LineTo(hdc, x + 200 + c_x + hour_go, y + 200 + c_y + hour_go);
+			LineTo(hdc, x + 200 + c_x + hour_go_x, y + 200 + c_y + hour_go_y);
 		}
 		if ((i + 90) % 6 == 0 && (i + 90) / 6 == st.wMinute)
 		{
