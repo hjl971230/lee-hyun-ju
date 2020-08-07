@@ -1,2 +1,8 @@
-﻿  AnimalManager.cpp
-  Project(winapi5).vcxproj -> F:\학원\github\lee-hyun-ju\Project(winapi5)\Debug\Project(winapi5).exe
+﻿  Animal.cpp
+  AnimalManager.cpp
+  winmain.cpp
+D:\학원\github\project\Project(winapi5)\winmain.cpp(42,18): warning C4101: 'OldBrush' :참조되지 않은 지역 변수입니다.
+D:\학원\github\project\Project(winapi5)\winmain.cpp(42,9): warning C4101: 'MyBrush' :참조되지 않은 지역 변수입니다.
+  코드를 생성하고 있습니다...
+  LINK : D:\학원\github\project\Project(winapi5)\Debug\Project(winapi5).exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+  Project(winapi5).vcxproj -> D:\학원\github\project\Project(winapi5)\Debug\Project(winapi5).exe
