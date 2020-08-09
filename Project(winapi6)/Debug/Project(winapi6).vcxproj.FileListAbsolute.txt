@@ -1,2 +1,0 @@
-D:\학원\github\project\Project(winapi6)\Debug\Project(winapi6).exe
-D:\학원\github\project\Project(winapi6)\Debug\Project(winapi6).pdb
