@@ -27,5 +27,6 @@ public:
 	void Click(HDC hdc, HINSTANCE hInst, int x, int y);
 	void Matching(HDC hdc, HINSTANCE hInst);
 	bool GameCheck();
+	void randidsetting(int& i);
 };
 

@@ -17,4 +17,7 @@
 #define DRAW_MID_X 70
 #define DRAW_MID_Y 50
 
+#define MAX_VALUE 10
+#define MATCH 2
+
 using namespace std;
