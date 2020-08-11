@@ -30,14 +30,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
-	GameManager::GetInstance()->Init(hWnd,g_hInst);
-	GameManager::GetInstance()->GameInit(hWnd,g_hInst);
 	while (GetMessage(&Message, NULL, 0, 0))//사용자에게 메시지를 받아오는 함수(WM_QUIT 메시지 받을 시 종료)
 	{
 		TranslateMessage(&Message); //  키보드 입력 메시지 처리함수
 		DispatchMessage(&Message); //받은 메시지를 WndProc에 전달하는 함수
 	}
-	GameManager::GetInstance()->Release();
 	return (int)Message.wParam;
 }
 
@@ -54,10 +51,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
 		SetTimer(hWnd, 1, 1000, NULL);
 		SendMessage(hWnd, WM_TIMER, 1, 0);
+		GameManager::GetInstance()->Init(hWnd, g_hInst);
+		GameManager::GetInstance()->GameInit(hWnd, g_hInst);
 		return 0;
 	case WM_DESTROY:// 윈도우가 파괴되었다는 메세지
 		KillTimer(hWnd, 1);
 		PostQuitMessage(0); //GetMessage함수에 WM_QUIT 메시지를 보낸다.
+		GameManager::GetInstance()->Release();
 		return 0; //WndProc의 Switch는 break 대신 return 0; 를 쓴다.
 	case WM_TIMER:
 		sec++;
@@ -80,11 +80,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		GameManager::GetInstance()->Click(hdc, g_hInst, mouse_x, mouse_y);
 		if (GameManager::GetInstance()->GameCheck())
 		{
-			if (MessageBox(hWnd, TEXT("OK : 게임 시작 CANCEL : 종료"), TEXT("MessageBox"), MB_OKCANCEL) == IDOK)
+			if (MessageBox(hWnd, TEXT("OK : 게임 시작 CANCEL : 종료"), TEXT("MessageBox"), MB_YESNO) == IDYES)
 			{
 				GameManager::GetInstance()->Init(hWnd, g_hInst);
 				GameManager::GetInstance()->GameInit(hWnd, g_hInst);
+				sec = 0;
+				min = 0;
 			}
+			else PostQuitMessage(0);
 		}
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
@@ -105,5 +108,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		EndPaint(hWnd, &ps);
 		return 0;
 	}
+	
 	return(DefWindowProc(hWnd, iMessage, wParam, lParam)); // case에 있는 메시지를 제외한 나머지 메시지를 처리한다.
 }

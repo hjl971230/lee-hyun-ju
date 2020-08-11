@@ -5,6 +5,7 @@
 #include<vector>
 #include<string>
 #include<time.h>
+#include<fstream>
 
 #define CARD_DRAW_SIZE_X 105
 #define CARD_DRAW_SIZE_Y 175

@@ -10,7 +10,6 @@ class Animal : public Bitmap
 {
 private:
 	int m_ibmpid;
-	int m_irandcount;
 	Point m_Point;
 	TCHAR m_szName[128];
 	bool m_bmatchflag;
@@ -22,8 +21,6 @@ public:
 	void Draw(HDC hdc);
 	inline void setbmpid(int i) { m_ibmpid = i; }
 	inline int getbmpid() { return m_ibmpid; }
-	inline void setrandcount(int i) { m_irandcount = i; }
-	inline int getrandcount() { return m_irandcount; }
 	inline void setPoint(int x, int y) { m_Point.x = x, m_Point.y = y; }
 	inline Point getPoint() { return m_Point; }
 	inline void setName(TCHAR name[]) { wsprintf(m_szName, name); }

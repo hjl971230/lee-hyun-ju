@@ -1,2 +1,7 @@
-﻿  GameManager.cpp
+﻿  winmain.cpp
+D:\학원\github\project\Project(winapi6)\winmain.cpp(13,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi6)\winmain.cpp(98,50): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi6)\winmain.cpp(96,72): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi6)\winmain.cpp(102,50): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\학원\github\project\Project(winapi6)\winmain.cpp(100,78): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Project(winapi6).vcxproj -> D:\학원\github\project\Project(winapi6)\x64\Debug\Project(winapi6).exe

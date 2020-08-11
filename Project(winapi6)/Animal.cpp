@@ -8,7 +8,6 @@ Animal::Animal()
 	m_bmatchflag = false;
 	m_bClickflag = false;
 	m_bcompleteflag = false;
-	m_irandcount = MATCH;
 }
 
 Animal::~Animal()
