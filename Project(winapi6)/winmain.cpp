@@ -7,6 +7,7 @@ TCHAR sTime[128];
 int min = 0;
 int sec = 0;
 int timesize = 12;
+bool clickflag = false;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -77,7 +78,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		mouse_x = LOWORD(lParam);
 		mouse_y = HIWORD(lParam);
-		GameManager::GetInstance()->Click(hdc, g_hInst, mouse_x, mouse_y);
+		if (!clickflag)
+		{
+			if (GameManager::GetInstance()->FirstClick(hdc, g_hInst, mouse_x, mouse_y)) 
+				clickflag = true;
+		}
+		else
+		{
+			if (GameManager::GetInstance()->SecondClick(hdc, g_hInst, mouse_x, mouse_y)) 
+				clickflag = false;
+		}
 		if (GameManager::GetInstance()->GameCheck())
 		{
 			if (MessageBox(hWnd, TEXT("OK : 게임 시작 CANCEL : 종료"), TEXT("MessageBox"), MB_YESNO) == IDYES)
@@ -87,7 +97,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				sec = 0;
 				min = 0;
 			}
-			else PostQuitMessage(0);
+			else
+			{
+				GameManager::GetInstance()->Release();
+				PostQuitMessage(0);
+			}
 		}
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;

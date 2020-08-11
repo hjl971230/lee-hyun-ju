@@ -24,7 +24,8 @@ public:
 	void GameDraw(HDC hdc);
 	void Release();
 	void NameFactory(TCHAR name[], int bmpid);
-	void Click(HDC hdc, HINSTANCE hInst, int x, int y);
+	bool FirstClick(HDC hdc, HINSTANCE hInst, int x, int y);
+	bool SecondClick(HDC hdc, HINSTANCE hInst, int x, int y);
 	void Matching(HDC hdc, HINSTANCE hInst);
 	bool GameCheck();
 };

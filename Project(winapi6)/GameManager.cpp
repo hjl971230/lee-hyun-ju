@@ -51,6 +51,8 @@ void GameManager::Draw(HDC hdc)
 
 void GameManager::GameInit(HWND hWnd, HINSTANCE hInst)
 {
+	match1 = NULL;
+	match2 = NULL;
 	m_game_bt.clear();
 	ifstream load;
 	char filename[256] = { 0 };
@@ -98,24 +100,57 @@ void GameManager::GameDraw(HDC hdc)
 	}
 }
 
-void GameManager::Click(HDC hdc, HINSTANCE hInst, int x, int y)
+bool GameManager::FirstClick(HDC hdc, HINSTANCE hInst, int x, int y)
 {
 	vector<Animal>::iterator iter = m_game_bt.begin();
-	for (iter; iter != m_game_bt.end(); iter++)
+	if (match1 == NULL)
 	{
-		if (((*iter).getPoint().x <= x && x <= (*iter).getPoint().x + CARD_DRAW_SIZE_X)
-			&& ((*iter).getPoint().y <= y && y <= (*iter).getPoint().y + CARD_DRAW_SIZE_Y))
+		for (iter; iter != m_game_bt.end(); iter++)
 		{
-			(*iter).Init(hdc,hInst, (*iter).getbmpid());
-			(*iter).setClickflag(true);
-			if (!(*iter).getcompleteflag())
+			if (((*iter).getPoint().x <= x && x <= (*iter).getPoint().x + CARD_DRAW_SIZE_X)
+				&& ((*iter).getPoint().y <= y && y <= (*iter).getPoint().y + CARD_DRAW_SIZE_Y))
 			{
-				if (match1 == NULL && !(*iter).getmatchflag())
-					match1 = &(*iter);
-				else if (match1 != &(*iter) && !(*iter).getmatchflag()) match2 = &(*iter);
+				if (!(*iter).getcompleteflag())
+				{
+					if (match1 == NULL)
+					{
+						(*iter).Init(hdc, hInst, (*iter).getbmpid());
+						(*iter).setClickflag(true);
+						match1 = &(*iter);
+						return true;
+					}
+
+				}
 			}
 		}
 	}
+	return false;
+}
+
+bool GameManager::SecondClick(HDC hdc, HINSTANCE hInst, int x, int y)
+{
+	vector<Animal>::iterator iter = m_game_bt.begin();
+	if (match1 != NULL)
+	{
+		for (iter; iter != m_game_bt.end(); iter++)
+		{
+			if (((*iter).getPoint().x <= x && x <= (*iter).getPoint().x + CARD_DRAW_SIZE_X)
+				&& ((*iter).getPoint().y <= y && y <= (*iter).getPoint().y + CARD_DRAW_SIZE_Y))
+			{
+				if (!(*iter).getcompleteflag())
+				{
+					if (match2 == NULL)
+					{
+						(*iter).Init(hdc, hInst, (*iter).getbmpid());
+						(*iter).setClickflag(true);
+						match2 = &(*iter);
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
 }
 
 void GameManager::Matching(HDC hdc, HINSTANCE hInst)
@@ -143,6 +178,8 @@ void GameManager::Matching(HDC hdc, HINSTANCE hInst)
 			(*match2).setClickflag(false);
 			(*match1).setmatchflag(false);
 			(*match2).setmatchflag(false);
+			(*match1).setcompleteflag(false);
+			(*match2).setcompleteflag(false);
 			(*match1).Init(hdc, hInst, IDB_BITMAP11);
 			(*match2).Init(hdc, hInst, IDB_BITMAP11);
 		}
