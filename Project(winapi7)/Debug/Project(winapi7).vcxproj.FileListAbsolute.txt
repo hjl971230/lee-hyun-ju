@@ -1,0 +1,2 @@
+D:\학원\github\project\Project(winapi7)\Debug\Project(winapi7).exe
+D:\학원\github\project\Project(winapi7)\Debug\Project(winapi7).pdb
