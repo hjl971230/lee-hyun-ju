@@ -3,8 +3,9 @@
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;//글로벌 인스턴스핸들값
 LPCTSTR lpszClass = TEXT("move & jump"); //창이름
-bool jumpflag = false;
-int jump = 0;
+
+#define MOVESPEED 5
+#define GRAVITY 10
 enum VIEW
 {
 	VIEW_DOWN = 0,
@@ -12,6 +13,14 @@ enum VIEW
 	VIEW_LEFT = 2,
 	VIEW_RIGHT = 3,
 };
+
+bool jumpflag = false;
+int jump = 0;
+int velocity = 0;
+VIEW view = VIEW_DOWN;
+int x = 100;
+int y = 100;
+int sprite_sequence = 0;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -49,12 +58,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	HDC hMemdc;
 	BITMAP bit;
 	HBITMAP myBitmap, oldBitmap;
-	static int x = 50;
-	static int y = 50;
-	static int sprite_sequence = 0;
 	PAINTSTRUCT ps;
-	POINT point;
-	static VIEW view = VIEW_DOWN;
 	switch (iMessage)
 	{
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
@@ -68,19 +72,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		{
 		case VK_LEFT:
 			view = VIEW_LEFT;
-			x -= 1;
+			if(x - MOVESPEED >= 0) 
+				x -= MOVESPEED;
 			break;
 		case VK_RIGHT:
 			view = VIEW_RIGHT;
-			x += 1;
+			if (x + MOVESPEED <= 1300) 
+				x += MOVESPEED;
 			break;
 		case VK_UP:
 			view = VIEW_UP;
-			y -= 1;
+			if (y - MOVESPEED >= 0) 
+				y -= MOVESPEED;
 			break;
 		case VK_DOWN:
 			view = VIEW_DOWN;
-			y += 1;
+			if (y + MOVESPEED <= 600) 
+				y += MOVESPEED;
 			break;
 		case VK_SPACE:
 			jumpflag = true;
@@ -92,30 +100,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			if (sprite_sequence >= 4)
 				sprite_sequence = 1;
 		}
+		else sprite_sequence = 2;
 		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
 		if (jumpflag)
 		{
-			jump += 10;
-			if (jump > 30)
+			if (velocity <= 0)
 			{
+				velocity = 30;
 				jumpflag = false;
-			}
-		}
-		else
-		{
-			if (jump > 0)
-				jump -= 10;
-			if (jump <= 0)
 				jump = 0;
+			}
+			jump -= velocity;
+			velocity -= GRAVITY;
 		}
 		hdc = BeginPaint(hWnd, &ps);
 		hMemdc = CreateCompatibleDC(hdc);
 		myBitmap = (HBITMAP)LoadImage(NULL, "image.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE);
 		oldBitmap = (HBITMAP)SelectObject(hMemdc, myBitmap);
 		GetObject(myBitmap, sizeof(bit), &bit);
-		//240,400 -> 60, 100
-		TransparentBlt(hdc, x, y - jump, (bit.bmWidth / 4), (bit.bmHeight / 4), hMemdc,
+		TransparentBlt(hdc, x, y + jump, (bit.bmWidth / 4), (bit.bmHeight / 4), hMemdc,
 			(bit.bmWidth / 4) * sprite_sequence, (bit.bmHeight / 4) * view, (bit.bmWidth / 4), (bit.bmHeight / 4),
 			RGB(255, 0, 255));
 		SelectObject(hMemdc, oldBitmap);

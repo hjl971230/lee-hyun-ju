@@ -1,3 +1,2 @@
 ﻿  winmain.cpp
-D:\학원\github\project\Project(winapi7)\winmain.cpp(71,8): warning C4101: 'point' :참조되지 않은 지역 변수입니다.
-  Project(winapi7).vcxproj -> D:\학원\github\project\Project(winapi7)\Debug\Project(winapi7).exe
+  Project(winapi7).vcxproj -> F:\학원\github\lee-hyun-ju\Project(winapi7)\Debug\Project(winapi7).exe
