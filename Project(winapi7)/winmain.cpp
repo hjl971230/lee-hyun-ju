@@ -1,26 +1,7 @@
-﻿#include<windows.h>
-#include<math.h>
+﻿#include "Player.h"
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;//글로벌 인스턴스핸들값
 LPCTSTR lpszClass = TEXT("move & jump"); //창이름
-
-#define MOVESPEED 5
-#define GRAVITY 10
-enum VIEW
-{
-	VIEW_DOWN = 0,
-	VIEW_UP = 1,
-	VIEW_LEFT = 2,
-	VIEW_RIGHT = 3,
-};
-
-bool jumpflag = false;
-int jump = 0;
-int velocity = 0;
-VIEW view = VIEW_DOWN;
-int x = 100;
-int y = 100;
-int sprite_sequence = 0;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -43,7 +24,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
-
+	
 	while (GetMessage(&Message, NULL, 0, 0))//사용자에게 메시지를 받아오는 함수(WM_QUIT 메시지 받을 시 종료)
 	{
 		TranslateMessage(&Message); //  키보드 입력 메시지 처리함수
@@ -62,69 +43,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	switch (iMessage)
 	{
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
+		Player::GetInstance()->Init(hWnd, g_hInst);
 		return 0;
 	case WM_DESTROY:// 윈도우가 파괴되었다는 메세지
 		PostQuitMessage(0); //GetMessage함수에 WM_QUIT 메시지를 보낸다.
 		KillTimer(hWnd, 1);
 		return 0; //WndProc의 Switch는 break 대신 return 0; 를 쓴다.
 	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case VK_LEFT:
-			view = VIEW_LEFT;
-			if(x - MOVESPEED >= 0) 
-				x -= MOVESPEED;
-			break;
-		case VK_RIGHT:
-			view = VIEW_RIGHT;
-			if (x + MOVESPEED <= 1300) 
-				x += MOVESPEED;
-			break;
-		case VK_UP:
-			view = VIEW_UP;
-			if (y - MOVESPEED >= 0) 
-				y -= MOVESPEED;
-			break;
-		case VK_DOWN:
-			view = VIEW_DOWN;
-			if (y + MOVESPEED <= 600) 
-				y += MOVESPEED;
-			break;
-		case VK_SPACE:
-			jumpflag = true;
-			break;
-		}
-		if (wParam != VK_SPACE)
-		{
-			sprite_sequence++;
-			if (sprite_sequence >= 4)
-				sprite_sequence = 1;
-		}
-		else sprite_sequence = 2;
+		Player::GetInstance()->Move(wParam);
 		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
-		if (jumpflag)
-		{
-			if (velocity <= 0)
-			{
-				velocity = 30;
-				jumpflag = false;
-				jump = 0;
-			}
-			jump -= velocity;
-			velocity -= GRAVITY;
-		}
 		hdc = BeginPaint(hWnd, &ps);
-		hMemdc = CreateCompatibleDC(hdc);
-		myBitmap = (HBITMAP)LoadImage(NULL, "image.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE);
-		oldBitmap = (HBITMAP)SelectObject(hMemdc, myBitmap);
-		GetObject(myBitmap, sizeof(bit), &bit);
-		TransparentBlt(hdc, x, y + jump, (bit.bmWidth / 4), (bit.bmHeight / 4), hMemdc,
-			(bit.bmWidth / 4) * sprite_sequence, (bit.bmHeight / 4) * view, (bit.bmWidth / 4), (bit.bmHeight / 4),
-			RGB(255, 0, 255));
-		SelectObject(hMemdc, oldBitmap);
-		DeleteObject(myBitmap);
-		DeleteDC(hMemdc);
+		if (Player::GetInstance()->getjumpflag())
+		{
+			Player::GetInstance()->Jump();
+			//Player::GetInstance()->Draw(hdc);
+			//InvalidateRect(hWnd, NULL, TRUE);
+			//Sleep(33);
+		}
+		Player::GetInstance()->Draw(hdc);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}

@@ -1,18 +1,17 @@
 #pragma once
-#include<Windows.h>
+#include "Mecro.h"
 
 class BitMap
 {
-private:
+protected:
 	HDC MemDC;
 	HBITMAP m_pBitMap;
 	HBITMAP m_pBitOld;
 	SIZE m_size;
 public:
 	BitMap();
-	void Init(HDC hdc, HINSTANCE hInst, int id);
-	void Draw(HDC hdc, int x, int y, int spX = 1, int spY = 1);
-	~BitMap();
-
+	virtual void Init(HWND hWnd, HINSTANCE hInst) = 0;
+	virtual void Draw(HDC hdc) = 0;
+	virtual ~BitMap();
 };
 
