@@ -2,7 +2,7 @@
 #include<Windows.h>
 #include<math.h>
 #include<time.h>
-#define MOVESPEED 5
+#define MOVESPEED 10
 #define GRAVITY 10
 
 enum VIEW

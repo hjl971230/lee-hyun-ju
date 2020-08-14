@@ -40,6 +40,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	BITMAP bit;
 	HBITMAP myBitmap, oldBitmap;
 	PAINTSTRUCT ps;
+	int oldclock = clock();
 	switch (iMessage)
 	{
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
@@ -54,14 +55,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		if (Player::GetInstance()->getjumpflag())
+		if(Player::GetInstance()->getjumpflag())
 		{
+			InvalidateRect(hWnd, NULL, TRUE);
 			Player::GetInstance()->Jump();
-			//Player::GetInstance()->Draw(hdc);
-			//InvalidateRect(hWnd, NULL, TRUE);
-			//Sleep(33);
+			Player::GetInstance()->Draw(hdc);
+			while (true)
+			{
+				if (clock() - oldclock >= 33)
+				{
+					oldclock = clock();
+					break;
+				}
+			}
 		}
-		Player::GetInstance()->Draw(hdc);
+		else Player::GetInstance()->Draw(hdc);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}

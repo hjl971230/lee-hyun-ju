@@ -6,7 +6,7 @@ Player::Player()
 {
 	m_bjumpflag = false;
 	m_ijump = 0;
-	m_ivelocity = MOVESPEED * 10;
+	m_ivelocity = MOVESPEED * 5;
 	view = VIEW_DOWN;
 	m_ix = 100;
 	m_iy = 100;
@@ -33,6 +33,7 @@ void Player::Init(HWND hWnd, HINSTANCE hInst)
 
 void Player::Draw(HDC hdc)
 {
+	RECT rt = { m_ix, m_iy + m_ijump, (m_size.cx / 4), (m_size.cy / 4) };
 	int tmp = m_isprite_sequence;
 	if (m_bjumpflag)
 	{
@@ -40,15 +41,12 @@ void Player::Draw(HDC hdc)
 		TransparentBlt(hdc, m_ix, m_iy + m_ijump, (m_size.cx / 4), (m_size.cy / 4), MemDC,
 			(m_size.cx / 4) * m_isprite_sequence, (m_size.cy / 4) * view, (m_size.cx / 4), (m_size.cy / 4),
 			RGB(255, 0, 255));
-		TransparentBlt(hdc, m_ix, m_iy + m_ijump, (m_size.cx / 4), (m_size.cy / 4), MemDC,
-			0,0,0,0,
-			RGB(255, 0, 255));
 		m_isprite_sequence = tmp;
 	}
 	else TransparentBlt(hdc, m_ix, m_iy + m_ijump, (m_size.cx / 4), (m_size.cy / 4), MemDC,
 		(m_size.cx / 4) * m_isprite_sequence, (m_size.cy / 4) * view, (m_size.cx / 4), (m_size.cy / 4),
 		RGB(255, 0, 255));
-	m_isprite_sequence = tmp;
+	//m_isprite_sequence = tmp;
 }
 
 void Player::Move(WPARAM wParam)
@@ -89,13 +87,13 @@ void Player::Move(WPARAM wParam)
 
 void Player::Jump()
 {
-	if (m_ivelocity < -MOVESPEED * 10)
+	if (m_ivelocity < -MOVESPEED * 5)//일정량 상승하고 그만큼 내려오면 착지 했다는 것
 	{
-		m_ivelocity = MOVESPEED * 10;
+		m_ivelocity = MOVESPEED * 5;//초기화 후 리턴
 		m_bjumpflag = false;
 		m_ijump = 0;
 		return;
 	}
-	m_ijump -= m_ivelocity;
-	m_ivelocity -= GRAVITY;
+	m_ijump -= m_ivelocity;//점프할 크기를 속도만큼 빼고
+	m_ivelocity -= GRAVITY;//속도는 중력에 영향을 받아 줄어든다
 }
