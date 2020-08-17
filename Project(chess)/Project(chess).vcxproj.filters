@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\ChessPiece">
+      <UniqueIdentifier>{98a21570-b7dc-422a-a69e-694637129d3a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitMap.h">
@@ -24,16 +27,46 @@
     <ClInclude Include="GameManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ChessPiece.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitMap.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="winmain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Bishop.cpp">
+      <Filter>소스 파일\ChessPiece</Filter>
+    </ClCompile>
+    <ClCompile Include="ChessPiece.cpp">
+      <Filter>소스 파일\ChessPiece</Filter>
+    </ClCompile>
+    <ClCompile Include="Knight.cpp">
+      <Filter>소스 파일\ChessPiece</Filter>
+    </ClCompile>
+    <ClCompile Include="Pawn.cpp">
+      <Filter>소스 파일\ChessPiece</Filter>
+    </ClCompile>
+    <ClCompile Include="Rook.cpp">
+      <Filter>소스 파일\ChessPiece</Filter>
+    </ClCompile>
+    <ClCompile Include="Queen.cpp">
+      <Filter>소스 파일\ChessPiece</Filter>
+    </ClCompile>
+    <ClCompile Include="King.cpp">
+      <Filter>소스 파일\ChessPiece</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

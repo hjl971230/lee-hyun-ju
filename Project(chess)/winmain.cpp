@@ -1,7 +1,7 @@
-﻿#include "BitMap.h"
+﻿#include "GameManager.h"
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;//글로벌 인스턴스핸들값
-LPCTSTR lpszClass = TEXT("move & jump"); //창이름
+LPCTSTR lpszClass = TEXT("Chess"); //창이름
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -40,11 +40,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	BITMAP bit;
 	HBITMAP myBitmap, oldBitmap;
 	PAINTSTRUCT ps;
-	int oldclock = clock();
 	switch (iMessage)
 	{
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
-		
+		GameManager::GetInstance()->GameInit(hWnd);
 		return 0;
 	case WM_DESTROY:// 윈도우가 파괴되었다는 메세지
 		PostQuitMessage(0); //GetMessage함수에 WM_QUIT 메시지를 보낸다.
@@ -54,7 +53,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		
+		GameManager::GetInstance()->MapDraw(hdc);
+		GameManager::GetInstance()->PieceDraw(hdc);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}

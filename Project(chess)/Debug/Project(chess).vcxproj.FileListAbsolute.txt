@@ -1,0 +1,2 @@
+F:\학원\github\lee-hyun-ju\Project(chess)\Debug\Project(chess).exe
+F:\학원\github\lee-hyun-ju\Project(chess)\Debug\Project(chess).pdb

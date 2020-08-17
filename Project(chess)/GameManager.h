@@ -1,10 +1,13 @@
 #pragma once
-#include"BitMap.h"
+#include"Player.h"
+#include"ChessPiece.h"
+
 class GameManager
 {
 private:
 	static GameManager* m_this;
-	//vector<vector<int>> m_map;
+	vector<vector<BitMap>> m_map;
+	vector<Player> m_Playervec;
 public:
 	static inline GameManager* GetInstance()
 	{
@@ -13,6 +16,11 @@ public:
 	}
 	GameManager();
 	~GameManager();
-	void GameInit();
+	void GameInit(HWND hWnd);
+	void MapInit(HWND hWnd);
+	void MapRelease();
+	void MapDraw(HDC hdc);
+	void PlayerInit(HWND hWnd);
+	void PieceDraw(HDC hdc);
 };
 

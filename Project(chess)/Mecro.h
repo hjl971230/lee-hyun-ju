@@ -11,9 +11,15 @@ using namespace std;
 //블록 0, 1, 2 두 가지 번갈아서 맵 그리기
 #define MAPSIZE_WIDTH 8
 #define MAPSIZE_HEIGHT 8
+#define BMPSIZE_WIDTH 125
+#define BMPSIZE_HEIGHT 125
 #define PLAYERSIZE 2
+#define LINESIZE 2
+#define CHESSPIECE_SIZE 16
 #define BLACK 'b'
 #define WHITE 'w'
+#define MAP_X 400
+#define MAP_Y 100
 
 enum CHESSPIECE_NUM
 {

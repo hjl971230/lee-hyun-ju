@@ -8,10 +8,14 @@ protected:
 	HBITMAP m_pBitMap;
 	HBITMAP m_pBitOld;
 	SIZE m_size;
+	TCHAR m_szFileName[128];
+	POINT m_Point;
 public:
 	BitMap();
-	virtual void Init(HWND hWnd, HINSTANCE hInst) = 0;
-	virtual void Draw(HDC hdc) = 0;
+	virtual void Init(HWND hWnd, int x, int y);
+	virtual void Draw(HDC hdc);
 	virtual ~BitMap();
+	inline void setFileName(char* sz) { wsprintf(m_szFileName, TEXT(sz)); }
+	inline SIZE getsize() { return m_size; }
 };
 
