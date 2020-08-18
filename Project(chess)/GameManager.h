@@ -7,7 +7,8 @@ class GameManager
 private:
 	static GameManager* m_this;
 	vector<vector<BitMap>> m_map;
-	vector<Player> m_Playervec;
+	vector<vector<ChessPiece*>> m_vecChessPieces;
+	//vector<Player> m_Playervec;
 public:
 	static inline GameManager* GetInstance()
 	{
@@ -20,7 +21,12 @@ public:
 	void MapInit(HWND hWnd);
 	void MapRelease();
 	void MapDraw(HDC hdc);
-	void PlayerInit(HWND hWnd);
-	void PieceDraw(HDC hdc);
+    //void PlayerInit(HWND hWnd);
+	//void PieceDraw(HDC hdc);
+	void ChessPieceInit(HWND hWnd);
+	void ChessPieceNumSetting(int& num, int player, int count);
+	void ChessPieceRelease();
+	void ChessPieceDraw(HDC hdc);
+	ChessPiece* ChessPieceFactory(HWND hWnd, int num, int x, int y, int player);
 };
 

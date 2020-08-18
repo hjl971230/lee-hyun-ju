@@ -1,4 +1,9 @@
 #include "ChessPiece.h"
-Rook::Rook() { m_NumCode = CHESSPIECE_NUM_ROOK; }
-Rook::Rook(char ch) : ChessPiece(ch) { m_NumCode = CHESSPIECE_NUM_ROOK; }
+Rook::Rook() { m_iNumCode = CHESSPIECE_NUM_ROOK; }
+Rook::Rook(char ch) : ChessPiece(ch) { m_iNumCode = CHESSPIECE_NUM_ROOK; }
 Rook::~Rook() {}
+
+void Rook::MoveCalculate()
+{
+
+}
