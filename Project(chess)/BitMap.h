@@ -17,5 +17,6 @@ public:
 	virtual ~BitMap();
 	inline void setFileName(char* sz) { wsprintf(m_szFileName, TEXT(sz)); }
 	inline SIZE getsize() { return m_size; }
+	inline POINT getPoint() { return m_Point; }
 };
 

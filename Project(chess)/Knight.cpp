@@ -4,7 +4,7 @@ Knight::Knight(char ch) : ChessPiece(ch) { m_iNumCode = CHESSPIECE_NUM_KNIGHT; }
 Knight::~Knight() {}
 
 
-void Knight::MoveCalculate()
+void Knight::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 {
 
 }

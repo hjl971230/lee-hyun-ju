@@ -2,7 +2,7 @@
 
 BitMap::BitMap()
 {
-	wsprintf(m_szFileName, TEXT("block\0"));
+	wsprintf(m_szFileName, TEXT("block03.bmp"));
 }
 
 //메모리 DC를 생성하고 그림 그릴 준비를 한다.

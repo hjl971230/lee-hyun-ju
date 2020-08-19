@@ -2,6 +2,7 @@
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;//글로벌 인스턴스핸들값
 LPCTSTR lpszClass = TEXT("Chess"); //창이름
+ChessPiece* tmp = NULL;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -42,6 +43,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	int x = 0;
 	int y = 0;
+	
 	switch (iMessage)
 	{
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
@@ -53,12 +55,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		x = LOWORD(lParam);
 		y = HIWORD(lParam);
-		GameManager::GetInstance()->Click(x, y);
+		tmp = GameManager::GetInstance()->Click(hWnd, x, y);
 		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		GameManager::GetInstance()->MapDraw(hdc);
 		GameManager::GetInstance()->ChessPieceDraw(hdc);
+		GameManager::GetInstance()->CalculateDraw(hWnd, tmp);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}

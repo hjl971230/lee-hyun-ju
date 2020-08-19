@@ -26,6 +26,7 @@ public:
 	void ChessPieceRelease();
 	void ChessPieceDraw(HDC hdc);
 	ChessPiece* ChessPieceFactory(HWND hWnd, int num, int x, int y, int player);
-	void Click(int x, int y);
+	ChessPiece* Click(HWND hWnd, int x, int y);
+	void CalculateDraw(HWND hWnd, ChessPiece*);
 };
 

@@ -11,18 +11,19 @@ public:
 	ChessPiece(char ch);
 	~ChessPiece();
 	void FileNameSetting();
-	virtual void MoveCalculate() = 0;
+	virtual void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec) = 0;
+	void CalculateDraw(HWND hWnd, TCHAR FileName[128], int x, int y);
 };
 
 class Pawn : public ChessPiece
 {
 private:
-	
+	bool m_bfirstmoveflag;
 public:
 	Pawn();
 	Pawn(char ch);
 	~Pawn();
-	void MoveCalculate();
+	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class Knight : public ChessPiece
@@ -33,7 +34,7 @@ public:
 	Knight();
 	Knight(char ch);
 	~Knight();
-	void MoveCalculate();
+	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class Bishop : public ChessPiece
@@ -44,7 +45,7 @@ public:
 	Bishop();
 	Bishop(char ch);
 	~Bishop();
-	void MoveCalculate();
+	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class Rook : public ChessPiece
@@ -55,7 +56,7 @@ public:
 	Rook();
 	Rook(char ch);
 	~Rook();
-	void MoveCalculate();
+	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class Queen : public ChessPiece
@@ -66,7 +67,7 @@ public:
 	Queen();
 	Queen(char ch);
 	~Queen();
-	void MoveCalculate();
+	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class King : public ChessPiece
@@ -77,5 +78,5 @@ public:
 	King();
 	King(char ch);
 	~King();
-	void MoveCalculate();
+	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };

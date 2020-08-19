@@ -4,7 +4,7 @@ GameManager* GameManager::m_this = NULL;
 
 GameManager::GameManager()
 {
-	m_bClickflag = false;
+	m_bClickflag = true;
 }
 
 GameManager::~GameManager()
@@ -226,24 +226,27 @@ void GameManager::ChessPieceRelease()
 	}		
 }
 
-void GameManager::Click(int x, int y)
+ChessPiece* GameManager::Click(HWND hWnd, int x, int y)
 {
-	if (!m_bClickflag)
+	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
 	{
-		m_bClickflag = true;
-		for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
+		for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
 		{
-			for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
+			if ((*iter2) != NULL)
 			{
-				if ((*iter2) != NULL)
+				if ((*iter2)->getPoint().x <= x && x <= (*iter2)->getPoint().x + BMPSIZE_WIDTH / 2
+					&& (*iter2)->getPoint().y <= y && y <= (*iter2)->getPoint().y + BMPSIZE_HEIGHT / 2)
 				{
-					if ((*iter2)->getsize().cx <= x && x <= (*iter2)->getsize().cx + BMPSIZE_WIDTH
-						&& (*iter2)->getsize().cy <= y && y <= (*iter2)->getsize().cy + BMPSIZE_HEIGHT)
-					{
-						(*iter2)->MoveCalculate();
-					}
+					return (*iter2);
 				}
 			}
 		}
 	}
+
+	return NULL;
+}
+
+void GameManager::CalculateDraw(HWND hWnd, ChessPiece* iter)
+{
+	iter->MoveCalculate(hWnd, m_vecChessPieces);
 }
