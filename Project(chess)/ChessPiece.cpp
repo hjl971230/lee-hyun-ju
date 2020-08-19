@@ -1,7 +1,7 @@
 #include "ChessPiece.h"
 
 ChessPiece::ChessPiece() {}
-ChessPiece::ChessPiece(char ch) : m_chPlayerType(ch) { m_bClickflag = false; }
+ChessPiece::ChessPiece(char ch) : m_chPlayerType(ch) { }
 ChessPiece::~ChessPiece(){}
 
 void ChessPiece::FileNameSetting()

@@ -6,7 +6,6 @@ class ChessPiece : public BitMap
 protected:
 	char m_chPlayerType;
 	int m_iNumCode;
-	bool m_bClickflag;
 public:
 	ChessPiece();
 	ChessPiece(char ch);

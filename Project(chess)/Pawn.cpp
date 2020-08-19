@@ -5,9 +5,6 @@ Pawn::~Pawn() {}
 
 void Pawn::MoveCalculate()
 {
-	BitMap* tmp = NULL;
-	if (m_bClickflag)
-	{
-
-	}
+	BitMap* tmp = new BitMap;
+	//가능한 루트를 보여주기
 }

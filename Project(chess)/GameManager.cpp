@@ -4,7 +4,7 @@ GameManager* GameManager::m_this = NULL;
 
 GameManager::GameManager()
 {
-	
+	m_bClickflag = false;
 }
 
 GameManager::~GameManager()
@@ -69,31 +69,9 @@ void GameManager::MapDraw(HDC hdc)
 	}
 }
 
-//void GameManager::PlayerInit(HWND hWnd)
-//{
-//	Player tmp;
-//	int x = MAP_X;
-//	int y = MAP_Y;
-//	m_Playervec.clear();
-//	m_Playervec.reserve(PLAYERSIZE);
-//	m_Playervec.assign(PLAYERSIZE, tmp);
-//	m_Playervec[PLAYER_BLACK].setPlayerType(BLACK);
-//	m_Playervec[PLAYER_WHITE].setPlayerType(WHITE);
-//	for (int i = 0; i < LINESIZE; i++)
-//	{
-//		if (i == PLAYER_WHITE) y = MAP_Y + ((BMPSIZE_HEIGHT / 2) * 6);
-//		m_Playervec[i].ChessPieceInit(hWnd, x, y, i);
-//	}
-//}
-
-//void GameManager::PieceDraw(HDC hdc)
-//{
-//	for (int i = 0; i < LINESIZE; i++)
-//		m_Playervec[i].ChessPieceDraw(hdc);
-//}
-
 void GameManager::ChessPieceInit(HWND hWnd)
 {
+	m_vecChessPieces.clear();
 	int x = MAP_X;
 	int y = MAP_Y;
 	int count = 0;
@@ -104,43 +82,24 @@ void GameManager::ChessPieceInit(HWND hWnd)
 	size.assign(MAPSIZE_WIDTH, NULL);
 	m_vecChessPieces.reserve(MAPSIZE_HEIGHT);
 	m_vecChessPieces.assign(MAPSIZE_HEIGHT, size);
-	/*for (int i = 0; i < PLAYERSIZE; i++)
-	{
-		for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
-		{
-			if (count <= 15)
-			{
-				x = MAP_X;
-				for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
-				{
-					ChessPieceNumSetting(ChessNum, i, count);
-					(*iter2) = ChessPieceFactory(hWnd, ChessNum, x, y, i);
-					(*iter2)->Init(hWnd, x, y);
-					x += BMPSIZE_WIDTH / 2;
-					count++;
-				}
-				y += BMPSIZE_HEIGHT / 2;
-			}
-		}
-		y = MAP_Y + ((BMPSIZE_HEIGHT / 2) * 6);
-		count = 0;
-	}*/
 
-	for (int i = 0; i < MAPSIZE_HEIGHT; i++)
+	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
 	{
 		x = MAP_X;
-		for (int j = 0; j < MAPSIZE_WIDTH; j++)
+		if (count <= 15)
 		{
-			ChessPieceNumSetting(ChessNum, player, count);
-			m_vecChessPieces[i][j] = ChessPieceFactory(hWnd, ChessNum, x, y, player);
-			m_vecChessPieces[i][j]->Init(hWnd, x, y);
-			x += BMPSIZE_WIDTH / 2;
-			count++;
+			for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
+			{
+				ChessPieceNumSetting(ChessNum, player, count);
+				(*iter2) = ChessPieceFactory(hWnd, ChessNum, x, y, player);
+				(*iter2)->Init(hWnd, x, y);
+				x += BMPSIZE_WIDTH / 2;
+				count++;
+			}
 		}
 		y += BMPSIZE_HEIGHT / 2;
 		if (count >= 15)
 		{
-			i = 5;
 			player = PLAYER_WHITE;
 			x = MAP_X;
 			y = MAP_Y + ((BMPSIZE_HEIGHT / 2) * 6);
@@ -213,7 +172,7 @@ void GameManager::ChessPieceDraw(HDC hdc)
 	{
 		for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
 		{
-			if((*iter2) !=NULL)
+			if((*iter2) != NULL)
 				(*iter2)->Draw(hdc);
 		}
 	}
@@ -265,4 +224,26 @@ void GameManager::ChessPieceRelease()
 				delete (*iter2);
 		}
 	}		
+}
+
+void GameManager::Click(int x, int y)
+{
+	if (!m_bClickflag)
+	{
+		m_bClickflag = true;
+		for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
+		{
+			for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
+			{
+				if ((*iter2) != NULL)
+				{
+					if ((*iter2)->getsize().cx <= x && x <= (*iter2)->getsize().cx + BMPSIZE_WIDTH
+						&& (*iter2)->getsize().cy <= y && y <= (*iter2)->getsize().cy + BMPSIZE_HEIGHT)
+					{
+						(*iter2)->MoveCalculate();
+					}
+				}
+			}
+		}
+	}
 }
