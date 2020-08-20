@@ -61,7 +61,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		hdc = BeginPaint(hWnd, &ps);
 		GameManager::GetInstance()->MapDraw(hdc);
 		GameManager::GetInstance()->ChessPieceDraw(hdc);
-		GameManager::GetInstance()->CalculateDraw(hWnd, tmp);
+		if(tmp != NULL)
+			GameManager::GetInstance()->CalculateDraw(hWnd, tmp);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}
