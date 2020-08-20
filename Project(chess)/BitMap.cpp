@@ -29,6 +29,13 @@ void BitMap::Draw(HDC hdc)
 		RGB(255, 0, 255));
 }
 
+void BitMap::colorDraw(HDC hdc, int r, int g, int b)
+{
+	TransparentBlt(hdc, m_Point.x, m_Point.y, (m_size.cx) / 2, (m_size.cy) / 2, MemDC,
+		0, 0, (m_size.cx), (m_size.cy),
+		RGB(r, g, b));
+}
+
 BitMap::~BitMap()
 {
 	//해제코드를 추가한다.

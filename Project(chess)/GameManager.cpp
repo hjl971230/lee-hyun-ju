@@ -5,6 +5,8 @@ GameManager* GameManager::m_this = NULL;
 GameManager::GameManager()
 {
 	m_bClickflag = true;
+	m_chturn = WHITE;
+	m_SelectPiece = NULL;
 }
 
 GameManager::~GameManager()
@@ -74,6 +76,8 @@ void GameManager::ChessPieceInit(HWND hWnd)
 	m_vecChessPieces.clear();
 	int x = MAP_X;
 	int y = MAP_Y;
+	int index_x = 0;
+	int index_y = 0;
 	int count = 0;
 	int ChessNum = CHESSPIECE_NUM_PAWN;
 	int player = PLAYER_BLACK;
@@ -86,23 +90,25 @@ void GameManager::ChessPieceInit(HWND hWnd)
 	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
 	{
 		x = MAP_X;
-		if (count <= 15)
+		for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
 		{
-			for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
-			{
-				ChessPieceNumSetting(ChessNum, player, count);
-				(*iter2) = ChessPieceFactory(hWnd, ChessNum, x, y, player);
-				(*iter2)->Init(hWnd, x, y);
-				x += BMPSIZE_WIDTH / 2;
-				count++;
-			}
+			ChessPieceNumSetting(ChessNum, player, count);
+			(*iter2) = ChessPieceFactory(hWnd, ChessNum, x, y, player);
+			if ((*iter2) != NULL) (*iter2)->Init(hWnd, x, y);
+			x += BMPSIZE_WIDTH / 2;
+			count++;
 		}
+		if (count >= 15) count = 0;
 		y += BMPSIZE_HEIGHT / 2;
-		if (count >= 15)
+		index_y++;
+		if (index_y >= 2 && index_y <= 5)
+		{
+			player = -1;
+			count = 0;
+		}
+		else if (index_y == 6)
 		{
 			player = PLAYER_WHITE;
-			x = MAP_X;
-			y = MAP_Y + ((BMPSIZE_HEIGHT / 2) * 6);
 			count = 0;
 		}
 	}
@@ -136,6 +142,10 @@ void GameManager::ChessPieceNumSetting(int& num, int player, int count)
 			num = CHESSPIECE_NUM_PAWN;
 			break;
 		}
+	}
+	else if(player == -1)
+	{
+		num = CHESSPIECE_NUM_EMPTY;
 	}
 	else
 	{
@@ -207,7 +217,8 @@ ChessPiece* GameManager::ChessPieceFactory(HWND hWnd, int num, int x, int y, int
 		tmp = new King(ch);
 		break;
 	default:
-		break;
+		tmp = NULL;
+		return tmp;
 	}
 	tmp->FileNameSetting();
 	tmp->Init(hWnd, x, y);
@@ -226,7 +237,7 @@ void GameManager::ChessPieceRelease()
 	}		
 }
 
-ChessPiece* GameManager::Click(HWND hWnd, int x, int y)
+bool GameManager::SelectPiece(HWND hWnd, int x, int y)
 {
 	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
 	{
@@ -235,18 +246,60 @@ ChessPiece* GameManager::Click(HWND hWnd, int x, int y)
 			if ((*iter2) != NULL)
 			{
 				if ((*iter2)->getPoint().x <= x && x <= (*iter2)->getPoint().x + BMPSIZE_WIDTH / 2
-					&& (*iter2)->getPoint().y <= y && y <= (*iter2)->getPoint().y + BMPSIZE_HEIGHT / 2)
+					&& (*iter2)->getPoint().y <= y && y <= (*iter2)->getPoint().y + BMPSIZE_HEIGHT / 2
+					&& m_chturn == (*iter2)->getPlayerType())
 				{
-					return (*iter2);
+					if (m_SelectPiece == (*iter2))
+					{
+						(*iter2)->setClickflag(false);
+						m_SelectPiece = NULL;
+						return false;
+					}
+					if (!(*iter2)->getClickflag())
+					{
+						(*iter2)->setClickflag(true);
+						m_SelectPiece = (*iter2);
+						return true;
+					}
+					else
+					{
+						(*iter2)->setClickflag(false);
+						m_SelectPiece = NULL;
+						return false;
+					}
 				}
 			}
 		}
 	}
-
-	return NULL;
+	return false;
 }
 
-void GameManager::CalculateDraw(HWND hWnd, ChessPiece* iter)
+bool GameManager::MovePiece(HWND hWnd, int x, int y)
 {
-	iter->MoveCalculate(hWnd, m_vecChessPieces);
+	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
+	{
+		for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
+		{
+			if ((*iter2) != NULL)
+			{
+				if ((*iter2)->getPoint().x <= x && x <= (*iter2)->getPoint().x + BMPSIZE_WIDTH / 2
+					&& (*iter2)->getPoint().y <= y && y <= (*iter2)->getPoint().y + BMPSIZE_HEIGHT / 2
+					&& m_chturn == (*iter2)->getPlayerType())
+				{
+					if ((*iter2)->getClickflag())
+					{
+						
+						m_SelectPiece = (*iter2);
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+void GameManager::CalculateDraw(HWND hWnd)
+{
+	if(m_SelectPiece != NULL) m_SelectPiece->MoveCalculate(hWnd, m_vecChessPieces);
 }

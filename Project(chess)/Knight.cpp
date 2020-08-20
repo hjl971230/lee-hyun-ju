@@ -8,3 +8,8 @@ void Knight::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 {
 
 }
+
+ChessPiece* Knight::Move(HWND hWnd, vector<vector<ChessPiece*>> vec)
+{
+	return NULL;
+}

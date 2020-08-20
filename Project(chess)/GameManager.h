@@ -9,6 +9,8 @@ private:
 	vector<vector<BitMap>> m_map;
 	vector<vector<ChessPiece*>> m_vecChessPieces;
 	bool m_bClickflag;
+	char m_chturn;
+	ChessPiece* m_SelectPiece;
 public:
 	static inline GameManager* GetInstance()
 	{
@@ -26,7 +28,9 @@ public:
 	void ChessPieceRelease();
 	void ChessPieceDraw(HDC hdc);
 	ChessPiece* ChessPieceFactory(HWND hWnd, int num, int x, int y, int player);
-	ChessPiece* Click(HWND hWnd, int x, int y);
-	void CalculateDraw(HWND hWnd, ChessPiece*);
+	bool SelectPiece(HWND hWnd, int x, int y);
+	bool MovePiece(HWND hWnd, int x, int y);
+	void CalculateDraw(HWND hWnd);
+	inline ChessPiece* getSelectPiece() { return m_SelectPiece; }
 };
 

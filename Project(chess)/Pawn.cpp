@@ -25,6 +25,7 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 			}
 		}
 	}
+	CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y, false);
 	if (m_bfirstmoveflag)
 	{
 		if (m_chPlayerType == BLACK)
@@ -33,28 +34,28 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 			{
 				if (x < BMPSIZE_WIDTH - 1)
 				{
-					CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y);
+					CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y, true);
 				}
 				if (x > 0)
 				{
-					CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y + size_y);
+					CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y + size_y, true);
 				}
 			}
 			else
 			{
-				CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y);
+				CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, true);
 			}
 		}
 		else
 		{
 			if (vec[y - 1][x] != NULL)
 			{
-				CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y - size_y);
-				CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y - size_y);
+				CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y - size_y, true);
+				CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y - size_y, true);
 			}
 			else
 			{
-				CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y);
+				CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, true);
 			}
 		}
 	}
@@ -62,13 +63,18 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 	{
 		if (m_chPlayerType == BLACK)
 		{
-			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y);
-			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y * 2);
+			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, true);
+			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y * 2, true);
 		}
 		else
 		{
-			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y);
-			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y * 2);
+			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, true);
+			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y * 2, true);
 		}
 	}
+}
+
+ChessPiece* Pawn::Move(HWND hWnd, vector<vector<ChessPiece*>> vec)
+{
+	return NULL;
 }

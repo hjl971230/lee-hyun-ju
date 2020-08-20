@@ -2,7 +2,8 @@
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;//글로벌 인스턴스핸들값
 LPCTSTR lpszClass = TEXT("Chess"); //창이름
-ChessPiece* tmp = NULL;
+bool selectflag = false;
+bool moveflag = false;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -55,14 +56,28 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		x = LOWORD(lParam);
 		y = HIWORD(lParam);
-		tmp = GameManager::GetInstance()->Click(hWnd, x, y);
+		if (selectflag)
+		{
+			if (moveflag)
+			{
+				selectflag = false;
+			}
+			else
+			{
+				selectflag = GameManager::GetInstance()->SelectPiece(hWnd, x, y);
+			}
+		}
+		else
+			selectflag = GameManager::GetInstance()->SelectPiece(hWnd, x, y);
+		//selectflag = GameManager::GetInstance()->SelectPiece(hWnd, x, y);
 		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		GameManager::GetInstance()->MapDraw(hdc);
 		GameManager::GetInstance()->ChessPieceDraw(hdc);
-		if(tmp != NULL)
-			GameManager::GetInstance()->CalculateDraw(hWnd, tmp);
+		GameManager::GetInstance()->CalculateDraw(hWnd);
+		Rectangle(hdc, 150, 100, 350, 600);
+		Rectangle(hdc, 950, 100, 1150, 600);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}

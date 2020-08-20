@@ -7,3 +7,8 @@ void King::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 {
 
 }
+
+ChessPiece* King::Move(HWND hWnd, vector<vector<ChessPiece*>> vec)
+{
+	return NULL;
+}
