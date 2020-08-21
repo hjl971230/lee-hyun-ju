@@ -30,32 +30,38 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 	{
 		if (m_chPlayerType == BLACK)
 		{
-			if (vec[y + 1][x] != NULL)
+			if (y + 1 < MAPSIZE_HEIGHT)
 			{
-				if (x < BMPSIZE_WIDTH - 1)
+				if (vec[y + 1][x] != NULL)
 				{
-					CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y, true);
+					if (x < BMPSIZE_WIDTH - 1)
+					{
+						CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y, true);
+					}
+					if (x > 0)
+					{
+						CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y + size_y, true);
+					}
 				}
-				if (x > 0)
+				else
 				{
-					CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y + size_y, true);
+					CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, true);
 				}
-			}
-			else
-			{
-				CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, true);
 			}
 		}
 		else
 		{
-			if (vec[y - 1][x] != NULL)
+			if (y - 1 >= 0)
 			{
-				CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y - size_y, true);
-				CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y - size_y, true);
-			}
-			else
-			{
-				CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, true);
+				if (vec[y - 1][x] != NULL)
+				{
+					CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y - size_y, true);
+					CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y - size_y, true);
+				}
+				else
+				{
+					CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, true);
+				}
 			}
 		}
 	}
