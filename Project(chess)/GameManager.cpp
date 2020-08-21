@@ -7,6 +7,9 @@ GameManager::GameManager()
 	m_bClickflag = true;
 	m_chturn = WHITE;
 	m_SelectPiece = NULL;
+	m_bmoveflag = false;
+	m_iblackdeathcount = 0;
+	m_iwhitedeathcount = 0;
 }
 
 GameManager::~GameManager()
@@ -71,6 +74,17 @@ void GameManager::MapDraw(HDC hdc)
 	}
 }
 
+void GameManager::PiecesCemeteryinit()
+{
+	m_vecPiecesCemetery[PLAYER_BLACK].clear();
+	m_vecPiecesCemetery[PLAYER_WHITE].clear();
+	ChessPiece* size = NULL;
+	m_vecPiecesCemetery[PLAYER_BLACK].reserve(CHESSPIECE_SIZE);
+	m_vecPiecesCemetery[PLAYER_BLACK].assign(CHESSPIECE_SIZE, size);
+	m_vecPiecesCemetery[PLAYER_WHITE].reserve(CHESSPIECE_SIZE);
+	m_vecPiecesCemetery[PLAYER_WHITE].assign(CHESSPIECE_SIZE, size);
+}
+
 void GameManager::ChessPieceInit(HWND hWnd)
 {
 	m_vecChessPieces.clear();
@@ -86,7 +100,6 @@ void GameManager::ChessPieceInit(HWND hWnd)
 	size.assign(MAPSIZE_WIDTH, NULL);
 	m_vecChessPieces.reserve(MAPSIZE_HEIGHT);
 	m_vecChessPieces.assign(MAPSIZE_HEIGHT, size);
-
 	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
 	{
 		x = MAP_X;
@@ -249,20 +262,18 @@ bool GameManager::SelectPiece(HWND hWnd, int x, int y)
 					&& (*iter2)->getPoint().y <= y && y <= (*iter2)->getPoint().y + BMPSIZE_HEIGHT / 2
 					&& m_chturn == (*iter2)->getPlayerType())
 				{
-					if (m_SelectPiece == (*iter2))
-					{
-						(*iter2)->setClickflag(false);
-						m_SelectPiece = NULL;
-						return false;
-					}
 					if (!(*iter2)->getClickflag())
 					{
+						if (m_SelectPiece != NULL)
+							m_SelectPiece->setClickflag(false);
 						(*iter2)->setClickflag(true);
 						m_SelectPiece = (*iter2);
 						return true;
 					}
 					else
 					{
+						if (m_SelectPiece != NULL)
+							m_SelectPiece->setClickflag(false);
 						(*iter2)->setClickflag(false);
 						m_SelectPiece = NULL;
 						return false;
@@ -276,30 +287,53 @@ bool GameManager::SelectPiece(HWND hWnd, int x, int y)
 
 bool GameManager::MovePiece(HWND hWnd, int x, int y)
 {
-	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
+	ChessPiece* tmp = NULL;
+	tmp = m_SelectPiece->Move(hWnd, m_vecChessPieces, x, y, m_bmoveflag);
+	if (m_bmoveflag)
 	{
-		for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
+		if (tmp != NULL)
 		{
-			if ((*iter2) != NULL)
-			{
-				if ((*iter2)->getPoint().x <= x && x <= (*iter2)->getPoint().x + BMPSIZE_WIDTH / 2
-					&& (*iter2)->getPoint().y <= y && y <= (*iter2)->getPoint().y + BMPSIZE_HEIGHT / 2
-					&& m_chturn == (*iter2)->getPlayerType())
-				{
-					if ((*iter2)->getClickflag())
-					{
-						
-						m_SelectPiece = (*iter2);
-						return true;
-					}
-				}
-			}
+			GotoCemetery(tmp);
 		}
+		if (m_chturn == BLACK)
+			m_chturn = WHITE;
+		else m_chturn = BLACK;
+		m_bmoveflag = false;
+		m_SelectPiece = NULL;
+		return true;
 	}
-	return false;
+	else return false;
 }
 
 void GameManager::CalculateDraw(HWND hWnd)
 {
 	if(m_SelectPiece != NULL) m_SelectPiece->MoveCalculate(hWnd, m_vecChessPieces);
+}
+
+void GameManager::GotoCemetery(ChessPiece* chesspiece)
+{
+	int size_x = BMPSIZE_WIDTH / 2;
+	int size_y = BMPSIZE_HEIGHT / 2;
+	static int add_x = 0;
+	static int add_y = 0;
+	if (chesspiece->getPlayerType() == BLACK)
+	{
+		if (m_iblackdeathcount % 2 == 0)
+			add_x = 0;
+		chesspiece->setPoint(200 + add_x, 100 + add_y);
+		m_vecPiecesCemetery[PLAYER_BLACK][m_iblackdeathcount] = chesspiece;
+		m_iblackdeathcount++;
+		add_x += size_x;
+		add_y += size_y;
+	}
+	else
+	{
+		if (m_iwhitedeathcount % 2 == 0)
+			add_x = 0;
+		chesspiece->setPoint(1000 + add_x, 100 + add_y);
+		m_vecPiecesCemetery[PLAYER_WHITE][m_iwhitedeathcount] = chesspiece;
+		m_iwhitedeathcount++;
+		add_x += size_x;
+		add_y += size_y;
+	}
 }

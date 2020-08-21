@@ -8,8 +8,8 @@ void Bishop::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)//´ë°¢¼± À
 	BitMap* tmp = NULL;
 	int size_x = BMPSIZE_WIDTH / 2;
 	int size_y = BMPSIZE_HEIGHT / 2;
-	int x = 0;
-	int y = 0;
+	int index_x = 0;
+	int index_y = 0;
 	for (int i = 0; i < MAPSIZE_HEIGHT; i++)
 	{
 		for (int j = 0; j < MAPSIZE_WIDTH; j++)
@@ -18,8 +18,8 @@ void Bishop::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)//´ë°¢¼± À
 			{
 				if (vec[i][j] == this)
 				{
-					y = i;
-					x = j;
+					index_y = i;
+					index_x = j;
 					break;
 				}
 			}
@@ -30,7 +30,7 @@ void Bishop::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)//´ë°¢¼± À
 	int add_y = 0;
 	//CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y);
 	//--,+-,-+,++
-	for (int i = y, j = x; i >= 0 && j >= 0; i--, j--)
+	for (int i = index_y, j = index_x; i >= 0 && j >= 0; i--, j--)
 	{
 		if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType)
 		{
@@ -43,7 +43,7 @@ void Bishop::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)//´ë°¢¼± À
 	}
 	add_x = 0;
 	add_y = 0;
-	for (int i = y, j = x; i >= 0 && j < MAPSIZE_WIDTH; i--, j++)
+	for (int i = index_y, j = index_x; i >= 0 && j < MAPSIZE_WIDTH; i--, j++)
 	{
 		if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType)
 		{
@@ -56,7 +56,7 @@ void Bishop::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)//´ë°¢¼± À
 	}
 	add_x = 0;
 	add_y = 0;
-	for (int i = y, j = x; i < MAPSIZE_HEIGHT && j >= 0; i++, j--)
+	for (int i = index_y, j = index_x; i < MAPSIZE_HEIGHT && j >= 0; i++, j--)
 	{
 		if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType)
 		{
@@ -69,7 +69,7 @@ void Bishop::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)//´ë°¢¼± À
 	}
 	add_x = 0;
 	add_y = 0;
-	for (int i = y, j = x; i < MAPSIZE_HEIGHT && j < MAPSIZE_WIDTH; i++, j++)
+	for (int i = index_y, j = index_x; i < MAPSIZE_HEIGHT && j < MAPSIZE_WIDTH; i++, j++)
 	{
 		if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType)
 		{
@@ -84,7 +84,7 @@ void Bishop::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)//´ë°¢¼± À
 	add_y = 0;
 }
 
-ChessPiece* Bishop::Move(HWND hWnd, vector<vector<ChessPiece*>> vec)
+ChessPiece* Bishop::Move(HWND hWnd, vector<vector<ChessPiece*>> vec, int x, int y, bool& moveflag)
 {
 	return NULL;
 }

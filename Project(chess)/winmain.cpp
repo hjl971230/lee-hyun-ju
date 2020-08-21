@@ -58,12 +58,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		y = HIWORD(lParam);
 		if (selectflag)
 		{
-			if (moveflag)
+			if (GameManager::GetInstance()->MovePiece(hWnd, x, y))
 			{
 				selectflag = false;
 			}
 			else
 			{
+				//moveflag = GameManager::GetInstance()->MovePiece(hWnd, x, y);
 				selectflag = GameManager::GetInstance()->SelectPiece(hWnd, x, y);
 			}
 		}

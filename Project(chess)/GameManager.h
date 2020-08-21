@@ -8,9 +8,13 @@ private:
 	static GameManager* m_this;
 	vector<vector<BitMap>> m_map;
 	vector<vector<ChessPiece*>> m_vecChessPieces;
+	vector<ChessPiece*> m_vecPiecesCemetery[PLAYERSIZE];
 	bool m_bClickflag;
+	bool m_bmoveflag;
 	char m_chturn;
 	ChessPiece* m_SelectPiece;
+	int m_iblackdeathcount;
+	int m_iwhitedeathcount;
 public:
 	static inline GameManager* GetInstance()
 	{
@@ -32,5 +36,7 @@ public:
 	bool MovePiece(HWND hWnd, int x, int y);
 	void CalculateDraw(HWND hWnd);
 	inline ChessPiece* getSelectPiece() { return m_SelectPiece; }
+	void PiecesCemeteryinit();
+	void GotoCemetery(ChessPiece*);
 };
 
