@@ -26,61 +26,98 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 		}
 	}
 	CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y, false);
-	if (m_bfirstmoveflag)
+	
+	if (m_chPlayerType == BLACK)
 	{
-		if (m_chPlayerType == BLACK)
+		if (index_y + 1 <= MAPSIZE_HEIGHT - 1)
 		{
-			if (index_y + 1 < MAPSIZE_HEIGHT)
+			if (vec[index_y + 1][index_x] == NULL)
+				CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, true);
+			//else if(vec[index_y + 1][index_x] != NULL && vec[index_y + 1][index_x]->getPlayerType() != m_chPlayerType)
+				//CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, false);
+			if (!m_bfirstmoveflag)
 			{
-				if (vec[index_y + 1][index_x] != NULL)
+				if (vec[index_y + 1][index_x] == NULL)
 				{
-					if (index_x < BMPSIZE_WIDTH - 1)
-					{
-						CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y, true);
-					}
-					if (index_x > 0)
-					{
-						CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y + size_y, true);
-					}
-				}
-				else
-				{
-					CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, true);
+					if (vec[index_y + 2][index_x] == NULL)
+						CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y * 2, true);
+					//else if (vec[index_y + 2][index_x] != NULL && vec[index_y + 2][index_x]->getPlayerType() != m_chPlayerType)
+						//CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y * 2, false);
 				}
 			}
-		}
-		else
-		{
-			if (index_y - 1 >= 0)
+			if (index_x <= MAPSIZE_WIDTH - 1)
 			{
-				if (vec[index_y - 1][index_x] != NULL)
+				if (index_x + 1 <= MAPSIZE_WIDTH - 1)
 				{
-					CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y - size_y, true);
-					CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y - size_y, true);
+					if (vec[index_y + 1][index_x + 1] != NULL)
+					{
+						if (vec[index_y + 1][index_x + 1]->getPlayerType() != m_chPlayerType)
+							CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y, false);
+					}
+					//else CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y, true);
 				}
-				else
+			}
+			if (index_x >= 0)
+			{
+				if (index_x - 1 >= 0)
 				{
-					CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, true);
+					if (vec[index_y + 1][index_x - 1] != NULL)
+					{
+						if (vec[index_y + 1][index_x - 1]->getPlayerType() != m_chPlayerType)
+							CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y + size_y, false);
+					}
+					//else CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y + size_y, true);
 				}
 			}
 		}
 	}
 	else
 	{
-		if (m_chPlayerType == BLACK)
+		if (index_y - 1 >= 0)
 		{
-			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, true);
-			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y * 2, true);
-		}
-		else
-		{
-			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, true);
-			CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y * 2, true);
+			if (vec[index_y - 1][index_x] == NULL)
+				CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, true);
+			//else if (vec[index_y - 1][index_x] != NULL && vec[index_y - 1][index_x]->getPlayerType() != m_chPlayerType)
+				//CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, false);
+			if (!m_bfirstmoveflag)
+			{
+				if (vec[index_y - 1][index_x] == NULL)
+				{
+					if (vec[index_y - 2][index_x] == NULL)
+						CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y * 2, true);
+					//else if (vec[index_y - 2][index_x] != NULL && vec[index_y - 2][index_x]->getPlayerType() != m_chPlayerType)
+						//CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y * 2, false);
+				}
+			}
+			if (index_x <= MAPSIZE_WIDTH - 1)
+			{
+				if (index_x + 1 <= MAPSIZE_WIDTH - 1)
+				{
+					if (vec[index_y - 1][index_x + 1] != NULL)
+					{
+						if (vec[index_y - 1][index_x + 1]->getPlayerType() != m_chPlayerType)
+							CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y - size_y, false);
+					}
+					//else CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y - size_y, true);
+				}
+			}
+			if (index_x > 0)
+			{
+				if (index_x - 1 >= 0)
+				{
+					if (vec[index_y - 1][index_x - 1] != NULL)
+					{
+						if (vec[index_y - 1][index_x - 1]->getPlayerType() != m_chPlayerType)
+							CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y - size_y, false);
+					}
+					//else CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y - size_y, true);
+				}
+			}
 		}
 	}
 }
 
-ChessPiece* Pawn::Move(HWND hWnd, vector<vector<ChessPiece*>> vec, int x, int y, bool& moveflag)
+ChessPiece* Pawn::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y, bool& moveflag)
 {
 	ChessPiece* tmp = NULL;
 	int size_x = BMPSIZE_WIDTH / 2;
@@ -102,95 +139,189 @@ ChessPiece* Pawn::Move(HWND hWnd, vector<vector<ChessPiece*>> vec, int x, int y,
 			}
 		}
 	}
-	
-	if (m_bfirstmoveflag)
+
+	if (m_chPlayerType == BLACK)
 	{
-		if (m_chPlayerType == BLACK)
+		if (index_y + 1 <= MAPSIZE_HEIGHT - 1)
 		{
-			if (index_y + 1 < MAPSIZE_HEIGHT)
+			if (vec[index_y + 1][index_x] == NULL)
 			{
-				if (vec[index_y + 1][index_x] != NULL)
+				if ((m_Point.x < x && x < m_Point.x + BMPSIZE_WIDTH / 2)
+					&& (m_Point.y + size_y < y && y < m_Point.y + size_y + BMPSIZE_HEIGHT / 2))
 				{
-					if (index_x < BMPSIZE_WIDTH - 1)
-					{
-						//CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y, true);
-					}
-					if (index_x > 0)
-					{
-						//CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y + size_y, true);
-					}
+					m_Point.y = m_Point.y + size_y;
+					tmp = vec[index_y + 1][index_x];
+					vec[index_y + 1][index_x] = vec[index_y][index_x];
+					vec[index_y][index_x] = NULL;
+					moveflag = true;
+					m_bfirstmoveflag = true;
+					return tmp;
 				}
-				else
+				else moveflag = false;
+			}
+			if (!m_bfirstmoveflag)
+			{
+				if (vec[index_y + 1][index_x] == NULL)
 				{
-					//CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, true);
+					if (vec[index_y + 2][index_x] == NULL)
+					{
+						if ((m_Point.x < x && x < m_Point.x + size_x)
+							&& (m_Point.y + size_y * 2 < y && y < m_Point.y + size_y * 2 + size_y))
+						{
+							m_Point.y = m_Point.y + size_y * 2;
+							tmp = vec[index_y + 2][index_x];
+							vec[index_y + 2][index_x] = vec[index_y][index_x];
+							vec[index_y][index_x] = NULL;
+							moveflag = true;
+							m_bfirstmoveflag = true;
+							return tmp;
+						}
+						else moveflag = false;
+					}
 				}
 			}
-		}
-		else
-		{
-			if (index_y - 1 >= 0)
+			if (index_x <= MAPSIZE_WIDTH - 1)
 			{
-				if (vec[index_y - 1][index_x] != NULL)
+				if (index_x + 1 <= MAPSIZE_WIDTH - 1)
 				{
-					//CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y - size_y, true);
-					//CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y - size_y, true);
+					if (vec[index_y + 1][index_x + 1] != NULL)
+					{
+						if (vec[index_y + 1][index_x + 1]->getPlayerType() != m_chPlayerType)
+						{
+							if ((m_Point.x + size_x < x && x < m_Point.x + size_x + size_x)
+								&& (m_Point.y + size_y < y && y < m_Point.y + size_y + size_y))
+							{
+								m_Point.x = m_Point.x + size_x;
+								m_Point.y = m_Point.y + size_y;
+								tmp = vec[index_y + 1][index_x + 1];
+								vec[index_y + 1][index_x + 1] = vec[index_y][index_x];
+								vec[index_y][index_x] = NULL;
+								moveflag = true;
+								m_bfirstmoveflag = true;
+								return tmp;
+							}
+							else moveflag = false;
+						}
+					}
 				}
-				else
+			}
+			if (index_x >= 0)
+			{
+				if (index_x - 1 >= 0)
 				{
-					//CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, true);
+					if (vec[index_y + 1][index_x - 1] != NULL)
+					{
+						if (vec[index_y + 1][index_x - 1]->getPlayerType() != m_chPlayerType)
+						{
+							if ((m_Point.x - size_x < x && x < m_Point.x - size_x + size_x)
+								&& (m_Point.y + size_y < y && y < m_Point.y + size_y + size_y))
+							{
+								m_Point.x = m_Point.x - size_x;
+								m_Point.y = m_Point.y + size_y;
+								tmp = vec[index_y + 1][index_x - 1];
+								vec[index_y + 1][index_x - 1] = vec[index_y][index_x];
+								vec[index_y][index_x] = NULL;
+								moveflag = true;
+								m_bfirstmoveflag = true;
+								return tmp;
+							}
+							else moveflag = false;
+						}
+					}
 				}
 			}
 		}
 	}
 	else
 	{
-		if (m_chPlayerType == BLACK)
+		if (index_y - 1 >= 0)
 		{
-			if ((m_Point.x < x && x < m_Point.x + BMPSIZE_WIDTH / 2)
-				&& (m_Point.y + size_y < y && y < m_Point.y + size_y + BMPSIZE_HEIGHT / 2))
+			if (vec[index_y - 1][index_x] == NULL)
 			{
-				m_Point.y = m_Point.y + size_y;
-				tmp = vec[index_y + 1][index_x];
-				vec[index_y + 1][index_x] = vec[index_y][index_x];
-				vec[index_y][index_x] = NULL;
-				moveflag = true;
-				m_bfirstmoveflag = true;
+				if ((m_Point.x < x && x < m_Point.x + size_x)
+					&& (m_Point.y - size_y < y && y < m_Point.y - size_y + size_y))
+				{
+					m_Point.y = m_Point.y - size_y;
+					tmp = vec[index_y - 1][index_x];
+					vec[index_y - 1][index_x] = vec[index_y][index_x];
+					vec[index_y][index_x] = NULL;
+					moveflag = true;
+					m_bfirstmoveflag = true;
+					return tmp;
+				}
+				else moveflag = false;
 			}
-			else if ((m_Point.x < x && x < m_Point.x + size_x)
-				&& (m_Point.y + size_y * 2 < y && y < m_Point.y + size_y * 2 + size_y))
+			if (!m_bfirstmoveflag)
 			{
-				m_Point.y = m_Point.y + size_y * 2;
-				tmp = vec[index_y + 2][index_x];
-				vec[index_y + 2][index_x] = vec[index_y][index_x];
-				vec[index_y][index_x] = NULL;
-				moveflag = true;
-				m_bfirstmoveflag = true;
+				if (vec[index_y - 1][index_x] == NULL)
+				{
+					if (vec[index_y - 2][index_x] == NULL)
+					{
+						if ((m_Point.x < x && x < m_Point.x + BMPSIZE_WIDTH / 2)
+							&& (m_Point.y - size_y * 2 < y && y < m_Point.y - size_y * 2 + size_y))
+						{
+							m_Point.y = m_Point.y - size_y * 2;
+							tmp = vec[index_y - 2][index_x];
+							vec[index_y - 2][index_x] = vec[index_y][index_x];
+							vec[index_y][index_x] = NULL;
+							moveflag = true;
+							m_bfirstmoveflag = true;
+							return tmp;
+						}
+						else moveflag = false;
+					}
+				}
 			}
-			else moveflag = false;
-		}
-		else
-		{
-			if ((m_Point.x < x && x < m_Point.x + size_x)
-				&& (m_Point.y - size_y < y && y < m_Point.y - size_y + size_y))
+			if (index_x <= MAPSIZE_WIDTH - 1)
 			{
-				m_Point.y = m_Point.y - size_y;
-				tmp = vec[index_y - 1][index_x];
-				vec[index_y - 1][index_x] = vec[index_y][index_x];
-				vec[index_y][index_x] = NULL;
-				moveflag = true;
-				m_bfirstmoveflag = true;
+				if (index_x + 1 <= MAPSIZE_WIDTH - 1)
+				{
+					if (vec[index_y - 1][index_x + 1] != NULL)
+					{
+						if (vec[index_y - 1][index_x + 1]->getPlayerType() != m_chPlayerType)
+						{
+							if ((m_Point.x + size_x < x && x < m_Point.x + size_x + size_x)
+								&& (m_Point.y - size_y < y && y < m_Point.y - size_y + size_y))
+							{
+								m_Point.x = m_Point.x + size_x;
+								m_Point.y = m_Point.y - size_y;
+								tmp = vec[index_y - 1][index_x + 1];
+								vec[index_y - 1][index_x + 1] = vec[index_y][index_x];
+								vec[index_y][index_x] = NULL;
+								moveflag = true;
+								m_bfirstmoveflag = true;
+								return tmp;
+							}
+							else moveflag = false;
+						}
+					}
+				}
 			}
-			else if ((m_Point.x < x && x < m_Point.x + BMPSIZE_WIDTH / 2)
-				&& (m_Point.y - size_y * 2 < y && y < m_Point.y - size_y * 2 + size_y))
+			if (index_x > 0)
 			{
-				m_Point.y = m_Point.y - size_y * 2;
-				tmp = vec[index_y - 2][index_x];
-				vec[index_y - 2][index_x] = vec[index_y][index_x];
-				vec[index_y][index_x] = NULL;
-				moveflag = true;
-				m_bfirstmoveflag = true;
+				if (index_x - 1 >= 0)
+				{
+					if (vec[index_y - 1][index_x - 1] != NULL)
+					{
+						if (vec[index_y - 1][index_x - 1]->getPlayerType() != m_chPlayerType)
+						{
+							if ((m_Point.x - size_x < x && x < m_Point.x - size_x + size_x)
+								&& (m_Point.y - size_y < y && y < m_Point.y - size_y + size_y))
+							{
+								m_Point.x = m_Point.x - size_x;
+								m_Point.y = m_Point.y - size_y;
+								tmp = vec[index_y - 1][index_x - 1];
+								vec[index_y - 1][index_x - 1] = vec[index_y][index_x];
+								vec[index_y][index_x] = NULL;
+								moveflag = true;
+								m_bfirstmoveflag = true;
+								return tmp;
+							}
+							else moveflag = false;
+						}
+					}
+				}
 			}
-			else moveflag = false;
 		}
 	}
 

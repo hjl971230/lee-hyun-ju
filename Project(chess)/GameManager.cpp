@@ -16,12 +16,14 @@ GameManager::~GameManager()
 {
 	MapRelease();
 	ChessPieceRelease();
+	PiecesCemeteryRelease();
 }
 
 void GameManager::GameInit(HWND hWnd)
 {
 	MapInit(hWnd);
-	ChessPieceInit(hWnd);
+	ChessPieceInit(hWnd); 
+	PiecesCemeteryinit();
 }
 
 void GameManager::MapInit(HWND hWnd)
@@ -244,8 +246,11 @@ void GameManager::ChessPieceRelease()
 	{
 		for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
 		{
-			if((*iter2) != NULL)
+			if ((*iter2) != NULL)
+			{
 				delete (*iter2);
+				(*iter2) = NULL;
+			}
 		}
 	}		
 }
@@ -299,6 +304,7 @@ bool GameManager::MovePiece(HWND hWnd, int x, int y)
 			m_chturn = WHITE;
 		else m_chturn = BLACK;
 		m_bmoveflag = false;
+		m_SelectPiece->setClickflag(false);
 		m_SelectPiece = NULL;
 		return true;
 	}
@@ -314,26 +320,59 @@ void GameManager::GotoCemetery(ChessPiece* chesspiece)
 {
 	int size_x = BMPSIZE_WIDTH / 2;
 	int size_y = BMPSIZE_HEIGHT / 2;
-	static int add_x = 0;
-	static int add_y = 0;
+	static int add_black_x = 0;
+	static int add_black_y = 0;
+	static int add_white_x = 0;
+	static int add_white_y = 0;
 	if (chesspiece->getPlayerType() == BLACK)
 	{
 		if (m_iblackdeathcount % 2 == 0)
-			add_x = 0;
-		chesspiece->setPoint(200 + add_x, 100 + add_y);
+		{
+			add_black_x = 0;
+			add_black_y += size_y;
+		}
+		chesspiece->setPoint(180 + add_black_x, 100 + add_black_y);
 		m_vecPiecesCemetery[PLAYER_BLACK][m_iblackdeathcount] = chesspiece;
 		m_iblackdeathcount++;
-		add_x += size_x;
-		add_y += size_y;
+		add_black_x += size_x;
 	}
 	else
 	{
 		if (m_iwhitedeathcount % 2 == 0)
-			add_x = 0;
-		chesspiece->setPoint(1000 + add_x, 100 + add_y);
+		{
+			add_white_x = 0;
+			add_white_y += size_y;
+		}
+		chesspiece->setPoint(980 + add_white_x, 100 + add_white_y);
 		m_vecPiecesCemetery[PLAYER_WHITE][m_iwhitedeathcount] = chesspiece;
 		m_iwhitedeathcount++;
-		add_x += size_x;
-		add_y += size_y;
+		add_white_x += size_x;
+	}
+}
+
+void GameManager::PiecesCemeteryDraw(HDC hdc)
+{
+	for (int i = 0; i < PLAYERSIZE; i++)
+	{
+		for (vector<ChessPiece*>::iterator iter = m_vecPiecesCemetery[i].begin(); iter != m_vecPiecesCemetery[i].end(); iter++)
+		{
+			if ((*iter) != NULL)
+				(*iter)->Draw(hdc);
+		}
+	}
+}
+
+void GameManager::PiecesCemeteryRelease()
+{
+	for (int i = 0; i < PLAYERSIZE; i++)
+	{
+		for (vector<ChessPiece*>::iterator iter = m_vecPiecesCemetery[i].begin(); iter != m_vecPiecesCemetery[i].end(); iter++)
+		{
+			if ((*iter) != NULL)
+			{
+				delete* iter;
+				*iter = NULL;
+			}
+		}
 	}
 }

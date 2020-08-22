@@ -37,6 +37,8 @@ public:
 	void CalculateDraw(HWND hWnd);
 	inline ChessPiece* getSelectPiece() { return m_SelectPiece; }
 	void PiecesCemeteryinit();
+	void PiecesCemeteryRelease();
+	void PiecesCemeteryDraw(HDC hdc);
 	void GotoCemetery(ChessPiece*);
 };
 

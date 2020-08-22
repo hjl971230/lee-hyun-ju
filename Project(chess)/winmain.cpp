@@ -74,11 +74,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
+		Rectangle(hdc, 150, 100, 350, 600);
+		Rectangle(hdc, 950, 100, 1150, 600);
 		GameManager::GetInstance()->MapDraw(hdc);
 		GameManager::GetInstance()->ChessPieceDraw(hdc);
 		GameManager::GetInstance()->CalculateDraw(hWnd);
-		Rectangle(hdc, 150, 100, 350, 600);
-		Rectangle(hdc, 950, 100, 1150, 600);
+		GameManager::GetInstance()->PiecesCemeteryDraw(hdc);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}
