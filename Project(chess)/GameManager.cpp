@@ -209,8 +209,8 @@ ChessPiece* GameManager::ChessPieceFactory(HWND hWnd, int num, int x, int y, int
 	ChessPiece* tmp = NULL;
 	char ch = '\0';
 	if (player == PLAYER_BLACK)
-		ch = 'b';
-	else ch = 'w';
+		ch = BLACK;
+	else ch = WHITE;
 	switch (num)
 	{
 	case CHESSPIECE_NUM_PAWN:
@@ -293,7 +293,12 @@ bool GameManager::SelectPiece(HWND hWnd, int x, int y)
 bool GameManager::MovePiece(HWND hWnd, int x, int y)
 {
 	ChessPiece* tmp = NULL;
+
 	tmp = m_SelectPiece->Move(hWnd, m_vecChessPieces, x, y, m_bmoveflag);
+	if (m_SelectPiece->getNumCode() == CHESSPIECE_NUM_PAWN)
+	{
+		Promotion(hWnd);
+	}
 	if (m_bmoveflag)
 	{
 		if (tmp != NULL)
@@ -309,6 +314,39 @@ bool GameManager::MovePiece(HWND hWnd, int x, int y)
 		return true;
 	}
 	else return false;
+}
+
+void GameManager::Promotion(HWND hWnd)
+{
+	ChessPiece* tmp = NULL;
+	ChessPiece* Promotiontmp = NULL;
+	int PromotionType = m_SelectPiece->Promotion(hWnd, m_vecChessPieces);
+	int player = 0;
+	if (m_SelectPiece->getPlayerType() == BLACK)
+		player = PLAYER_BLACK;
+	else player = PLAYER_WHITE;
+	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
+	{
+		for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
+		{
+			if ((*iter2) != NULL)
+			{
+				if ((*iter2) == m_SelectPiece)
+				{
+					if (m_SelectPiece->getpromotionflag())
+					{
+						Promotiontmp = (*iter2);
+						tmp = ChessPieceFactory(hWnd, PromotionType,
+							m_SelectPiece->getPoint().x, m_SelectPiece->getPoint().y, player);
+						tmp->setfirstmoveflag(m_SelectPiece->getfirstmoveflag());
+						(*iter2) = tmp;
+						m_SelectPiece = (*iter2);
+						delete Promotiontmp;
+					}
+				}
+			}
+		}
+	}
 }
 
 void GameManager::CalculateDraw(HWND hWnd)
@@ -331,7 +369,7 @@ void GameManager::GotoCemetery(ChessPiece* chesspiece)
 			add_black_x = 0;
 			add_black_y += size_y;
 		}
-		chesspiece->setPoint(180 + add_black_x, 100 + add_black_y);
+		chesspiece->setPoint(180 + add_black_x, 50 + add_black_y);
 		m_vecPiecesCemetery[PLAYER_BLACK][m_iblackdeathcount] = chesspiece;
 		m_iblackdeathcount++;
 		add_black_x += size_x;
@@ -343,7 +381,7 @@ void GameManager::GotoCemetery(ChessPiece* chesspiece)
 			add_white_x = 0;
 			add_white_y += size_y;
 		}
-		chesspiece->setPoint(980 + add_white_x, 100 + add_white_y);
+		chesspiece->setPoint(980 + add_white_x, 50 + add_white_y);
 		m_vecPiecesCemetery[PLAYER_WHITE][m_iwhitedeathcount] = chesspiece;
 		m_iwhitedeathcount++;
 		add_white_x += size_x;

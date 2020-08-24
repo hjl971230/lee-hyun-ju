@@ -1,6 +1,6 @@
 #include "ChessPiece.h"
-Pawn::Pawn() { m_iNumCode = CHESSPIECE_NUM_PAWN; m_bfirstmoveflag = false; }
-Pawn::Pawn(char ch) : ChessPiece(ch) { m_iNumCode = CHESSPIECE_NUM_PAWN; m_bfirstmoveflag = false;}
+Pawn::Pawn() { m_iNumCode = CHESSPIECE_NUM_PAWN; }
+Pawn::Pawn(char ch) : ChessPiece(ch) { m_iNumCode = CHESSPIECE_NUM_PAWN; }
 Pawn::~Pawn() {}
 
 void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)

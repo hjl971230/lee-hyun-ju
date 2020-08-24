@@ -7,6 +7,8 @@ protected:
 	char m_chPlayerType;
 	int m_iNumCode;
 	bool m_bClickflag;
+	bool m_bPromotionflag;
+	bool m_bfirstmoveflag;
 public:
 	ChessPiece();
 	ChessPiece(char ch);
@@ -20,12 +22,17 @@ public:
 	inline char getPlayerType() { return m_chPlayerType; }
 	inline void setClickflag(bool b) { m_bClickflag = b; }
 	inline bool getClickflag() { return m_bClickflag; }
+	inline int getNumCode() { return m_iNumCode; }
+	inline bool getpromotionflag() { return m_bPromotionflag; }
+	inline void setfirstmoveflag(bool b) { m_bfirstmoveflag = b; }
+	inline bool getfirstmoveflag() { return m_bfirstmoveflag; }
+	int Promotion(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class Pawn : public ChessPiece
 {
 private:
-	bool m_bfirstmoveflag;
+	
 public:
 	Pawn();
 	Pawn(char ch);

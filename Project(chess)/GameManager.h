@@ -40,5 +40,6 @@ public:
 	void PiecesCemeteryRelease();
 	void PiecesCemeteryDraw(HDC hdc);
 	void GotoCemetery(ChessPiece*);
+	void Promotion(HWND hWnd);
 };
 
