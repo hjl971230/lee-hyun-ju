@@ -327,3 +327,100 @@ ChessPiece* Pawn::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y
 
 	return tmp;
 }
+
+void Pawn::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
+{
+	BitMap* tmp = NULL;
+	int size_x = BMPSIZE_WIDTH / 2;
+	int size_y = BMPSIZE_HEIGHT / 2;
+	int index_x = 0;
+	int index_y = 0;
+	for (int i = 0; i < MAPSIZE_HEIGHT; i++)
+	{
+		for (int j = 0; j < MAPSIZE_WIDTH; j++)
+		{
+			if (vec[i][j] != NULL)
+			{
+				if (vec[i][j] == this)
+				{
+					index_y = i;
+					index_x = j;
+					break;
+				}
+			}
+		}
+	}
+
+	if (m_chPlayerType == BLACK)
+	{
+		if (index_y + 1 <= MAPSIZE_HEIGHT - 1)
+		{
+			if (index_x <= MAPSIZE_WIDTH - 1)
+			{
+				if (index_x + 1 <= MAPSIZE_WIDTH - 1)
+				{
+					if (vec[index_y + 1][index_x + 1] != NULL)
+					{
+						if (vec[index_y + 1][index_x + 1]->getPlayerType() != m_chPlayerType
+							&& vec[index_y + 1][index_x + 1]->getNumCode() == CHESSPIECE_NUM_KING)
+						{
+							vec[index_y + 1][index_x + 1]->setcheckedflag(true);
+							return;
+						}
+					}
+				}
+			}
+			if (index_x >= 0)
+			{
+				if (index_x - 1 >= 0)
+				{
+					if (vec[index_y + 1][index_x - 1] != NULL)
+					{
+						if (vec[index_y + 1][index_x - 1]->getPlayerType() != m_chPlayerType
+							&& vec[index_y + 1][index_x - 1]->getNumCode() == CHESSPIECE_NUM_KING)
+						{
+							vec[index_y + 1][index_x - 1]->setcheckedflag(true);
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		if (index_y - 1 >= 0)
+		{
+			if (index_x <= MAPSIZE_WIDTH - 1)
+			{
+				if (index_x + 1 <= MAPSIZE_WIDTH - 1)
+				{
+					if (vec[index_y - 1][index_x + 1] != NULL)
+					{
+						if (vec[index_y - 1][index_x + 1]->getPlayerType() != m_chPlayerType
+							&& vec[index_y - 1][index_x + 1]->getNumCode() == CHESSPIECE_NUM_KING)
+						{
+							vec[index_y - 1][index_x + 1]->setcheckedflag(true);
+							return;
+						}
+					}
+				}
+			}
+			if (index_x > 0)
+			{
+				if (index_x - 1 >= 0)
+				{
+					if (vec[index_y - 1][index_x - 1] != NULL)
+					{
+						if (vec[index_y - 1][index_x - 1]->getPlayerType() != m_chPlayerType
+							&& vec[index_y - 1][index_x - 1]->getNumCode() == CHESSPIECE_NUM_KING)
+						{
+							vec[index_y - 1][index_x - 1]->setcheckedflag(true);
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+}

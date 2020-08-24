@@ -293,3 +293,107 @@ ChessPiece* Knight::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int
 	}
 	return NULL;
 }
+
+void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
+{
+	BitMap* tmp = NULL;
+	int size_x = BMPSIZE_WIDTH / 2;
+	int size_y = BMPSIZE_HEIGHT / 2;
+	int index_x = 0;
+	int index_y = 0;
+	for (int i = 0; i < MAPSIZE_HEIGHT; i++)
+	{
+		for (int j = 0; j < MAPSIZE_WIDTH; j++)
+		{
+			if (vec[i][j] != NULL)
+			{
+				if (vec[i][j] == this)
+				{
+					index_y = i;
+					index_x = j;
+					break;
+				}
+			}
+		}
+	}
+
+	if (index_y - 1 >= 0)
+	{
+		if (index_x - 2 >= 0)
+		{
+			if (vec[index_y - 1][index_x - 2] != NULL && vec[index_y - 1][index_x - 2]->getPlayerType() != m_chPlayerType
+				&& vec[index_y - 1][index_x - 2]->getNumCode() == CHESSPIECE_NUM_KING)
+			{
+				vec[index_y - 1][index_x - 2]->setcheckedflag(true);
+			}
+		}
+		if (index_x + 2 < MAPSIZE_HEIGHT)
+		{
+			if (vec[index_y - 1][index_x + 2] != NULL && vec[index_y - 1][index_x + 2]->getPlayerType() != m_chPlayerType
+				&& vec[index_y - 1][index_x + 2]->getNumCode() == CHESSPIECE_NUM_KING)
+			{
+				vec[index_y - 1][index_x + 2]->setcheckedflag(true);
+			}
+		}
+	}
+
+	if (index_y - 2 >= 0)
+	{
+		if (index_x - 1 >= 0)
+		{
+			if (vec[index_y - 2][index_x - 1] != NULL && vec[index_y - 2][index_x - 1]->getPlayerType() != m_chPlayerType
+				&& vec[index_y - 2][index_x - 1]->getNumCode() == CHESSPIECE_NUM_KING)
+			{
+				vec[index_y - 2][index_x - 1]->setcheckedflag(true);
+			}
+		}
+		if (index_x + 1 < MAPSIZE_WIDTH)
+		{
+			if (vec[index_y - 2][index_x + 1] != NULL && vec[index_y - 2][index_x + 1]->getPlayerType() != m_chPlayerType
+				&& vec[index_y - 2][index_x + 1]->getNumCode() == CHESSPIECE_NUM_KING)
+			{
+				vec[index_y - 2][index_x + 1]->setcheckedflag(true);
+			}
+		}
+	}
+
+	if (index_y + 1 < MAPSIZE_HEIGHT)
+	{
+		if (index_x - 2 >= 0)
+		{
+			if (vec[index_y + 1][index_x - 2] != NULL && vec[index_y + 1][index_x - 2]->getPlayerType() != m_chPlayerType
+				&& vec[index_y + 1][index_x - 2]->getNumCode() == CHESSPIECE_NUM_KING)
+			{
+				vec[index_y + 1][index_x - 2]->setcheckedflag(true);
+			}
+		}
+		if (index_x + 2 < MAPSIZE_WIDTH)
+		{
+			if (vec[index_y + 1][index_x + 2] != NULL && vec[index_y + 1][index_x + 2]->getPlayerType() != m_chPlayerType
+				&& vec[index_y + 1][index_x + 2]->getNumCode() == CHESSPIECE_NUM_KING)
+			{
+				vec[index_y + 1][index_x + 2]->setcheckedflag(true);
+			}
+		}
+	}
+
+	if (index_y + 2 < MAPSIZE_HEIGHT)
+	{
+		if (index_x - 1 >= 0)
+		{
+			if (vec[index_y + 2][index_x - 1] != NULL && vec[index_y + 2][index_x - 1]->getPlayerType() != m_chPlayerType
+				&& vec[index_y + 2][index_x - 1]->getNumCode() == CHESSPIECE_NUM_KING)
+			{
+				vec[index_y + 2][index_x - 1]->setcheckedflag(true);
+			}
+		}
+		if (index_x + 1 < MAPSIZE_WIDTH)
+		{
+			if (vec[index_y + 2][index_x + 1] != NULL && vec[index_y + 2][index_x + 1]->getPlayerType() != m_chPlayerType
+				&& vec[index_y + 2][index_x + 1]->getcheckedflag() == CHESSPIECE_NUM_KING)
+			{
+				vec[index_y + 2][index_x + 1]->setcheckedflag(true);
+			}
+		}
+	}
+}

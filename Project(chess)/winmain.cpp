@@ -51,6 +51,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		GameManager::GetInstance()->GameInit(hWnd);
 		return 0;
 	case WM_DESTROY:// 윈도우가 파괴되었다는 메세지
+		delete GameManager::GetInstance();
 		PostQuitMessage(0); //GetMessage함수에 WM_QUIT 메시지를 보낸다.
 		return 0; //WndProc의 Switch는 break 대신 return 0; 를 쓴다.
 	case WM_LBUTTONDOWN:

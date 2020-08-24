@@ -304,6 +304,49 @@ bool GameManager::MovePiece(HWND hWnd, int x, int y)
 		if (tmp != NULL)
 		{
 			GotoCemetery(tmp);
+			if (tmp->getNumCode() == CHESSPIECE_NUM_KING)
+			{
+				if (tmp->getPlayerType() == BLACK)
+				{
+					if (MessageBox(hWnd, TEXT("백 승리, 게임을 다시 하시겠습니까?"), TEXT("White Win"), MB_YESNO) == IDYES)
+					{
+						MapRelease();
+						ChessPieceRelease();
+						PiecesCemeteryRelease();
+						MapInit(hWnd);
+						ChessPieceInit(hWnd);
+						PiecesCemeteryinit();
+						m_chturn = WHITE;
+					}
+					else
+					{
+						MapRelease();
+						ChessPieceRelease();
+						PiecesCemeteryRelease();
+						PostQuitMessage(0);
+					}
+				}
+				else
+				{
+					if (MessageBox(hWnd, TEXT("흑 승리, 게임을 다시 하시겠습니까?"), TEXT("Black Win"), MB_YESNO) == IDYES)
+					{
+						MapRelease();
+						ChessPieceRelease();
+						PiecesCemeteryRelease();
+						MapInit(hWnd);
+						ChessPieceInit(hWnd);
+						PiecesCemeteryinit();
+						m_chturn = WHITE;
+					}
+					else
+					{
+						MapRelease();
+						ChessPieceRelease();
+						PiecesCemeteryRelease();
+						PostQuitMessage(0);
+					}
+				}
+			}
 		}
 		if (m_chturn == BLACK)
 			m_chturn = WHITE;
@@ -347,6 +390,11 @@ void GameManager::Promotion(HWND hWnd)
 			}
 		}
 	}
+}
+
+void GameManager::Check(HWND hWnd)
+{
+
 }
 
 void GameManager::CalculateDraw(HWND hWnd)

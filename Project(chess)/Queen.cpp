@@ -511,3 +511,8 @@ ChessPiece* Queen::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int 
 	}
 	return NULL;
 }
+
+void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
+{
+
+}

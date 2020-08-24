@@ -9,12 +9,14 @@ protected:
 	bool m_bClickflag;
 	bool m_bPromotionflag;
 	bool m_bfirstmoveflag;
+	bool m_bcheckedflag;
 public:
 	ChessPiece();
 	ChessPiece(char ch);
 	~ChessPiece();
 	void FileNameSetting();
 	virtual void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec) = 0;
+	virtual void Check(HWND hWnd, vector<vector<ChessPiece*>> vec) = 0;
 	virtual ChessPiece* Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y, bool& moveflag) = 0;
 	void CalculateDraw(HWND hWnd, TCHAR FileName[128], int x, int y, bool flag);
 	ChessPiece* movefunc(int change_x, int change_y,
@@ -26,6 +28,8 @@ public:
 	inline bool getpromotionflag() { return m_bPromotionflag; }
 	inline void setfirstmoveflag(bool b) { m_bfirstmoveflag = b; }
 	inline bool getfirstmoveflag() { return m_bfirstmoveflag; }
+	inline void setcheckedflag(bool b) { m_bcheckedflag = b; }
+	inline bool getcheckedflag() { return m_bcheckedflag; }
 	int Promotion(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
@@ -39,6 +43,7 @@ public:
 	~Pawn();
 	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 	ChessPiece* Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y, bool& moveflag);
+	void Check(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class Knight : public ChessPiece
@@ -51,6 +56,7 @@ public:
 	~Knight();
 	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 	ChessPiece* Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y, bool& moveflag);
+	void Check(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class Bishop : public ChessPiece
@@ -63,6 +69,7 @@ public:
 	~Bishop();
 	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 	ChessPiece* Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y, bool& moveflag);
+	void Check(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class Rook : public ChessPiece
@@ -75,6 +82,7 @@ public:
 	~Rook();
 	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 	ChessPiece* Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y, bool& moveflag);
+	void Check(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class Queen : public ChessPiece
@@ -87,6 +95,7 @@ public:
 	~Queen();
 	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 	ChessPiece* Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y, bool& moveflag);
+	void Check(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };
 
 class King : public ChessPiece
@@ -99,4 +108,5 @@ public:
 	~King();
 	void MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec);
 	ChessPiece* Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y, bool& moveflag);
+	void Check(HWND hWnd, vector<vector<ChessPiece*>> vec);
 };

@@ -1,7 +1,19 @@
 #include "ChessPiece.h"
 
-ChessPiece::ChessPiece() { m_bClickflag = false; m_bfirstmoveflag = false; m_bPromotionflag = false; }
-ChessPiece::ChessPiece(char ch) : m_chPlayerType(ch) { m_bClickflag = false; m_bfirstmoveflag = false; m_bPromotionflag = false;}
+ChessPiece::ChessPiece() 
+{ 
+	m_bClickflag = false; 
+	m_bfirstmoveflag = false; 
+	m_bPromotionflag = false; 
+	m_bcheckedflag = false;
+}
+ChessPiece::ChessPiece(char ch) : m_chPlayerType(ch) 
+{ 
+	m_bClickflag = false; 
+	m_bfirstmoveflag = false; 
+	m_bPromotionflag = false;
+	m_bcheckedflag = false;
+}
 ChessPiece::~ChessPiece(){}
 
 void ChessPiece::FileNameSetting()

@@ -223,3 +223,8 @@ ChessPiece* King::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y
 	}
 	return NULL;
 }
+
+void King::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
+{
+
+}
