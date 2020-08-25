@@ -110,3 +110,322 @@ int ChessPiece::Promotion(HWND hWnd, vector<vector<ChessPiece*>> vec)
 	m_bPromotionflag = false;
 	return CHESSPIECE_NUM_PAWN;
 }
+
+bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
+{
+	vector<bool> checkflag;
+	checkflag.reserve(9);
+	checkflag.assign(9, false);
+	int index_x = 0;
+	int index_y = 0;
+
+	for (int i = 0; i < MAPSIZE_HEIGHT; i++)
+	{
+		for (int j = 0; j < MAPSIZE_WIDTH; j++)
+		{
+			if (vec[i][j] != NULL)
+			{
+				if (vec[i][j] == this)
+				{
+					index_y = i;
+					index_x = j;
+					break;
+				}
+			}
+		}
+	}
+
+	if (m_iNumCode == CHESSPIECE_NUM_KING && m_bcheckedflag)
+	{
+		if (index_y - 1 >= 0 && index_y - 1 < MAPSIZE_HEIGHT)
+		{
+			if (index_x - 1 >= 0 && index_x - 1 < MAPSIZE_WIDTH)
+			{
+				if (RookCheck(vec, index_x - 1, index_y - 1)
+					|| BishopCheck(vec, index_x - 1, index_y - 1)
+					|| KnightCheck(vec, index_x - 1, index_y - 1)
+					|| PawnCheck(vec, index_x - 1, index_y - 1)) checkflag[0] = true;
+				else
+					checkflag[0] = false;
+			}
+			if (index_x >= 0 && index_x < MAPSIZE_WIDTH)
+			{
+				if (RookCheck(vec, index_x, index_y - 1)
+					|| BishopCheck(vec, index_x, index_y - 1)
+					|| KnightCheck(vec, index_x, index_y - 1)
+					|| PawnCheck(vec, index_x, index_y - 1)) checkflag[1] = true;
+				else
+					checkflag[1] = false;
+			}
+			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH)
+			{
+				if (RookCheck(vec, index_x + 1, index_y - 1)
+					|| BishopCheck(vec, index_x + 1, index_y - 1)
+					|| KnightCheck(vec, index_x + 1, index_y - 1)
+					|| PawnCheck(vec, index_x + 1, index_y - 1)) checkflag[2] = true;
+				else
+					checkflag[2] = false;
+			}
+		}
+		if (index_y >= 0 && index_y < MAPSIZE_HEIGHT)
+		{
+			if (index_x - 1 >= 0 && index_x - 1 < MAPSIZE_WIDTH)
+			{
+				if (RookCheck(vec, index_x - 1, index_y)
+					|| BishopCheck(vec, index_x - 1, index_y)
+					|| KnightCheck(vec, index_x - 1, index_y)
+					|| PawnCheck(vec, index_x - 1, index_y)) checkflag[3] = true;
+				else
+					checkflag[3] = false;
+			}
+			if (index_x >= 0 && index_x < MAPSIZE_WIDTH)
+			{
+				if (RookCheck(vec, index_x, index_y)
+					|| BishopCheck(vec, index_x, index_y)
+					|| KnightCheck(vec, index_x, index_y)
+					|| PawnCheck(vec, index_x, index_y)) checkflag[4] = true;
+				else
+					checkflag[4] = false;
+			}
+			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH)
+			{
+				if (RookCheck(vec, index_x + 1, index_y)
+					|| BishopCheck(vec, index_x + 1, index_y)
+					|| KnightCheck(vec, index_x + 1, index_y)
+					|| PawnCheck(vec, index_x + 1, index_y)) checkflag[5] = true;
+				else
+					checkflag[5] = false;
+			}
+		}
+		if (index_y + 1 >= 0 && index_y + 1 < MAPSIZE_HEIGHT)
+		{
+			if (index_x - 1 >= 0 && index_x - 1 < MAPSIZE_WIDTH)
+			{
+				if (RookCheck(vec, index_x - 1, index_y + 1)
+					|| BishopCheck(vec, index_x - 1, index_y + 1)
+					|| KnightCheck(vec, index_x - 1, index_y + 1)
+					|| PawnCheck(vec, index_x - 1, index_y + 1)) checkflag[6] = true;
+				else
+					checkflag[6] = false;
+			}
+			if (index_x >= 0 && index_x < MAPSIZE_WIDTH)
+			{
+				if (RookCheck(vec, index_x, index_y + 1)
+					|| BishopCheck(vec, index_x, index_y + 1)
+					|| KnightCheck(vec, index_x, index_y + 1)
+					|| PawnCheck(vec, index_x, index_y + 1)) checkflag[7] = true;
+				else
+					checkflag[8] = false;
+			}
+			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH)
+			{
+				if (RookCheck(vec, index_x + 1, index_y + 1)
+					|| BishopCheck(vec, index_x + 1, index_y + 1)
+					|| KnightCheck(vec, index_x + 1, index_y + 1)
+					|| PawnCheck(vec, index_x + 1, index_y + 1)) checkflag[8] = true;
+				else
+					checkflag[8] = false;
+			}
+		}
+	}
+
+	for (vector<bool>::iterator iter = checkflag.begin(); iter != checkflag.end(); iter++)
+	{
+		if (!(*iter)) return false;
+	}
+	return true;
+}
+
+bool ChessPiece::RookCheck(vector<vector<ChessPiece*>> vec, int index_x, int index_y)
+{
+	for (int i = index_y; i >= 0; i--)
+	{
+		if (vec[i][index_x] != NULL && vec[i][index_x]->getPlayerType() != m_chPlayerType
+			&& (vec[i][index_x]->getNumCode() == CHESSPIECE_NUM_ROOK || vec[i][index_x]->getNumCode() == CHESSPIECE_NUM_QUEEN))
+			return true;
+		else if (vec[i][index_x] != NULL)break;
+	}
+	for (int i = index_y; i < MAPSIZE_HEIGHT; i++)
+	{
+		if (vec[i][index_x] != NULL && vec[i][index_x]->getPlayerType() != m_chPlayerType
+			&& (vec[i][index_x]->getNumCode() == CHESSPIECE_NUM_ROOK || vec[i][index_x]->getNumCode() == CHESSPIECE_NUM_QUEEN))
+			return true;
+		else if (vec[i][index_x] != NULL)break;
+	}
+	for (int j = index_x; j >= 0; j--)
+	{
+		if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() != m_chPlayerType
+			&& (vec[index_y][j]->getNumCode() == CHESSPIECE_NUM_ROOK || vec[index_y][j]->getNumCode() == CHESSPIECE_NUM_QUEEN))
+			return true;
+		else if (vec[index_y][j] != NULL)break;
+	}
+	for (int j = index_x; j < MAPSIZE_WIDTH; j++)
+	{
+		if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() != m_chPlayerType
+			&& (vec[index_y][j]->getNumCode() == CHESSPIECE_NUM_ROOK || vec[index_y][j]->getNumCode() == CHESSPIECE_NUM_QUEEN))
+			return true;
+		else if (vec[index_y][j] != NULL)break;
+	}
+	return false;
+}
+
+bool ChessPiece::BishopCheck(vector<vector<ChessPiece*>> vec, int index_x, int index_y)
+{
+	for (int i = index_y, j = index_x; i >= 0 && j >= 0; i--, j--)
+	{
+		if (vec[i][j] != NULL
+			&& vec[i][j]->getPlayerType() != m_chPlayerType
+			&& (vec[i][j]->getNumCode() == CHESSPIECE_NUM_BISHOP || vec[i][j]->getNumCode() == CHESSPIECE_NUM_QUEEN))
+			return true;
+		else if(vec[i][j] != NULL)break;
+	}
+	for (int i = index_y, j = index_x; i >= 0 && j < MAPSIZE_WIDTH; i--, j++)
+	{
+		if (vec[i][j] != NULL
+			&& vec[i][j]->getPlayerType() != m_chPlayerType
+			&& (vec[i][j]->getNumCode() == CHESSPIECE_NUM_BISHOP || vec[i][j]->getNumCode() == CHESSPIECE_NUM_QUEEN))
+			return true;
+		else if (vec[i][j] != NULL)break;
+	}
+	for (int i = index_y, j = index_x; i < MAPSIZE_HEIGHT && j >= 0; i++, j--)
+	{
+		if (vec[i][j] != NULL
+			&& vec[i][j]->getPlayerType() != m_chPlayerType
+			&& (vec[i][j]->getNumCode() == CHESSPIECE_NUM_BISHOP || vec[i][j]->getNumCode() == CHESSPIECE_NUM_QUEEN))
+			return true;
+		else if (vec[i][j] != NULL)break;
+	}
+	for (int i = index_y, j = index_x; i < MAPSIZE_HEIGHT && j < MAPSIZE_WIDTH; i++, j++)
+	{
+		if (vec[i][j] != NULL
+			&& vec[i][j]->getPlayerType() != m_chPlayerType
+			&& (vec[i][j]->getNumCode() == CHESSPIECE_NUM_BISHOP || vec[i][j]->getNumCode() == CHESSPIECE_NUM_QUEEN))
+			return true;
+		else if (vec[i][j] != NULL)break;
+	}
+
+	return false;
+}
+
+bool ChessPiece::KnightCheck(vector<vector<ChessPiece*>> vec, int index_x, int index_y)
+{
+	if (index_y - 1 >= 0)
+	{
+		if (index_x - 2 >= 0)
+		{
+			if (vec[index_y - 1][index_x - 2] != NULL && vec[index_y - 1][index_x - 2]->getPlayerType() != m_chPlayerType
+				&& vec[index_y - 1][index_x - 2]->getNumCode() == CHESSPIECE_NUM_KNIGHT) return true;
+		}
+		if (index_x + 2 < MAPSIZE_HEIGHT)
+		{
+			if (vec[index_y - 1][index_x + 2] != NULL && vec[index_y - 1][index_x + 2]->getPlayerType() != m_chPlayerType
+				&& vec[index_y - 1][index_x + 2]->getNumCode() == CHESSPIECE_NUM_KNIGHT) return true;
+		}
+	}
+
+	if (index_y - 2 >= 0)
+	{
+		if (index_x - 1 >= 0)
+		{
+			if (vec[index_y - 2][index_x - 1] != NULL && vec[index_y - 2][index_x - 1]->getPlayerType() != m_chPlayerType
+				&& vec[index_y - 2][index_x - 1]->getNumCode() == CHESSPIECE_NUM_KNIGHT) return true;
+		}
+		if (index_x + 1 < MAPSIZE_WIDTH)
+		{
+			if (vec[index_y - 2][index_x + 1] != NULL && vec[index_y - 2][index_x + 1]->getPlayerType() != m_chPlayerType
+				&& vec[index_y - 2][index_x + 1]->getNumCode() == CHESSPIECE_NUM_KNIGHT) return true;
+		}
+	}
+
+	if (index_y + 1 < MAPSIZE_HEIGHT)
+	{
+		if (index_x - 2 >= 0)
+		{
+			if (vec[index_y + 1][index_x - 2] != NULL && vec[index_y + 1][index_x - 2]->getPlayerType() != m_chPlayerType
+				&& vec[index_y + 1][index_x - 2]->getNumCode() == CHESSPIECE_NUM_KNIGHT) return true;
+		}
+		if (index_x + 2 < MAPSIZE_WIDTH)
+		{
+			if (vec[index_y + 1][index_x + 2] != NULL && vec[index_y + 1][index_x + 2]->getPlayerType() != m_chPlayerType
+				&& vec[index_y + 1][index_x + 2]->getNumCode() == CHESSPIECE_NUM_KNIGHT) return true;
+		}
+	}
+
+	if (index_y + 2 < MAPSIZE_HEIGHT)
+	{
+		if (index_x - 1 >= 0)
+		{
+			if (vec[index_y + 2][index_x - 1] != NULL && vec[index_y + 2][index_x - 1]->getPlayerType() != m_chPlayerType
+				&& vec[index_y + 2][index_x - 1]->getNumCode() == CHESSPIECE_NUM_KNIGHT) return true;
+		}
+		if (index_x + 1 < MAPSIZE_WIDTH)
+		{
+			if (vec[index_y + 2][index_x + 1] != NULL && vec[index_y + 2][index_x + 1]->getPlayerType() != m_chPlayerType
+				&& vec[index_y + 2][index_x + 1]->getcheckedflag() == CHESSPIECE_NUM_KNIGHT) return true;
+		}
+	}
+
+	return false;
+}
+
+bool ChessPiece::PawnCheck(vector<vector<ChessPiece*>> vec, int index_x, int index_y)
+{
+	if (m_chPlayerType == BLACK)
+	{
+		if (index_y + 1 <= MAPSIZE_HEIGHT - 1)
+		{
+			if (index_x <= MAPSIZE_WIDTH - 1)
+			{
+				if (index_x + 1 <= MAPSIZE_WIDTH - 1)
+				{
+					if (vec[index_y + 1][index_x + 1] != NULL)
+					{
+						if (vec[index_y + 1][index_x + 1]->getPlayerType() != m_chPlayerType
+							&& vec[index_y + 1][index_x + 1]->getNumCode() == CHESSPIECE_NUM_PAWN) return true;
+					}
+				}
+			}
+			if (index_x >= 0)
+			{
+				if (index_x - 1 >= 0)
+				{
+					if (vec[index_y + 1][index_x - 1] != NULL)
+					{
+						if (vec[index_y + 1][index_x - 1]->getPlayerType() != m_chPlayerType
+							&& vec[index_y + 1][index_x - 1]->getNumCode() == CHESSPIECE_NUM_PAWN) return true;
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		if (index_y - 1 >= 0)
+		{
+			if (index_x <= MAPSIZE_WIDTH - 1)
+			{
+				if (index_x + 1 <= MAPSIZE_WIDTH - 1)
+				{
+					if (vec[index_y - 1][index_x + 1] != NULL)
+					{
+						if (vec[index_y - 1][index_x + 1]->getPlayerType() != m_chPlayerType
+							&& vec[index_y - 1][index_x + 1]->getNumCode() == CHESSPIECE_NUM_PAWN) return true;
+					}
+				}
+			}
+			if (index_x > 0)
+			{
+				if (index_x - 1 >= 0)
+				{
+					if (vec[index_y - 1][index_x - 1] != NULL)
+					{
+						if (vec[index_y - 1][index_x - 1]->getPlayerType() != m_chPlayerType
+							&& vec[index_y - 1][index_x - 1]->getNumCode() == CHESSPIECE_NUM_PAWN) return true;
+					}
+				}
+			}
+		}
+	}
+
+	return false;
+}

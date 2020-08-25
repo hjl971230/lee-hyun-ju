@@ -290,7 +290,7 @@ ChessPiece* Bishop::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int
 	return NULL;
 }
 
-void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
+void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 {
 	BitMap* tmp = NULL;
 	int size_x = BMPSIZE_WIDTH / 2;
@@ -324,7 +324,7 @@ void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][j] != NULL) break;
 		}
 	}
 	for (int i = index_y, j = index_x; i >= 0 && j < MAPSIZE_WIDTH; i--, j++)
@@ -338,7 +338,7 @@ void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][j] != NULL) break;
 		}
 	}
 	for (int i = index_y, j = index_x; i < MAPSIZE_HEIGHT && j >= 0; i++, j--)
@@ -352,7 +352,7 @@ void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][j] != NULL) break;
 		}
 	}
 	for (int i = index_y, j = index_x; i < MAPSIZE_HEIGHT && j < MAPSIZE_WIDTH; i++, j++)
@@ -366,7 +366,7 @@ void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][j] != NULL) break;
 		}
 	}
 }

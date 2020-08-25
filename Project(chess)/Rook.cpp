@@ -283,7 +283,7 @@ ChessPiece* Rook::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y
 	return NULL;
 }
 
-void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
+void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 {
 	int size_x = BMPSIZE_WIDTH / 2;
 	int size_y = BMPSIZE_HEIGHT / 2;
@@ -315,7 +315,7 @@ void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][index_x]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][index_x] != NULL && vec[i][index_x]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][index_x] != NULL) break;
 		}
 	}
 	for (int i = index_y; i < MAPSIZE_HEIGHT; i++)
@@ -328,7 +328,7 @@ void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][index_x]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][index_x] != NULL && vec[i][index_x]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][index_x] != NULL) break;
 		}
 	}
 	for (int j = index_x; j >= 0; j--)
@@ -341,7 +341,7 @@ void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[index_y][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[index_y][j] != NULL) break;
 		}
 	}
 	for (int j = index_x; j < MAPSIZE_WIDTH; j++)
@@ -354,7 +354,7 @@ void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[index_y][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[index_y][j] != NULL) break;
 		}
 	}
 }

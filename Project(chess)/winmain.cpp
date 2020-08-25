@@ -78,7 +78,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		Rectangle(hdc, 150, 100, 350, 600);
 		Rectangle(hdc, 950, 100, 1150, 600);
 		GameManager::GetInstance()->MapDraw(hdc);
-		GameManager::GetInstance()->ChessPieceDraw(hdc);
+		GameManager::GetInstance()->ChessPieceDraw(hWnd);
 		GameManager::GetInstance()->CalculateDraw(hWnd);
 		GameManager::GetInstance()->PiecesCemeteryDraw(hdc);
 		GameManager::GetInstance()->Check(hWnd);

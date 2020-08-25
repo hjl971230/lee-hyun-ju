@@ -328,7 +328,7 @@ ChessPiece* Pawn::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y
 	return tmp;
 }
 
-void Pawn::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
+void Pawn::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 {
 	BitMap* tmp = NULL;
 	int size_x = BMPSIZE_WIDTH / 2;

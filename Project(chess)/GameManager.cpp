@@ -191,7 +191,7 @@ void GameManager::ChessPieceNumSetting(int& num, int player, int count)
 	}
 }
 
-void GameManager::ChessPieceDraw(HDC hdc)
+void GameManager::ChessPieceDraw(HWND hWnd)
 {
 	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
 	{
@@ -199,7 +199,9 @@ void GameManager::ChessPieceDraw(HDC hdc)
 		{
 			if ((*iter2) != NULL)
 			{
-				(*iter2)->Draw(hdc);
+				(*iter2)->Draw(GetDC(hWnd));
+				if((*iter2)->getcheckedflag())
+					(*iter2)->CalculateDraw(hWnd, (*iter2)->getFileName(), (*iter2)->getPoint().x, (*iter2)->getPoint().y, false);
 			}
 		}
 	}
@@ -406,8 +408,66 @@ void GameManager::Check(HWND hWnd)
 				{
 					(*iter2)->Check(hWnd, m_vecChessPieces);
 				}
-				if ((*iter2)->getNumCode() == CHESSPIECE_NUM_KING && (*iter2)->getcheckedflag())
-					(*iter2)->CalculateDraw(hWnd, (*iter2)->getFileName(), (*iter2)->getPoint().x, (*iter2)->getPoint().y, false);
+				CheckMateCheck(hWnd, iter2);
+			}
+		}
+	}
+}
+
+void GameManager::CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter)
+{
+	if ((*iter) != NULL)
+	{
+		if ((*iter)->getNumCode() == CHESSPIECE_NUM_KING && (*iter)->getcheckedflag())
+		{
+			(*iter)->CalculateDraw(hWnd, (*iter)->getFileName(), (*iter)->getPoint().x, (*iter)->getPoint().y, false);
+			if ((*iter)->CheckMatecheck(m_vecChessPieces))
+			{
+				if ((*iter)->getPlayerType() == BLACK)
+				{
+					if (MessageBox(hWnd, TEXT("백 승리, 게임을 다시 하시겠습니까?"), TEXT("White Win"), MB_YESNO) == IDYES)
+					{
+						MapRelease();
+						ChessPieceRelease();
+						PiecesCemeteryRelease();
+						MapInit(hWnd);
+						ChessPieceInit(hWnd);
+						PiecesCemeteryinit();
+						m_chturn = WHITE;
+					}
+					else
+					{
+						MapRelease();
+						ChessPieceRelease();
+						PiecesCemeteryRelease();
+						PostQuitMessage(0);
+					}
+				}
+				else
+				{
+					if (MessageBox(hWnd, TEXT("흑 승리, 게임을 다시 하시겠습니까?"), TEXT("Black Win"), MB_YESNO) == IDYES)
+					{
+						MapRelease();
+						ChessPieceRelease();
+						PiecesCemeteryRelease();
+						MapInit(hWnd);
+						ChessPieceInit(hWnd);
+						PiecesCemeteryinit();
+						m_chturn = WHITE;
+					}
+					else
+					{
+						MapRelease();
+						ChessPieceRelease();
+						PiecesCemeteryRelease();
+						PostQuitMessage(0);
+					}
+				}
+			}
+			else
+			{
+				(*iter)->setcheckedflag(false);
+				(*iter)->CalculateDraw(hWnd, (*iter)->getFileName(), (*iter)->getPoint().x, (*iter)->getPoint().y, true);
 			}
 		}
 	}

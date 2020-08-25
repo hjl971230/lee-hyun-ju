@@ -292,7 +292,7 @@ ChessPiece* Knight::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int
 	return NULL;
 }
 
-void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
+void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 {
 	BitMap* tmp = NULL;
 	int size_x = BMPSIZE_WIDTH / 2;

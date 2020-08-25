@@ -512,7 +512,7 @@ ChessPiece* Queen::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int 
 	return NULL;
 }
 
-void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
+void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 {
 	BitMap* tmp = NULL;
 	int size_x = BMPSIZE_WIDTH / 2;
@@ -546,7 +546,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][j] != NULL) break;
 		}
 	}
 	for (int i = index_y, j = index_x; i >= 0 && j < MAPSIZE_WIDTH; i--, j++)
@@ -560,7 +560,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][j] != NULL) break;
 		}
 	}
 	for (int i = index_y, j = index_x; i < MAPSIZE_HEIGHT && j >= 0; i++, j--)
@@ -574,7 +574,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][j] != NULL) break;
 		}
 	}
 	for (int i = index_y, j = index_x; i < MAPSIZE_HEIGHT && j < MAPSIZE_WIDTH; i++, j++)
@@ -588,7 +588,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][j] != NULL && vec[i][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][j] != NULL) break;
 		}
 	}
 	for (int i = index_y; i >= 0; i--)
@@ -601,7 +601,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][index_x]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][index_x] != NULL && vec[i][index_x]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][index_x] != NULL) break;
 		}
 	}
 	for (int i = index_y; i < MAPSIZE_HEIGHT; i++)
@@ -614,7 +614,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[i][index_x]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[i][index_x] != NULL && vec[i][index_x]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[i][index_x] != NULL) break;
 		}
 	}
 	for (int j = index_x; j >= 0; j--)
@@ -627,7 +627,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[index_y][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[index_y][j] != NULL) break;
 		}
 	}
 	for (int j = index_x; j < MAPSIZE_WIDTH; j++)
@@ -640,7 +640,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 				vec[index_y][j]->setcheckedflag(true);
 				break;
 			}
-			else if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() == m_chPlayerType) break;
+			else if (vec[index_y][j] != NULL) break;
 		}
 	}
 }

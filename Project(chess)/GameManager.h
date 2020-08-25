@@ -30,7 +30,7 @@ public:
 	void ChessPieceInit(HWND hWnd);
 	void ChessPieceNumSetting(int& num, int player, int count);
 	void ChessPieceRelease();
-	void ChessPieceDraw(HDC hdc);
+	void ChessPieceDraw(HWND hWnd);
 	ChessPiece* ChessPieceFactory(HWND hWnd, int num, int x, int y, int player);
 	bool SelectPiece(HWND hWnd, int x, int y);
 	bool MovePiece(HWND hWnd, int x, int y);
@@ -42,5 +42,6 @@ public:
 	void GotoCemetery(ChessPiece*);
 	void Promotion(HWND hWnd);
 	void Check(HWND hWnd);
+	void CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter);
 };
 
