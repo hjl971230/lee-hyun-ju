@@ -197,8 +197,10 @@ void GameManager::ChessPieceDraw(HDC hdc)
 	{
 		for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
 		{
-			if((*iter2) != NULL)
+			if ((*iter2) != NULL)
+			{
 				(*iter2)->Draw(hdc);
+			}
 		}
 	}
 		
@@ -394,7 +396,21 @@ void GameManager::Promotion(HWND hWnd)
 
 void GameManager::Check(HWND hWnd)
 {
-
+	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
+	{
+		for (vector<ChessPiece*>::iterator iter2 = (*iter).begin(); iter2 != (*iter).end(); iter2++)
+		{
+			if ((*iter2) != NULL)
+			{
+				if ((*iter2)->getNumCode() != CHESSPIECE_NUM_KING)
+				{
+					(*iter2)->Check(hWnd, m_vecChessPieces);
+				}
+				if ((*iter2)->getNumCode() == CHESSPIECE_NUM_KING && (*iter2)->getcheckedflag())
+					(*iter2)->CalculateDraw(hWnd, (*iter2)->getFileName(), (*iter2)->getPoint().x, (*iter2)->getPoint().y, false);
+			}
+		}
+	}
 }
 
 void GameManager::CalculateDraw(HWND hWnd)

@@ -305,9 +305,6 @@ void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 		}
 	}
 
-	int add_x = 0;
-	int add_y = 0;
-
 	for (int i = index_y; i >= 0; i--)
 	{
 		if (i != index_y)
@@ -320,48 +317,44 @@ void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>> vec)
 			}
 			else if (vec[i][index_x] != NULL && vec[i][index_x]->getPlayerType() == m_chPlayerType) break;
 		}
-		add_y -= BMPSIZE_HEIGHT / 2;
 	}
-	add_x = 0;
-	add_y = 0;
 	for (int i = index_y; i < MAPSIZE_HEIGHT; i++)
 	{
 		if (i != index_y)
 		{
-			if (vec[i][index_x] != NULL && vec[i][index_x]->getPlayerType() != m_chPlayerType)
+			if (vec[i][index_x] != NULL && vec[i][index_x]->getPlayerType() != m_chPlayerType
+				&& vec[i][index_x]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
+				vec[i][index_x]->setcheckedflag(true);
 				break;
 			}
 			else if (vec[i][index_x] != NULL && vec[i][index_x]->getPlayerType() == m_chPlayerType) break;
 		}
-		add_y += BMPSIZE_HEIGHT / 2;
 	}
-	add_x = 0;
-	add_y = 0;
 	for (int j = index_x; j >= 0; j--)
 	{
 		if (j != index_x)
 		{
-			if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() != m_chPlayerType)
+			if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() != m_chPlayerType
+				&& vec[index_y][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
+				vec[index_y][j]->setcheckedflag(true);
 				break;
 			}
 			else if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() == m_chPlayerType) break;
 		}
-		add_x -= BMPSIZE_WIDTH / 2;
 	}
-	add_x = 0;
-	add_y = 0;
 	for (int j = index_x; j < MAPSIZE_WIDTH; j++)
 	{
 		if (j != index_x)
 		{
-			if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() != m_chPlayerType)
+			if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() != m_chPlayerType
+				&& vec[index_y][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
+				vec[index_y][j]->setcheckedflag(true);
 				break;
 			}
 			else if (vec[index_y][j] != NULL && vec[index_y][j]->getPlayerType() == m_chPlayerType) break;
 		}
-		add_x += BMPSIZE_WIDTH / 2;
 	}
 }

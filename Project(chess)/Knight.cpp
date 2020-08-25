@@ -122,8 +122,6 @@ ChessPiece* Knight::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int
 			}
 		}
 	}
-
-	CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y, false);
 	if (index_y - 1 >= 0)
 	{
 		if (index_x - 2 >= 0)
