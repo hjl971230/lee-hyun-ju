@@ -10,6 +10,10 @@ GameManager::GameManager()
 	m_bmoveflag = false;
 	m_iblackdeathcount = 0;
 	m_iwhitedeathcount = 0;
+	m_iadd_black_x = 0;
+	m_iadd_black_y = 0;
+	m_iadd_white_x = 0;
+	m_iadd_white_y = 0;
 }
 
 GameManager::~GameManager()
@@ -200,7 +204,7 @@ void GameManager::ChessPieceDraw(HWND hWnd)
 			if ((*iter2) != NULL)
 			{
 				(*iter2)->Draw(GetDC(hWnd));
-				if((*iter2)->getcheckedflag())
+				if((*iter2)->getNumCode() == CHESSPIECE_NUM_KING && (*iter2)->getcheckedflag())
 					(*iter2)->CalculateDraw(hWnd, (*iter2)->getFileName(), (*iter2)->getPoint().x, (*iter2)->getPoint().y, false);
 			}
 		}
@@ -321,6 +325,7 @@ bool GameManager::MovePiece(HWND hWnd, int x, int y)
 						ChessPieceInit(hWnd);
 						PiecesCemeteryinit();
 						m_chturn = WHITE;
+						return true;
 					}
 					else
 					{
@@ -341,6 +346,7 @@ bool GameManager::MovePiece(HWND hWnd, int x, int y)
 						ChessPieceInit(hWnd);
 						PiecesCemeteryinit();
 						m_chturn = WHITE;
+						return true;
 					}
 					else
 					{
@@ -396,7 +402,7 @@ void GameManager::Promotion(HWND hWnd)
 	}
 }
 
-void GameManager::Check(HWND hWnd)
+bool GameManager::Check(HWND hWnd)
 {
 	for (vector<vector<ChessPiece*>>::iterator iter = m_vecChessPieces.begin(); iter != m_vecChessPieces.end(); iter++)
 	{
@@ -410,14 +416,15 @@ void GameManager::Check(HWND hWnd)
 				}
 				if ((*iter2)->getNumCode() == CHESSPIECE_NUM_KING)
 				{
-					CheckMateCheck(hWnd, iter2);
+					if (CheckMateCheck(hWnd, iter2)) return true;
 				}
 			}
 		}
 	}
+	return false;
 }
 
-void GameManager::CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter)
+bool GameManager::CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter)
 {
 	if ((*iter) != NULL)
 	{
@@ -437,6 +444,7 @@ void GameManager::CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter)
 						ChessPieceInit(hWnd);
 						PiecesCemeteryinit();
 						m_chturn = WHITE;
+						return true;
 					}
 					else
 					{
@@ -457,6 +465,7 @@ void GameManager::CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter)
 						ChessPieceInit(hWnd);
 						PiecesCemeteryinit();
 						m_chturn = WHITE;
+						return true;
 					}
 					else
 					{
@@ -471,9 +480,11 @@ void GameManager::CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter)
 			{
 				(*iter)->setcheckedflag(false);
 				(*iter)->CalculateDraw(hWnd, (*iter)->getFileName(), (*iter)->getPoint().x, (*iter)->getPoint().y, true);
+				return false;
 			}
 		}
 	}
+	return false;
 }
 
 void GameManager::CalculateDraw(HWND hWnd)
@@ -485,33 +496,29 @@ void GameManager::GotoCemetery(ChessPiece* chesspiece)
 {
 	int size_x = BMPSIZE_WIDTH / 2;
 	int size_y = BMPSIZE_HEIGHT / 2;
-	static int add_black_x = 0;
-	static int add_black_y = 0;
-	static int add_white_x = 0;
-	static int add_white_y = 0;
 	if (chesspiece->getPlayerType() == BLACK)
 	{
 		if (m_iblackdeathcount % 2 == 0)
 		{
-			add_black_x = 0;
-			add_black_y += size_y;
+			m_iadd_black_x = 0;
+			m_iadd_black_y += size_y;
 		}
-		chesspiece->setPoint(180 + add_black_x, 50 + add_black_y);
+		chesspiece->setPoint(180 + m_iadd_black_x, 50 + m_iadd_black_y);
 		m_vecPiecesCemetery[PLAYER_BLACK][m_iblackdeathcount] = chesspiece;
 		m_iblackdeathcount++;
-		add_black_x += size_x;
+		m_iadd_black_x += size_x;
 	}
 	else
 	{
 		if (m_iwhitedeathcount % 2 == 0)
 		{
-			add_white_x = 0;
-			add_white_y += size_y;
+			m_iadd_white_x = 0;
+			m_iadd_white_y += size_y;
 		}
-		chesspiece->setPoint(980 + add_white_x, 50 + add_white_y);
+		chesspiece->setPoint(980 + m_iadd_white_x, 50 + m_iadd_white_y);
 		m_vecPiecesCemetery[PLAYER_WHITE][m_iwhitedeathcount] = chesspiece;
 		m_iwhitedeathcount++;
-		add_white_x += size_x;
+		m_iadd_white_x += size_x;
 	}
 }
 
@@ -529,6 +536,10 @@ void GameManager::PiecesCemeteryDraw(HDC hdc)
 
 void GameManager::PiecesCemeteryRelease()
 {
+	m_iadd_black_x = 0;
+	m_iadd_black_y = 0;
+	m_iadd_white_x = 0;
+	m_iadd_white_y = 0;
 	for (int i = 0; i < PLAYERSIZE; i++)
 	{
 		for (vector<ChessPiece*>::iterator iter = m_vecPiecesCemetery[i].begin(); iter != m_vecPiecesCemetery[i].end(); iter++)

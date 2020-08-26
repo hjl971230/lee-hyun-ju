@@ -84,7 +84,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		GameManager::GetInstance()->ChessPieceDraw(hWnd);
 		GameManager::GetInstance()->CalculateDraw(hWnd);
 		GameManager::GetInstance()->PiecesCemeteryDraw(hdc);
-		GameManager::GetInstance()->Check(hWnd);
+		if (GameManager::GetInstance()->Check(hWnd))
+		{
+			InvalidateRect(hWnd, NULL, TRUE);
+			Rectangle(hdc, 150, 100, 350, 600);
+			Rectangle(hdc, 950, 100, 1150, 600);
+			GameManager::GetInstance()->MapDraw(hdc);
+			if (GameManager::GetInstance()->getturn() == BLACK)
+				TextOut(hdc, 550, 50, TEXT("Turn : BLACK"), 12);
+			else TextOut(hdc, 550, 50, TEXT("Turn : WHITE"), 12);
+			GameManager::GetInstance()->ChessPieceDraw(hWnd);
+			GameManager::GetInstance()->CalculateDraw(hWnd);
+			GameManager::GetInstance()->PiecesCemeteryDraw(hdc);
+		}
 		EndPaint(hWnd, &ps);
 		return 0;
 	}

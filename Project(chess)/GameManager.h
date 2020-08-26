@@ -15,6 +15,10 @@ private:
 	ChessPiece* m_SelectPiece;
 	int m_iblackdeathcount;
 	int m_iwhitedeathcount;
+	int m_iadd_black_x;
+	int m_iadd_black_y;
+	int m_iadd_white_x;
+	int m_iadd_white_y;
 public:
 	static inline GameManager* GetInstance()
 	{
@@ -41,8 +45,8 @@ public:
 	void PiecesCemeteryDraw(HDC hdc);
 	void GotoCemetery(ChessPiece*);
 	void Promotion(HWND hWnd);
-	void Check(HWND hWnd);
-	void CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter);
+	bool Check(HWND hWnd);
+	bool CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter);
 	inline char getturn() {return m_chturn;}
 };
 

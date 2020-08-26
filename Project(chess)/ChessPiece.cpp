@@ -139,7 +139,7 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 	{
 		if (index_y - 1 >= 0 && index_y - 1 < MAPSIZE_HEIGHT)
 		{
-			if (index_x - 1 >= 0 && index_x - 1 < MAPSIZE_WIDTH)
+			if (index_x - 1 >= 0 && index_x - 1 < MAPSIZE_WIDTH && vec[index_y - 1][index_x - 1] == NULL)
 			{
 				if (RookCheck(vec, index_x - 1, index_y - 1)
 					|| BishopCheck(vec, index_x - 1, index_y - 1)
@@ -150,7 +150,7 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 			}
 			else
 				checkflag[0] = true;
-			if (index_x >= 0 && index_x < MAPSIZE_WIDTH)
+			if (index_x >= 0 && index_x < MAPSIZE_WIDTH && vec[index_y - 1][index_x] == NULL)
 			{
 				if (RookCheck(vec, index_x, index_y - 1)
 					|| BishopCheck(vec, index_x, index_y - 1)
@@ -161,7 +161,7 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 			}
 			else
 				checkflag[1] = true;
-			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH)
+			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH && vec[index_y - 1][index_x + 1] == NULL)
 			{
 				if (RookCheck(vec, index_x + 1, index_y - 1)
 					|| BishopCheck(vec, index_x + 1, index_y - 1)
@@ -181,7 +181,7 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 		}
 		if (index_y >= 0 && index_y < MAPSIZE_HEIGHT)
 		{
-			if (index_x - 1 >= 0 && index_x - 1 < MAPSIZE_WIDTH)
+			if (index_x - 1 >= 0 && index_x - 1 < MAPSIZE_WIDTH && vec[index_y][index_x - 1] == NULL)
 			{
 				if (RookCheck(vec, index_x - 1, index_y)
 					|| BishopCheck(vec, index_x - 1, index_y)
@@ -192,7 +192,7 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 			}
 			else
 				checkflag[3] = true;
-			if (index_x >= 0 && index_x < MAPSIZE_WIDTH)
+			if (index_x >= 0 && index_x < MAPSIZE_WIDTH && vec[index_y][index_x] == NULL)
 			{
 				if (RookCheck(vec, index_x, index_y)
 					|| BishopCheck(vec, index_x, index_y)
@@ -203,7 +203,7 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 			}
 			else
 				checkflag[4] = true;
-			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH)
+			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH && vec[index_y][index_x + 1] == NULL)
 			{
 				if (RookCheck(vec, index_x + 1, index_y)
 					|| BishopCheck(vec, index_x + 1, index_y)
@@ -223,7 +223,7 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 		}
 		if (index_y + 1 >= 0 && index_y + 1 < MAPSIZE_HEIGHT)
 		{
-			if (index_x - 1 >= 0 && index_x - 1 < MAPSIZE_WIDTH)
+			if (index_x - 1 >= 0 && index_x - 1 < MAPSIZE_WIDTH && vec[index_y + 1][index_x - 1] == NULL)
 			{
 				if (RookCheck(vec, index_x - 1, index_y + 1)
 					|| BishopCheck(vec, index_x - 1, index_y + 1)
@@ -234,7 +234,7 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 			}
 			else
 				checkflag[6] = true;
-			if (index_x >= 0 && index_x < MAPSIZE_WIDTH)
+			if (index_x >= 0 && index_x < MAPSIZE_WIDTH && vec[index_y + 1][index_x] == NULL)
 			{
 				if (RookCheck(vec, index_x, index_y + 1)
 					|| BishopCheck(vec, index_x, index_y + 1)
@@ -245,7 +245,7 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 			}
 			else
 				checkflag[7] = true;
-			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH)
+			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH && vec[index_y + 1][index_x + 1] == NULL)
 			{
 				if (RookCheck(vec, index_x + 1, index_y + 1)
 					|| BishopCheck(vec, index_x + 1, index_y + 1)

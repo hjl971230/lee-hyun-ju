@@ -1,2 +1,6 @@
-﻿  Rook.cpp
-  Project(chess).vcxproj -> F:\학원\github\lee-hyun-ju\Project(chess)\Debug\Project(chess).exe
+﻿  winmain.cpp
+D:\학원\github\project\Project(chess)\winmain.cpp(43,20): warning C4101: 'oldBitmap' :참조되지 않은 지역 변수입니다.
+D:\학원\github\project\Project(chess)\winmain.cpp(42,9): warning C4101: 'bit' :참조되지 않은 지역 변수입니다.
+D:\학원\github\project\Project(chess)\winmain.cpp(43,10): warning C4101: 'myBitmap' :참조되지 않은 지역 변수입니다.
+D:\학원\github\project\Project(chess)\winmain.cpp(41,6): warning C4101: 'hMemdc' :참조되지 않은 지역 변수입니다.
+  Project(chess).vcxproj -> D:\학원\github\project\Project(chess)\Debug\Project(chess).exe

@@ -33,16 +33,12 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 		{
 			if (vec[index_y + 1][index_x] == NULL)
 				CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, true);
-			//else if(vec[index_y + 1][index_x] != NULL && vec[index_y + 1][index_x]->getPlayerType() != m_chPlayerType)
-				//CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y, false);
 			if (!m_bfirstmoveflag)
 			{
 				if (vec[index_y + 1][index_x] == NULL)
 				{
 					if (vec[index_y + 2][index_x] == NULL)
 						CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y * 2, true);
-					//else if (vec[index_y + 2][index_x] != NULL && vec[index_y + 2][index_x]->getPlayerType() != m_chPlayerType)
-						//CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y + size_y * 2, false);
 				}
 			}
 			if (index_x <= MAPSIZE_WIDTH - 1)
@@ -54,7 +50,6 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 						if (vec[index_y + 1][index_x + 1]->getPlayerType() != m_chPlayerType)
 							CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y, false);
 					}
-					//else CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y + size_y, true);
 				}
 			}
 			if (index_x >= 0)
@@ -66,7 +61,6 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 						if (vec[index_y + 1][index_x - 1]->getPlayerType() != m_chPlayerType)
 							CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y + size_y, false);
 					}
-					//else CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y + size_y, true);
 				}
 			}
 		}
@@ -77,16 +71,12 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 		{
 			if (vec[index_y - 1][index_x] == NULL)
 				CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, true);
-			//else if (vec[index_y - 1][index_x] != NULL && vec[index_y - 1][index_x]->getPlayerType() != m_chPlayerType)
-				//CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y, false);
 			if (!m_bfirstmoveflag)
 			{
 				if (vec[index_y - 1][index_x] == NULL)
 				{
 					if (vec[index_y - 2][index_x] == NULL)
 						CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y * 2, true);
-					//else if (vec[index_y - 2][index_x] != NULL && vec[index_y - 2][index_x]->getPlayerType() != m_chPlayerType)
-						//CalculateDraw(hWnd, m_szFileName, m_Point.x, m_Point.y - size_y * 2, false);
 				}
 			}
 			if (index_x <= MAPSIZE_WIDTH - 1)
@@ -98,7 +88,6 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 						if (vec[index_y - 1][index_x + 1]->getPlayerType() != m_chPlayerType)
 							CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y - size_y, false);
 					}
-					//else CalculateDraw(hWnd, m_szFileName, m_Point.x + size_x, m_Point.y - size_y, true);
 				}
 			}
 			if (index_x > 0)
@@ -110,7 +99,6 @@ void Pawn::MoveCalculate(HWND hWnd, vector<vector<ChessPiece*>> vec)
 						if (vec[index_y - 1][index_x - 1]->getPlayerType() != m_chPlayerType)
 							CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y - size_y, false);
 					}
-					//else CalculateDraw(hWnd, m_szFileName, m_Point.x - size_x, m_Point.y - size_y, true);
 				}
 			}
 		}
