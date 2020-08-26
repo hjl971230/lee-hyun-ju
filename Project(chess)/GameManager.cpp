@@ -408,7 +408,10 @@ void GameManager::Check(HWND hWnd)
 				{
 					(*iter2)->Check(hWnd, m_vecChessPieces);
 				}
-				CheckMateCheck(hWnd, iter2);
+				if ((*iter2)->getNumCode() == CHESSPIECE_NUM_KING)
+				{
+					CheckMateCheck(hWnd, iter2);
+				}
 			}
 		}
 	}

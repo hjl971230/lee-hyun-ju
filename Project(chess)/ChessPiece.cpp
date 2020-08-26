@@ -148,6 +148,8 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 				else
 					checkflag[0] = false;
 			}
+			else
+				checkflag[0] = true;
 			if (index_x >= 0 && index_x < MAPSIZE_WIDTH)
 			{
 				if (RookCheck(vec, index_x, index_y - 1)
@@ -157,6 +159,8 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 				else
 					checkflag[1] = false;
 			}
+			else
+				checkflag[1] = true;
 			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH)
 			{
 				if (RookCheck(vec, index_x + 1, index_y - 1)
@@ -166,6 +170,14 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 				else
 					checkflag[2] = false;
 			}
+			else
+				checkflag[2] = true;
+		}
+		else
+		{
+			checkflag[0] = true;
+			checkflag[1] = true;
+			checkflag[2] = true;
 		}
 		if (index_y >= 0 && index_y < MAPSIZE_HEIGHT)
 		{
@@ -178,6 +190,8 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 				else
 					checkflag[3] = false;
 			}
+			else
+				checkflag[3] = true;
 			if (index_x >= 0 && index_x < MAPSIZE_WIDTH)
 			{
 				if (RookCheck(vec, index_x, index_y)
@@ -187,6 +201,8 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 				else
 					checkflag[4] = false;
 			}
+			else
+				checkflag[4] = true;
 			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH)
 			{
 				if (RookCheck(vec, index_x + 1, index_y)
@@ -196,6 +212,14 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 				else
 					checkflag[5] = false;
 			}
+			else
+				checkflag[5] = true;
+		}
+		else
+		{
+			checkflag[3] = true;
+			checkflag[4] = true;
+			checkflag[5] = true;
 		}
 		if (index_y + 1 >= 0 && index_y + 1 < MAPSIZE_HEIGHT)
 		{
@@ -208,6 +232,8 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 				else
 					checkflag[6] = false;
 			}
+			else
+				checkflag[6] = true;
 			if (index_x >= 0 && index_x < MAPSIZE_WIDTH)
 			{
 				if (RookCheck(vec, index_x, index_y + 1)
@@ -215,8 +241,10 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 					|| KnightCheck(vec, index_x, index_y + 1)
 					|| PawnCheck(vec, index_x, index_y + 1)) checkflag[7] = true;
 				else
-					checkflag[8] = false;
+					checkflag[7] = false;
 			}
+			else
+				checkflag[7] = true;
 			if (index_x + 1 >= 0 && index_x + 1 < MAPSIZE_WIDTH)
 			{
 				if (RookCheck(vec, index_x + 1, index_y + 1)
@@ -226,6 +254,14 @@ bool ChessPiece::CheckMatecheck(vector<vector<ChessPiece*>> vec)
 				else
 					checkflag[8] = false;
 			}
+			else
+				checkflag[8] = true;
+		}
+		else
+		{
+			checkflag[6] = true;
+			checkflag[7] = true;
+			checkflag[8] = true;
 		}
 	}
 

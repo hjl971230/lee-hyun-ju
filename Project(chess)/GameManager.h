@@ -43,5 +43,6 @@ public:
 	void Promotion(HWND hWnd);
 	void Check(HWND hWnd);
 	void CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter);
+	inline char getturn() {return m_chturn;}
 };
 
