@@ -512,7 +512,7 @@ ChessPiece* Queen::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int 
 	return NULL;
 }
 
-void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
+bool Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 {
 	BitMap* tmp = NULL;
 	int size_x = BMPSIZE_WIDTH / 2;
@@ -544,7 +544,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][j] != NULL) break;
 		}
@@ -558,7 +558,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][j] != NULL) break;
 		}
@@ -572,7 +572,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][j] != NULL) break;
 		}
@@ -586,7 +586,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][j] != NULL) break;
 		}
@@ -599,7 +599,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][index_x]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][index_x]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][index_x] != NULL) break;
 		}
@@ -612,7 +612,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][index_x]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][index_x]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][index_x] != NULL) break;
 		}
@@ -625,7 +625,7 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[index_y][j] != NULL) break;
 		}
@@ -638,9 +638,10 @@ void Queen::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[index_y][j] != NULL) break;
 		}
 	}
+	return false;
 }

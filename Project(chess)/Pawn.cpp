@@ -316,7 +316,7 @@ ChessPiece* Pawn::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y
 	return tmp;
 }
 
-void Pawn::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
+bool Pawn::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 {
 	BitMap* tmp = NULL;
 	int size_x = BMPSIZE_WIDTH / 2;
@@ -353,7 +353,7 @@ void Pawn::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 							&& vec[index_y + 1][index_x + 1]->getNumCode() == CHESSPIECE_NUM_KING)
 						{
 							vec[index_y + 1][index_x + 1]->setcheckedflag(true);
-							return;
+							return true;
 						}
 					}
 				}
@@ -368,7 +368,7 @@ void Pawn::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 							&& vec[index_y + 1][index_x - 1]->getNumCode() == CHESSPIECE_NUM_KING)
 						{
 							vec[index_y + 1][index_x - 1]->setcheckedflag(true);
-							return;
+							return true;
 						}
 					}
 				}
@@ -389,7 +389,7 @@ void Pawn::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 							&& vec[index_y - 1][index_x + 1]->getNumCode() == CHESSPIECE_NUM_KING)
 						{
 							vec[index_y - 1][index_x + 1]->setcheckedflag(true);
-							return;
+							return true;
 						}
 					}
 				}
@@ -404,11 +404,12 @@ void Pawn::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 							&& vec[index_y - 1][index_x - 1]->getNumCode() == CHESSPIECE_NUM_KING)
 						{
 							vec[index_y - 1][index_x - 1]->setcheckedflag(true);
-							return;
+							return true;
 						}
 					}
 				}
 			}
 		}
 	}
+	return false;
 }

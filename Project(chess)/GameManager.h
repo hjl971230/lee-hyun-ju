@@ -48,5 +48,6 @@ public:
 	bool Check(HWND hWnd);
 	bool CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter);
 	inline char getturn() {return m_chturn;}
+	void GameResult(HWND hWnd, vector<ChessPiece*>::iterator iter);
 };
 

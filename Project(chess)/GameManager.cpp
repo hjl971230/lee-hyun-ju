@@ -283,14 +283,7 @@ bool GameManager::SelectPiece(HWND hWnd, int x, int y)
 						m_SelectPiece = (*iter2);
 						return true;
 					}
-					else
-					{
-						if (m_SelectPiece != NULL)
-							m_SelectPiece->setClickflag(false);
-						(*iter2)->setClickflag(false);
-						m_SelectPiece = NULL;
-						return false;
-					}
+					else return true;
 				}
 			}
 		}
@@ -412,7 +405,12 @@ bool GameManager::Check(HWND hWnd)
 			{
 				if ((*iter2)->getNumCode() != CHESSPIECE_NUM_KING)
 				{
-					(*iter2)->Check(hWnd, m_vecChessPieces);
+					if ((*iter2)->Check(hWnd, m_vecChessPieces) && (*iter2)->getPlayerType() == m_chturn)
+					{
+						//체크 후 자기 턴일때 체크됨을 반환하면 체크메이트로 종료하기
+						GameResult(hWnd, iter2);
+						return true;
+					}
 				}
 				if ((*iter2)->getNumCode() == CHESSPIECE_NUM_KING)
 				{
@@ -433,48 +431,8 @@ bool GameManager::CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter)
 			(*iter)->CalculateDraw(hWnd, (*iter)->getFileName(), (*iter)->getPoint().x, (*iter)->getPoint().y, false);
 			if ((*iter)->CheckMatecheck(m_vecChessPieces))
 			{
-				if ((*iter)->getPlayerType() == BLACK)
-				{
-					if (MessageBox(hWnd, TEXT("백 승리, 게임을 다시 하시겠습니까?"), TEXT("White Win"), MB_YESNO) == IDYES)
-					{
-						MapRelease();
-						ChessPieceRelease();
-						PiecesCemeteryRelease();
-						MapInit(hWnd);
-						ChessPieceInit(hWnd);
-						PiecesCemeteryinit();
-						m_chturn = WHITE;
-						return true;
-					}
-					else
-					{
-						MapRelease();
-						ChessPieceRelease();
-						PiecesCemeteryRelease();
-						PostQuitMessage(0);
-					}
-				}
-				else
-				{
-					if (MessageBox(hWnd, TEXT("흑 승리, 게임을 다시 하시겠습니까?"), TEXT("Black Win"), MB_YESNO) == IDYES)
-					{
-						MapRelease();
-						ChessPieceRelease();
-						PiecesCemeteryRelease();
-						MapInit(hWnd);
-						ChessPieceInit(hWnd);
-						PiecesCemeteryinit();
-						m_chturn = WHITE;
-						return true;
-					}
-					else
-					{
-						MapRelease();
-						ChessPieceRelease();
-						PiecesCemeteryRelease();
-						PostQuitMessage(0);
-					}
-				}
+				GameResult(hWnd, iter);
+				return true;
 			}
 			else
 			{
@@ -485,6 +443,50 @@ bool GameManager::CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter)
 		}
 	}
 	return false;
+}
+
+void GameManager::GameResult(HWND hWnd, vector<ChessPiece*>::iterator iter)
+{
+	if ((*iter)->getPlayerType() == BLACK)
+	{
+		if (MessageBox(hWnd, TEXT("백 승리, 게임을 다시 하시겠습니까?"), TEXT("White Win"), MB_YESNO) == IDYES)
+		{
+			MapRelease();
+			ChessPieceRelease();
+			PiecesCemeteryRelease();
+			MapInit(hWnd);
+			ChessPieceInit(hWnd);
+			PiecesCemeteryinit();
+			m_chturn = WHITE;
+		}
+		else
+		{
+			MapRelease();
+			ChessPieceRelease();
+			PiecesCemeteryRelease();
+			PostQuitMessage(0);
+		}
+	}
+	else
+	{
+		if (MessageBox(hWnd, TEXT("흑 승리, 게임을 다시 하시겠습니까?"), TEXT("Black Win"), MB_YESNO) == IDYES)
+		{
+			MapRelease();
+			ChessPieceRelease();
+			PiecesCemeteryRelease();
+			MapInit(hWnd);
+			ChessPieceInit(hWnd);
+			PiecesCemeteryinit();
+			m_chturn = WHITE;
+		}
+		else
+		{
+			MapRelease();
+			ChessPieceRelease();
+			PiecesCemeteryRelease();
+			PostQuitMessage(0);
+		}
+	}
 }
 
 void GameManager::CalculateDraw(HWND hWnd)

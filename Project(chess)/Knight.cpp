@@ -292,7 +292,7 @@ ChessPiece* Knight::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int
 	return NULL;
 }
 
-void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
+bool Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 {
 	BitMap* tmp = NULL;
 	int size_x = BMPSIZE_WIDTH / 2;
@@ -323,6 +323,7 @@ void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y - 1][index_x - 2]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y - 1][index_x - 2]->setcheckedflag(true);
+				return true;
 			}
 		}
 		if (index_x + 2 < MAPSIZE_HEIGHT)
@@ -331,6 +332,7 @@ void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y - 1][index_x + 2]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y - 1][index_x + 2]->setcheckedflag(true);
+				return true;
 			}
 		}
 	}
@@ -343,6 +345,7 @@ void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y - 2][index_x - 1]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y - 2][index_x - 1]->setcheckedflag(true);
+				return true;
 			}
 		}
 		if (index_x + 1 < MAPSIZE_WIDTH)
@@ -351,6 +354,7 @@ void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y - 2][index_x + 1]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y - 2][index_x + 1]->setcheckedflag(true);
+				return true;
 			}
 		}
 	}
@@ -363,6 +367,7 @@ void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y + 1][index_x - 2]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y + 1][index_x - 2]->setcheckedflag(true);
+				return true;
 			}
 		}
 		if (index_x + 2 < MAPSIZE_WIDTH)
@@ -371,6 +376,7 @@ void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y + 1][index_x + 2]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y + 1][index_x + 2]->setcheckedflag(true);
+				return true;
 			}
 		}
 	}
@@ -383,6 +389,7 @@ void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y + 2][index_x - 1]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y + 2][index_x - 1]->setcheckedflag(true);
+				return true;
 			}
 		}
 		if (index_x + 1 < MAPSIZE_WIDTH)
@@ -391,7 +398,9 @@ void Knight::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y + 2][index_x + 1]->getcheckedflag() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y + 2][index_x + 1]->setcheckedflag(true);
+				return true;
 			}
 		}
 	}
+	return false;
 }

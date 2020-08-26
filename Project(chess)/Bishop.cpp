@@ -290,7 +290,7 @@ ChessPiece* Bishop::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int
 	return NULL;
 }
 
-void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
+bool Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 {
 	BitMap* tmp = NULL;
 	int size_x = BMPSIZE_WIDTH / 2;
@@ -322,7 +322,7 @@ void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][j] != NULL) break;
 		}
@@ -336,7 +336,7 @@ void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][j] != NULL) break;
 		}
@@ -350,7 +350,7 @@ void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][j] != NULL) break;
 		}
@@ -364,9 +364,10 @@ void Bishop::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][j] != NULL) break;
 		}
 	}
+	return false;
 }

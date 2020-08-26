@@ -283,7 +283,7 @@ ChessPiece* Rook::Move(HWND hWnd, vector<vector<ChessPiece*>>& vec, int x, int y
 	return NULL;
 }
 
-void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
+bool Rook::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 {
 	int size_x = BMPSIZE_WIDTH / 2;
 	int size_y = BMPSIZE_HEIGHT / 2;
@@ -313,7 +313,7 @@ void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][index_x]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][index_x]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][index_x] != NULL) break;
 		}
@@ -326,7 +326,7 @@ void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[i][index_x]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[i][index_x]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[i][index_x] != NULL) break;
 		}
@@ -339,7 +339,7 @@ void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[index_y][j] != NULL) break;
 		}
@@ -352,9 +352,10 @@ void Rook::Check(HWND hWnd, vector<vector<ChessPiece*>>& vec)
 				&& vec[index_y][j]->getNumCode() == CHESSPIECE_NUM_KING)
 			{
 				vec[index_y][j]->setcheckedflag(true);
-				break;
+				return true;
 			}
 			else if (vec[index_y][j] != NULL) break;
 		}
 	}
+	return false;
 }
