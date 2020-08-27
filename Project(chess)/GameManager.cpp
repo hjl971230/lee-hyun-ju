@@ -384,7 +384,7 @@ bool GameManager::CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter)
 		if ((*iter)->getNumCode() == CHESSPIECE_NUM_KING && (*iter)->getcheckedflag())
 		{
 			(*iter)->CalculateDraw(hWnd, (*iter)->getFileName(), (*iter)->getPoint().x, (*iter)->getPoint().y, false);
-			if ((*iter)->CheckMatecheck(m_vecChessPieces))
+			if ((*iter)->CheckMatecheck(m_vecChessPieces) && (*iter)->getPlayerType() != m_chturn)
 			{
 				GameResult(hWnd, iter);
 				return true;
@@ -402,7 +402,7 @@ bool GameManager::CheckMateCheck(HWND hWnd, vector<ChessPiece*>::iterator iter)
 
 void GameManager::GameResult(HWND hWnd, vector<ChessPiece*>::iterator iter)
 {
-	if (((*iter)->getNumCode() == CHESSPIECE_NUM_KING && (*iter)->getPlayerType() == BLACK) 
+	if (((*iter)->getNumCode() == CHESSPIECE_NUM_KING && (*iter)->getPlayerType() == BLACK)
 		|| ((*iter)->getNumCode() != CHESSPIECE_NUM_KING && (*iter)->getPlayerType() == WHITE))
 	{
 		if (MessageBox(hWnd, TEXT("백 승리, 게임을 다시 하시겠습니까?"), TEXT("White Win"), MB_YESNO) == IDYES)
