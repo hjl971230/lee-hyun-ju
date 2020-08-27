@@ -283,7 +283,14 @@ bool GameManager::SelectPiece(HWND hWnd, int x, int y)
 						m_SelectPiece = (*iter2);
 						return true;
 					}
-					else return true;
+					else
+					{
+						if (m_SelectPiece != NULL)
+							m_SelectPiece->setClickflag(false);
+						(*iter2)->setClickflag(false);
+						m_SelectPiece = NULL;
+						return false;
+					}
 				}
 			}
 		}
@@ -295,10 +302,13 @@ bool GameManager::MovePiece(HWND hWnd, int x, int y)
 {
 	ChessPiece* tmp = NULL;
 
-	tmp = m_SelectPiece->Move(hWnd, m_vecChessPieces, x, y, m_bmoveflag);
-	if (m_SelectPiece->getNumCode() == CHESSPIECE_NUM_PAWN)
+	if (m_SelectPiece != NULL)
 	{
-		Promotion(hWnd);
+		tmp = m_SelectPiece->Move(hWnd, m_vecChessPieces, x, y, m_bmoveflag);
+		if (m_SelectPiece->getNumCode() == CHESSPIECE_NUM_PAWN)
+		{
+			Promotion(hWnd);
+		}
 	}
 	if (m_bmoveflag)
 	{
@@ -450,7 +460,7 @@ void GameManager::GameResult(HWND hWnd, vector<ChessPiece*>::iterator iter)
 
 void GameManager::CalculateDraw(HWND hWnd)
 {
-	if(m_SelectPiece != NULL) m_SelectPiece->MoveCalculate(hWnd, m_vecChessPieces);
+	if(m_SelectPiece != NULL && m_SelectPiece->getClickflag()) m_SelectPiece->MoveCalculate(hWnd, m_vecChessPieces);
 }
 
 void GameManager::GotoCemetery(ChessPiece* chesspiece)

@@ -1,19 +1,6 @@
-﻿  Bishop.cpp
-  BitMap.cpp
-  ChessPiece.cpp
-F:\학원\github\lee-hyun-ju\Project(chess)\ChessPiece.cpp(21,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  GameManager.cpp
-F:\학원\github\lee-hyun-ju\Project(chess)\GameManager.cpp(52,4): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  King.cpp
-  Knight.cpp
-F:\학원\github\lee-hyun-ju\Project(chess)\Knight.cpp(398,78): warning C4806: '==': 안전하지 않은 연산입니다. 'bool' 형식의 값('CHESSPIECE_NUM' 형식으로 확장)이 주어진 상수와 같을 수 없습니다.
-  Pawn.cpp
-  Queen.cpp
-  Rook.cpp
-  winmain.cpp
-F:\학원\github\lee-hyun-ju\Project(chess)\winmain.cpp(43,20): warning C4101: 'oldBitmap' :참조되지 않은 지역 변수입니다.
-F:\학원\github\lee-hyun-ju\Project(chess)\winmain.cpp(42,9): warning C4101: 'bit' :참조되지 않은 지역 변수입니다.
-F:\학원\github\lee-hyun-ju\Project(chess)\winmain.cpp(43,10): warning C4101: 'myBitmap' :참조되지 않은 지역 변수입니다.
-F:\학원\github\lee-hyun-ju\Project(chess)\winmain.cpp(41,6): warning C4101: 'hMemdc' :참조되지 않은 지역 변수입니다.
-  코드를 생성하고 있습니다...
-  Project(chess).vcxproj -> F:\학원\github\lee-hyun-ju\Project(chess)\Debug\Project(chess).exe
+﻿  winmain.cpp
+D:\학원\github\project\Project(chess)\winmain.cpp(43,20): warning C4101: 'oldBitmap' :참조되지 않은 지역 변수입니다.
+D:\학원\github\project\Project(chess)\winmain.cpp(42,9): warning C4101: 'bit' :참조되지 않은 지역 변수입니다.
+D:\학원\github\project\Project(chess)\winmain.cpp(43,10): warning C4101: 'myBitmap' :참조되지 않은 지역 변수입니다.
+D:\학원\github\project\Project(chess)\winmain.cpp(41,6): warning C4101: 'hMemdc' :참조되지 않은 지역 변수입니다.
+  Project(chess).vcxproj -> D:\학원\github\project\Project(chess)\Debug\Project(chess).exe

@@ -65,13 +65,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			}
 			else
 			{
-				//moveflag = GameManager::GetInstance()->MovePiece(hWnd, x, y);
 				selectflag = GameManager::GetInstance()->SelectPiece(hWnd, x, y);
 			}
 		}
 		else
 			selectflag = GameManager::GetInstance()->SelectPiece(hWnd, x, y);
-		//selectflag = GameManager::GetInstance()->SelectPiece(hWnd, x, y);
 		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
