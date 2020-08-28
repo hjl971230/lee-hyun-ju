@@ -49,6 +49,50 @@ void Player::Draw(HDC hdc)
 	//m_isprite_sequence = tmp;
 }
 
+void Player::Move()
+{
+	if (GetKeyState(VK_LEFT) & 0x8000)
+	{
+		view = VIEW_LEFT;
+		if (m_ix - MOVESPEED >= 0)
+			m_ix -= MOVESPEED;
+		m_isprite_sequence++;
+		if (m_isprite_sequence >= 4)
+			m_isprite_sequence = 1;
+	}
+	if (GetKeyState(VK_RIGHT) & 0x8000)
+	{
+		view = VIEW_RIGHT;
+		if (m_ix + MOVESPEED <= 1300)
+			m_ix += MOVESPEED;
+		m_isprite_sequence++;
+		if (m_isprite_sequence >= 4)
+			m_isprite_sequence = 1;
+	}
+	if (GetKeyState(VK_UP) & 0x8000)
+	{
+		view = VIEW_UP;
+		if (m_iy - MOVESPEED >= 0)
+			m_iy -= MOVESPEED;
+		m_isprite_sequence++;
+		if (m_isprite_sequence >= 4)
+			m_isprite_sequence = 1;
+	}
+	if (GetKeyState(VK_DOWN) & 0x8000)
+	{
+		view = VIEW_DOWN;
+		if (m_iy + MOVESPEED <= 600)
+			m_iy += MOVESPEED;
+		m_isprite_sequence++;
+		if (m_isprite_sequence >= 4)
+			m_isprite_sequence = 1;
+	}
+	if (GetKeyState(VK_SPACE) & 0x8000)
+	{
+		m_bjumpflag = true;
+	}
+}
+
 void Player::Move(WPARAM wParam)
 {
 	switch (wParam)

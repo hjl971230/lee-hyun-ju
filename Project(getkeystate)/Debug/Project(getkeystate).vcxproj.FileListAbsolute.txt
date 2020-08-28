@@ -1,2 +1,4 @@
 D:\학원\github\project\Project(getkeystate)\Debug\Project(getkeystate).exe
 D:\학원\github\project\Project(getkeystate)\Debug\Project(getkeystate).pdb
+F:\학원\github\lee-hyun-ju\Project(getkeystate)\Debug\Project(getkeystate).exe
+F:\학원\github\lee-hyun-ju\Project(getkeystate)\Debug\Project(getkeystate).pdb

@@ -29,6 +29,7 @@ public:
 	void Init(HWND hWnd, HINSTANCE hInst);
 	void Draw(HDC hdc);
 	void Move(WPARAM);
+	void Move();
 	void Jump();
 };
 
