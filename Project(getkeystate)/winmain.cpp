@@ -53,23 +53,27 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		KillTimer(hWnd, 1);
 		return 0; //WndProc의 Switch는 break 대신 return 0; 를 쓴다.
 	case WM_TIMER:
-		Player::GetInstance()->Move();
-		InvalidateRect(hWnd, NULL, TRUE);
+		//Player::GetInstance()->Move();
+		//InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_KEYDOWN:
 		//Player::GetInstance()->Move(wParam);
+		Player::GetInstance()->KeyDownMove();
 		InvalidateRect(hWnd, NULL, TRUE);
-		return 0;
+	case WM_KEYUP:
+		//Player::GetInstance()->Move(wParam);
+		Player::GetInstance()->KeyUpMove();
+		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		if(Player::GetInstance()->getjumpflag())
+		if (Player::GetInstance()->getjumpflag())
 		{
-			//InvalidateRect(hWnd, NULL, TRUE);
+			InvalidateRect(hWnd, NULL, TRUE);
 			Player::GetInstance()->Jump();
 			Player::GetInstance()->Draw(hdc);
 			while (true)
 			{
-				if (clock() - oldclock >= 22)
+				if (clock() - oldclock >= 20)
 				{
 					oldclock = clock();
 					break;

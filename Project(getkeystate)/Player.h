@@ -12,6 +12,7 @@ private:
 	int m_ix;
 	int m_iy;
 	int m_isprite_sequence;
+	int m_ichargejump;
 public:
 	inline static Player* GetInstance()
 	{
@@ -28,8 +29,9 @@ public:
 	inline int gety() { return m_iy; }
 	void Init(HWND hWnd, HINSTANCE hInst);
 	void Draw(HDC hdc);
-	void Move(WPARAM);
-	void Move();
+	//void Move(WPARAM);
+	void KeyDownMove();
+	void KeyUpMove();
 	void Jump();
 };
 

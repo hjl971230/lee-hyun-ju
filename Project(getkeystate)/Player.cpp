@@ -7,6 +7,7 @@ Player::Player()
 	m_bjumpflag = false;
 	m_ijump = 0;
 	m_ivelocity = MOVESPEED * 5;
+	m_ichargejump = MOVESPEED;
 	view = VIEW_DOWN;
 	m_ix = 100;
 	m_iy = 100;
@@ -33,7 +34,6 @@ void Player::Init(HWND hWnd, HINSTANCE hInst)
 
 void Player::Draw(HDC hdc)
 {
-	RECT rt = { m_ix, m_iy + m_ijump, (m_size.cx / 4), (m_size.cy / 4) };
 	int tmp = m_isprite_sequence;
 	if (m_bjumpflag)
 	{
@@ -49,7 +49,7 @@ void Player::Draw(HDC hdc)
 	//m_isprite_sequence = tmp;
 }
 
-void Player::Move()
+void Player::KeyDownMove()
 {
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
@@ -87,50 +87,97 @@ void Player::Move()
 		if (m_isprite_sequence >= 4)
 			m_isprite_sequence = 1;
 	}
-	if (GetKeyState(VK_SPACE) & 0x8000)
+	if (GetKeyState(VK_SPACE) & 0x8001)
 	{
-		m_bjumpflag = true;
+		//m_bjumpflag = true;
+		if(m_ivelocity < MOVESPEED * 10)
+			m_ivelocity += MOVESPEED;
 	}
 }
 
-void Player::Move(WPARAM wParam)
+void Player::KeyUpMove()
 {
-	switch (wParam)
+	/*if (GetAsyncKeyState(VK_LEFT) & 0x8001)
 	{
-	case VK_LEFT:
 		view = VIEW_LEFT;
 		if (m_ix - MOVESPEED >= 0)
 			m_ix -= MOVESPEED;
-		break;
-	case VK_RIGHT:
-		view = VIEW_RIGHT;
-		if (m_ix + MOVESPEED <= 1300)
-			m_ix += MOVESPEED;
-		break;
-	case VK_UP:
-		view = VIEW_UP;
-		if (m_iy - MOVESPEED >= 0)
-			m_iy -= MOVESPEED;
-		break;
-	case VK_DOWN:
-		view = VIEW_DOWN;
-		if (m_iy + MOVESPEED <= 600)
-			m_iy += MOVESPEED;
-		break;
-	case VK_SPACE:
-		m_bjumpflag = true;
-		break;
-	}
-	if (wParam != VK_SPACE)
-	{
 		m_isprite_sequence++;
 		if (m_isprite_sequence >= 4)
 			m_isprite_sequence = 1;
 	}
+	if (GetAsyncKeyState(VK_RIGHT) & 0x8001)
+	{
+		view = VIEW_RIGHT;
+		if (m_ix + MOVESPEED <= 1300)
+			m_ix += MOVESPEED;
+		m_isprite_sequence++;
+		if (m_isprite_sequence >= 4)
+			m_isprite_sequence = 1;
+	}
+	if (GetAsyncKeyState(VK_UP) & 0x8001)
+	{
+		view = VIEW_UP;
+		if (m_iy - MOVESPEED >= 0)
+			m_iy -= MOVESPEED;
+		m_isprite_sequence++;
+		if (m_isprite_sequence >= 4)
+			m_isprite_sequence = 1;
+	}
+	if (GetAsyncKeyState(VK_DOWN) & 0x8001)
+	{
+		view = VIEW_DOWN;
+		if (m_iy + MOVESPEED <= 600)
+			m_iy += MOVESPEED;
+		m_isprite_sequence++;
+		if (m_isprite_sequence >= 4)
+			m_isprite_sequence = 1;
+	}*/
+	if (GetKeyState(VK_SPACE) & 0x8001)
+	{
+		m_bjumpflag = true;
+	}
 }
+
+//void Player::Move(WPARAM wParam)
+//{
+//	switch (wParam)
+//	{
+//	case VK_LEFT:
+//		view = VIEW_LEFT;
+//		if (m_ix - MOVESPEED >= 0)
+//			m_ix -= MOVESPEED;
+//		break;
+//	case VK_RIGHT:
+//		view = VIEW_RIGHT;
+//		if (m_ix + MOVESPEED <= 1300)
+//			m_ix += MOVESPEED;
+//		break;
+//	case VK_UP:
+//		view = VIEW_UP;
+//		if (m_iy - MOVESPEED >= 0)
+//			m_iy -= MOVESPEED;
+//		break;
+//	case VK_DOWN:
+//		view = VIEW_DOWN;
+//		if (m_iy + MOVESPEED <= 600)
+//			m_iy += MOVESPEED;
+//		break;
+//	case VK_SPACE:
+//		m_bjumpflag = true;
+//		break;
+//	}
+//	if (wParam != VK_SPACE)
+//	{
+//		m_isprite_sequence++;
+//		if (m_isprite_sequence >= 4)
+//			m_isprite_sequence = 1;
+//	}
+//}
 
 void Player::Jump()
 {
+	//-m_ichargejump * 5
 	if (m_ivelocity < -MOVESPEED * 5)//일정량 상승하고 그만큼 내려오면 착지 했다는 것
 	{
 		m_ivelocity = MOVESPEED * 5;//초기화 후 리턴

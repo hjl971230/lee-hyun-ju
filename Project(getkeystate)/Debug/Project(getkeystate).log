@@ -1,2 +1,6 @@
-﻿  Player.cpp
-  Project(getkeystate).vcxproj -> F:\학원\github\lee-hyun-ju\Project(getkeystate)\Debug\Project(getkeystate).exe
+﻿  winmain.cpp
+D:\학원\github\project\Project(getkeystate)\winmain.cpp(41,20): warning C4101: 'oldBitmap' :참조되지 않은 지역 변수입니다.
+D:\학원\github\project\Project(getkeystate)\winmain.cpp(40,9): warning C4101: 'bit' :참조되지 않은 지역 변수입니다.
+D:\학원\github\project\Project(getkeystate)\winmain.cpp(41,10): warning C4101: 'myBitmap' :참조되지 않은 지역 변수입니다.
+D:\학원\github\project\Project(getkeystate)\winmain.cpp(39,6): warning C4101: 'hMemdc' :참조되지 않은 지역 변수입니다.
+  Project(getkeystate).vcxproj -> D:\학원\github\project\Project(getkeystate)\Debug\Project(getkeystate).exe
