@@ -87,11 +87,15 @@ void Player::KeyDownMove()
 		if (m_isprite_sequence >= 4)
 			m_isprite_sequence = 1;
 	}
-	if (GetKeyState(VK_SPACE) & 0x8001)
+	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
-		//m_bjumpflag = true;
-		if(m_ivelocity < MOVESPEED * 10)
-			m_ivelocity += MOVESPEED;
+		if (!m_bjumpflag)
+		{
+			if (m_ivelocity < MOVESPEED * 10)
+				m_ivelocity += MOVESPEED;
+		}/*
+		if (m_bjumpflag)
+			m_bjumpflag = false;*/
 	}
 }
 
@@ -133,7 +137,7 @@ void Player::KeyUpMove()
 		if (m_isprite_sequence >= 4)
 			m_isprite_sequence = 1;
 	}*/
-	if (GetKeyState(VK_SPACE) & 0x8001)
+	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
 		m_bjumpflag = true;
 	}

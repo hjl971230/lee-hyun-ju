@@ -56,17 +56,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		//Player::GetInstance()->Move();
 		//InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
-	case WM_KEYDOWN:
-		//Player::GetInstance()->Move(wParam);
-		Player::GetInstance()->KeyDownMove();
-		InvalidateRect(hWnd, NULL, TRUE);
 	case WM_KEYUP:
 		//Player::GetInstance()->Move(wParam);
 		Player::GetInstance()->KeyUpMove();
 		InvalidateRect(hWnd, NULL, TRUE);
+		return 0;
+	case WM_KEYDOWN:
+		//Player::GetInstance()->Move(wParam);
+		Player::GetInstance()->KeyDownMove();
+		InvalidateRect(hWnd, NULL, TRUE);
+		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		if (Player::GetInstance()->getjumpflag())
+		if(Player::GetInstance()->getjumpflag())
 		{
 			InvalidateRect(hWnd, NULL, TRUE);
 			Player::GetInstance()->Jump();
