@@ -6,7 +6,8 @@ class Player : public BitMap
 private:
 	static Player* m_this;
 	bool m_bjumpflag;
-	int m_ijump;
+	int m_ijump_x;
+	int m_ijump_y;
 	int m_ivelocity;
 	VIEW view;
 	int m_ix;
@@ -30,8 +31,8 @@ public:
 	void Init(HWND hWnd, HINSTANCE hInst);
 	void Draw(HDC hdc);
 	//void Move(WPARAM);
-	void KeyDownMove();
-	void KeyUpMove();
+	void KeyDownMove(WPARAM wParam);
+	void KeyUpMove(WPARAM wParam);
 	void Jump();
 };
 

@@ -52,18 +52,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0); //GetMessage함수에 WM_QUIT 메시지를 보낸다.
 		KillTimer(hWnd, 1);
 		return 0; //WndProc의 Switch는 break 대신 return 0; 를 쓴다.
-	case WM_TIMER:
-		//Player::GetInstance()->Move();
-		//InvalidateRect(hWnd, NULL, TRUE);
-		return 0;
-	case WM_KEYUP:
-		//Player::GetInstance()->Move(wParam);
-		Player::GetInstance()->KeyUpMove();
+	//case WM_TIMER:
+	//	//Player::GetInstance()->Move();
+	//	Player::GetInstance()->KeyDownMove(wParam);
+	//	InvalidateRect(hWnd, NULL, TRUE);
+	//	//return 0;
+	case WM_KEYDOWN:
+		Player::GetInstance()->KeyDownMove(wParam);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
-	case WM_KEYDOWN:
-		//Player::GetInstance()->Move(wParam);
-		Player::GetInstance()->KeyDownMove();
+	case WM_KEYUP:
+		Player::GetInstance()->KeyUpMove(wParam);
 		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_PAINT:
