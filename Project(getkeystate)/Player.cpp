@@ -119,12 +119,13 @@ void Player::Jump()
 		m_ivelocity = MOVESPEED * 5;//초기화 후 리턴
 		m_bjumpflag = false;
 		m_ijump_y = 0;
+		m_ichargejump = 1;
 		return;
 	}
 	if (view == VIEW_LEFT && (m_ix + m_ijump_x + MOVESPEED >= 0))
-		m_ijump_x -= MOVESPEED;
+		m_ijump_x -= MOVESPEED * m_ichargejump;
 	if (view == VIEW_RIGHT && (m_ix + m_ijump_x + MOVESPEED <= 1300))
-		m_ijump_x += MOVESPEED;
+		m_ijump_x += MOVESPEED * m_ichargejump;
 	m_ijump_y -= m_ivelocity;//점프할 크기를 속도만큼 빼고
 	m_ivelocity -= GRAVITY;//속도는 중력에 영향을 받아 줄어든다
 	
