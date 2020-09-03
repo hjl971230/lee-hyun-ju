@@ -44,10 +44,12 @@ void Player::Draw(HDC hdc)
 			RGB(255, 0, 255));
 		m_isprite_sequence = tmp;
 	}
-	else TransparentBlt(hdc, m_ix + m_ijump_x, m_iy + m_ijump_y, (m_size.cx / 4), (m_size.cy / 4), MemDC,
-		(m_size.cx / 4) * m_isprite_sequence, (m_size.cy / 4) * view, (m_size.cx / 4), (m_size.cy / 4),
-		RGB(255, 0, 255));
-	//m_isprite_sequence = tmp;
+	else
+	{
+		TransparentBlt(hdc, m_ix + m_ijump_x, m_iy + m_ijump_y, (m_size.cx / 4), (m_size.cy / 4), MemDC,
+			(m_size.cx / 4) * m_isprite_sequence, (m_size.cy / 4) * view, (m_size.cx / 4), (m_size.cy / 4),
+			RGB(255, 0, 255));
+	}
 }
 
 void Player::KeyDownMove(WPARAM wParam)

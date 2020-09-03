@@ -36,9 +36,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
-	HDC hMemdc;
-	BITMAP bit;
-	HBITMAP myBitmap, oldBitmap;
 	PAINTSTRUCT ps;
 	int oldclock = clock();
 	switch (iMessage)
@@ -59,19 +56,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	//	//return 0;
 	case WM_KEYDOWN:
 		Player::GetInstance()->KeyDownMove(wParam);
-		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_KEYUP:
 		Player::GetInstance()->KeyUpMove(wParam);
-		InvalidateRect(hWnd, NULL, TRUE);
 		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		if(Player::GetInstance()->getjumpflag())
 		{
-			InvalidateRect(hWnd, NULL, TRUE);
 			Player::GetInstance()->Jump();
-			Player::GetInstance()->Draw(hdc);
+			BitBlt(hdc, 0, 0, 1024, 768, Player::GetInstance()->Draw(hdc), 0, 0, SRCCOPY);
 			while (true)
 			{
 				if (clock() - oldclock >= 20)
@@ -81,7 +75,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				}
 			}
 		}
-		else Player::GetInstance()->Draw(hdc);
+		else BitBlt(hdc, 0, 0, 1024, 768, Player::GetInstance()->Draw(hdc), 0, 0, SRCCOPY);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}
