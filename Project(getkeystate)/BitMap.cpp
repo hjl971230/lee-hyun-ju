@@ -26,7 +26,10 @@ BitMap::BitMap()
 BitMap::~BitMap()
 {
 	//해제코드를 추가한다.
-	SelectObject(MemDC, m_pBitOld);
-	DeleteObject(m_pBitMap);
-	DeleteDC(MemDC);
+	SelectObject(MemDC[0], m_pBitOld[0]);
+	DeleteObject(m_pBitMap[0]);
+	DeleteDC(MemDC[0]);
+	SelectObject(MemDC[1], m_pBitOld[1]);
+	DeleteObject(m_pBitMap[1]);
+	DeleteDC(MemDC[1]);
 }

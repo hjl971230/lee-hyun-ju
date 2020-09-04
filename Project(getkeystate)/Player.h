@@ -28,7 +28,7 @@ public:
 	inline void sety(int i) { m_iy = i; }
 	inline int getx() { return m_ix; }
 	inline int gety() { return m_iy; }
-	void Init(HWND hWnd, HINSTANCE hInst);
+	void Init(HDC hdc, HINSTANCE hInst);
 	void Draw(HDC hdc);
 	//void Move(WPARAM);
 	void KeyDownMove(WPARAM wParam);

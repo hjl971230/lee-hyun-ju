@@ -4,13 +4,13 @@
 class BitMap
 {
 protected:
-	HDC MemDC;
-	HBITMAP m_pBitMap;
-	HBITMAP m_pBitOld;
+	HDC MemDC[OBJECT_MAX];
+	HBITMAP m_pBitMap[OBJECT_MAX];
+	HBITMAP m_pBitOld[OBJECT_MAX];
 	SIZE m_size;
 public:
 	BitMap();
-	virtual void Init(HWND hWnd, HINSTANCE hInst) = 0;
+	virtual void Init(HDC hdc, HINSTANCE hInst) = 0;
 	virtual void Draw(HDC hdc) = 0;
 	virtual ~BitMap();
 };

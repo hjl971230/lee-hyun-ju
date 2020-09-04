@@ -38,10 +38,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	HDC hdc;
 	PAINTSTRUCT ps;
 	int oldclock = clock();
+	bool flag = false;
 	switch (iMessage)
 	{
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
-		Player::GetInstance()->Init(hWnd, g_hInst);
 		SetTimer(hWnd, 1, 1, NULL);
 		SendMessage(hWnd, WM_TIMER, 1, 0);
 		return 0;
@@ -56,16 +56,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	//	//return 0;
 	case WM_KEYDOWN:
 		Player::GetInstance()->KeyDownMove(wParam);
-		return 0;
+		InvalidateRect(hWnd, NULL, FALSE);
+		//return 0;
 	case WM_KEYUP:
 		Player::GetInstance()->KeyUpMove(wParam);
-		return 0;
+		InvalidateRect(hWnd, NULL, FALSE);
+		//return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
+		if (!flag)
+		{
+			Player::GetInstance()->Init(hdc, g_hInst);
+			flag = true;
+		}
 		if(Player::GetInstance()->getjumpflag())
 		{
+			InvalidateRect(hWnd, NULL, FALSE);
 			Player::GetInstance()->Jump();
-			BitBlt(hdc, 0, 0, 1024, 768, Player::GetInstance()->Draw(hdc), 0, 0, SRCCOPY);
+			Player::GetInstance()->Draw(hdc);
 			while (true)
 			{
 				if (clock() - oldclock >= 20)
@@ -75,7 +83,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				}
 			}
 		}
-		else BitBlt(hdc, 0, 0, 1024, 768, Player::GetInstance()->Draw(hdc), 0, 0, SRCCOPY);
+		else Player::GetInstance()->Draw(hdc);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}
