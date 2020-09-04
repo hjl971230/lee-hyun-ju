@@ -23,7 +23,7 @@ Player::~Player()
 void Player::Init(HDC hdc, HINSTANCE hInst)
 {
 	MemDC[0] = CreateCompatibleDC(hdc);
-	m_pBitMap[0] = CreateCompatibleBitmap(hdc, 1024, 768);
+	m_pBitMap[0] = CreateCompatibleBitmap(hdc, 1300, 768);
 	m_pBitOld[0] = (HBITMAP)SelectObject(MemDC[0], m_pBitMap[0]);
 	MemDC[1] = CreateCompatibleDC(MemDC[0]);
 	m_pBitMap[1] = (HBITMAP)LoadImage(NULL, "image.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE);
@@ -52,7 +52,7 @@ void Player::Draw(HDC hdc)
 			(m_size.cx / 4) * m_isprite_sequence, (m_size.cy / 4) * view, (m_size.cx / 4), (m_size.cy / 4),
 			RGB(255, 0, 255));
 	}
-	BitBlt(hdc, 0, 0, 1024, 768, MemDC[0], 0, 0, SRCCOPY);
+	BitBlt(hdc, 0, 0, 1300, 768, MemDC[0], 0, 0, SRCCOPY);
 }
 
 void Player::KeyDownMove(WPARAM wParam)
@@ -87,7 +87,7 @@ void Player::KeyDownMove(WPARAM wParam)
 	if (GetKeyState(VK_DOWN) & 0x8000)
 	{
 		view = VIEW_DOWN;
-		if (m_iy + m_ijump_y + MOVESPEED <= 600)
+		if (m_iy + m_ijump_y + MOVESPEED <= 768)
 			m_iy += MOVESPEED;
 		m_isprite_sequence++;
 		if (m_isprite_sequence >= 4)
