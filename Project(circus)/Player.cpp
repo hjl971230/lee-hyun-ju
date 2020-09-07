@@ -99,15 +99,6 @@ void Player::KeyDownMove(WPARAM wParam)
 	}
 }
 
-void Player::KeyUpMove(WPARAM wParam)
-{
-	if (wParam == VK_SPACE)
-	{
-		if (GetKeyState(VK_SPACE) >= 0)
-			m_bjumpflag = true;
-	}
-}
-
 void Player::Jump()
 {
 	if (m_ivelocity < -MOVESPEED * 5)//일정량 상승하고 그만큼 내려오면 착지 했다는 것

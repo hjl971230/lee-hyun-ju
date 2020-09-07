@@ -1,4 +1,4 @@
 D:\학원\github\project\Project(circus)\Debug\Project(circus).exe
-D:\학원\github\project\Project(circus)\Debug\Project(circus).pdb
 F:\학원\github\lee-hyun-ju\Project(circus)\Debug\Project(circus).exe
 F:\학원\github\lee-hyun-ju\Project(circus)\Debug\Project(circus).pdb
+D:\학원\github\project\Project(circus)\Debug\Project(circus).pdb

@@ -30,9 +30,7 @@ public:
 	inline int gety() { return m_iy; }
 	void Init(HDC hdc, HINSTANCE hInst);
 	void Draw(HDC hdc);
-	//void Move(WPARAM);
 	void KeyDownMove(WPARAM wParam);
-	void KeyUpMove(WPARAM wParam);
 	void Jump();
 };
 

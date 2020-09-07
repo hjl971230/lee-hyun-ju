@@ -4,7 +4,7 @@
 #include<time.h>
 #define MOVESPEED 10
 #define GRAVITY 10
-#define OBJECT_MAX 2
+#define OBJECT_MAX 10
 
 enum VIEW
 {
