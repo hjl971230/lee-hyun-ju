@@ -1,5 +1,6 @@
 #pragma once
 #include"Player.h"
+#include"EnemyManager.h"
 
 class GameManager
 {
@@ -12,5 +13,7 @@ public:
 			m_this = new GameManager;
 		return m_this;
 	}
+	GameManager();
+	~GameManager();
 };
 

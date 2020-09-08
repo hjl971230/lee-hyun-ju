@@ -25,6 +25,9 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Pot.cpp" />
+    <ClCompile Include="Ring.cpp" />
+    <ClCompile Include="SmallRing.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>

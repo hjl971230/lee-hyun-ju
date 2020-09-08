@@ -20,42 +20,42 @@ Player::~Player()
 
 }
 
-void Player::Init(HDC hdc, HINSTANCE hInst)
-{
-	MemDC[0] = CreateCompatibleDC(hdc);
-	m_pBitMap[0] = CreateCompatibleBitmap(hdc, 1300, 768);
-	m_pBitOld[0] = (HBITMAP)SelectObject(MemDC[0], m_pBitMap[0]);
-	MemDC[1] = CreateCompatibleDC(MemDC[0]);
-	m_pBitMap[1] = (HBITMAP)LoadImage(NULL, "image.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE);
-	m_pBitOld[1] = (HBITMAP)SelectObject(MemDC[1], m_pBitMap[1]);
-	BITMAP BitMap_Info;
-	//준비된 비트맵의 정보를 가져온다. – width, height
-	GetObject(m_pBitMap[1], sizeof(BitMap_Info), &BitMap_Info);
-	m_size.cx = BitMap_Info.bmWidth;
-	m_size.cy = BitMap_Info.bmHeight;
-}
+//void Player::Init(HDC hdc, HINSTANCE hInst)
+//{
+//	MemDC[0] = CreateCompatibleDC(hdc);
+//	m_pBitMap[0] = CreateCompatibleBitmap(hdc, 1300, 768);
+//	m_pBitOld[0] = (HBITMAP)SelectObject(MemDC[0], m_pBitMap[0]);
+//	MemDC[1] = CreateCompatibleDC(MemDC[0]);
+//	m_pBitMap[1] = (HBITMAP)LoadImage(NULL, "image.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE);
+//	m_pBitOld[1] = (HBITMAP)SelectObject(MemDC[1], m_pBitMap[1]);
+//	BITMAP BitMap_Info;
+//	//준비된 비트맵의 정보를 가져온다. – width, height
+//	GetObject(m_pBitMap[1], sizeof(BitMap_Info), &BitMap_Info);
+//	m_size.cx = BitMap_Info.bmWidth;
+//	m_size.cy = BitMap_Info.bmHeight;
+//}
+//
+//void Player::Draw(HDC hdc)
+//{
+//	int tmp = m_isprite_sequence;
+//	if (m_bjumpflag)
+//	{
+//		m_isprite_sequence = 1;
+//		TransparentBlt(MemDC[0], m_ix + m_ijump_x, m_iy + m_ijump_y, (m_size.cx / 4), (m_size.cy / 4), MemDC[1],
+//			(m_size.cx / 4) * m_isprite_sequence, (m_size.cy / 4) * view, (m_size.cx / 4), (m_size.cy / 4),
+//			RGB(255, 0, 255));
+//		m_isprite_sequence = tmp;
+//	}
+//	else
+//	{
+//		TransparentBlt(MemDC[0], m_ix + m_ijump_x, m_iy + m_ijump_y, (m_size.cx / 4), (m_size.cy / 4), MemDC[1],
+//			(m_size.cx / 4) * m_isprite_sequence, (m_size.cy / 4) * view, (m_size.cx / 4), (m_size.cy / 4),
+//			RGB(255, 0, 255));
+//	}
+//	BitBlt(hdc, 0, 0, 1300, 768, MemDC[0], 0, 0, SRCCOPY);
+//}
 
-void Player::Draw(HDC hdc)
-{
-	int tmp = m_isprite_sequence;
-	if (m_bjumpflag)
-	{
-		m_isprite_sequence = 1;
-		TransparentBlt(MemDC[0], m_ix + m_ijump_x, m_iy + m_ijump_y, (m_size.cx / 4), (m_size.cy / 4), MemDC[1],
-			(m_size.cx / 4) * m_isprite_sequence, (m_size.cy / 4) * view, (m_size.cx / 4), (m_size.cy / 4),
-			RGB(255, 0, 255));
-		m_isprite_sequence = tmp;
-	}
-	else
-	{
-		TransparentBlt(MemDC[0], m_ix + m_ijump_x, m_iy + m_ijump_y, (m_size.cx / 4), (m_size.cy / 4), MemDC[1],
-			(m_size.cx / 4) * m_isprite_sequence, (m_size.cy / 4) * view, (m_size.cx / 4), (m_size.cy / 4),
-			RGB(255, 0, 255));
-	}
-	BitBlt(hdc, 0, 0, 1300, 768, MemDC[0], 0, 0, SRCCOPY);
-}
-
-void Player::KeyDownMove(WPARAM wParam)
+void Player::KeyDownMove()
 {
 	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
