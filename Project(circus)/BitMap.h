@@ -4,14 +4,16 @@
 class BitMap
 {
 protected:
-	HDC MemDC[OBJECT_MAX];
-	HBITMAP m_pBitMap[OBJECT_MAX];
-	HBITMAP m_pBitOld[OBJECT_MAX];
+	HDC MemDC;
+	HBITMAP m_pBitMap;
+	HBITMAP m_pBitOld;
 	SIZE m_size;
 public:
 	BitMap();
-	virtual void Init(HDC hdc, HINSTANCE hInst);
-	virtual void Draw(HDC hdc);
-	virtual ~BitMap();
+	void Init(HDC hdc, HINSTANCE hInst, HBITMAP hBitMap);
+	void Draw(HDC hdc, int x, int y);
+	~BitMap();
+	inline HDC& getMemDC() { return MemDC; }
+	inline SIZE getsize() { return m_size; }
 };
 

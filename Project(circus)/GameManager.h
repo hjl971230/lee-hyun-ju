@@ -6,6 +6,7 @@ class GameManager
 {
 private:
 	static GameManager* m_this;
+	BitMap m_BitMap;
 public:
 	static GameManager* GetInstance()
 	{
@@ -15,5 +16,9 @@ public:
 	}
 	GameManager();
 	~GameManager();
+	void GameInit(HDC, HINSTANCE);
+	void GameDraw(HDC);
+	void Update(HDC);
+	void PlayGame();
 };
 

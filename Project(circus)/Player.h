@@ -10,11 +10,12 @@ private:
 	int m_ijump_x;
 	int m_ijump_y;
 	int m_ivelocity;
-	VIEW view;
 	int m_ix;
 	int m_iy;
 	int m_isprite_sequence;
 	int m_ichargejump;
+	int m_imotion_num;
+	BitMap m_BitMap[PLAYER_MOTION_SIZE];
 public:
 	inline static Player* GetInstance()
 	{
@@ -29,8 +30,8 @@ public:
 	inline void sety(int i) { m_iy = i; }
 	inline int getx() { return m_ix; }
 	inline int gety() { return m_iy; }
-	/*void Init(HDC hdc, HINSTANCE hInst);
-	void Draw(HDC hdc);*/
+	void Init(HDC hdc, HINSTANCE hInst);
+	void Draw(HDC hdc);
 	void KeyInput();
 	void Jump();
 };
