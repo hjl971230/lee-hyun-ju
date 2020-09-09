@@ -8,11 +8,8 @@ Player::Player()
 	m_ijump_x = 0;
 	m_ijump_y = 0;
 	m_ivelocity = MOVESPEED * 5;
-	m_ichargejump = 1;
-	view = VIEW_DOWN;
 	m_ix = 100;
 	m_iy = 100;
-	m_isprite_sequence = 0;
 }
 
 Player::~Player()
@@ -55,7 +52,7 @@ Player::~Player()
 //	BitBlt(hdc, 0, 0, 1300, 768, MemDC[0], 0, 0, SRCCOPY);
 //}
 
-void Player::KeyDownMove()
+void Player::KeyInput()
 {
 	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
@@ -63,39 +60,13 @@ void Player::KeyDownMove()
 	}
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
-		view = VIEW_RIGHT;
 		if (m_ix + m_ijump_x - MOVESPEED >= 0)
 			m_ix -= MOVESPEED;
-		m_isprite_sequence++;
-		if (m_isprite_sequence >= 4)
-			m_isprite_sequence = 1;
 	}
 	if (GetKeyState(VK_RIGHT) & 0x8000)
 	{
-		view = VIEW_RIGHT;
 		if (m_ix + m_ijump_x + MOVESPEED <= 1300)
 			m_ix += MOVESPEED;
-		m_isprite_sequence++;
-		if (m_isprite_sequence >= 4)
-			m_isprite_sequence = 1;
-	}
-	if (GetKeyState(VK_UP) & 0x8000)
-	{
-		view = VIEW_UP;
-		if (m_iy + m_ijump_y - MOVESPEED >= 0)
-			m_iy -= MOVESPEED;
-		m_isprite_sequence++;
-		if (m_isprite_sequence >= 4)
-			m_isprite_sequence = 1;
-	}
-	if (GetKeyState(VK_DOWN) & 0x8000)
-	{
-		view = VIEW_DOWN;
-		if (m_iy + m_ijump_y + MOVESPEED <= 768)
-			m_iy += MOVESPEED;
-		m_isprite_sequence++;
-		if (m_isprite_sequence >= 4)
-			m_isprite_sequence = 1;
 	}
 }
 
@@ -106,7 +77,6 @@ void Player::Jump()
 		m_ivelocity = MOVESPEED * 5;//초기화 후 리턴
 		m_bjumpflag = false;
 		m_ijump_y = 0;
-		m_ichargejump = 1;
 		return;
 	}
 	m_ijump_y -= m_ivelocity;//점프할 크기를 속도만큼 빼고

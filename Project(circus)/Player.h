@@ -1,5 +1,6 @@
 #pragma once
 #include"BitMap.h"
+#include"Item.h"
 
 class Player : public BitMap
 {
@@ -30,7 +31,7 @@ public:
 	inline int gety() { return m_iy; }
 	/*void Init(HDC hdc, HINSTANCE hInst);
 	void Draw(HDC hdc);*/
-	void KeyDownMove();
+	void KeyInput();
 	void Jump();
 };
 

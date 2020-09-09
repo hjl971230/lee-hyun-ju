@@ -1,5 +1,6 @@
 #pragma once
 #include"Mecro.h"
+#include"BitMap.h"
 
 class Enemy
 {
