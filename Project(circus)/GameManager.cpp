@@ -32,6 +32,8 @@ void GameManager::Update(HDC hdc)
 void GameManager::PlayGame()
 {
 	Player::GetInstance()->KeyInput();
-	if(Player::GetInstance()->getjumpflag())
+	if (Player::GetInstance()->getjumpflag())
+	{
 		Player::GetInstance()->Jump();
+	}
 }
