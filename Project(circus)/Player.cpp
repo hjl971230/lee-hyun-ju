@@ -9,7 +9,7 @@ Player::Player()
 	m_ijump_y = 0;
 	m_ivelocity = MOVESPEED * 5;
 	m_ix = 100;
-	m_iy = 500;
+	m_iy = 600;
 	m_imotion_num = PLAYER_MOTION_STAND;
 }
 
@@ -39,15 +39,21 @@ void Player::KeyInput()
 	}
 	if (GetKeyState(VK_LEFT) & 0x8000)
 	{
-		if (m_imotion_num != PLAYER_MOTION_BACK0)
-			m_imotion_num = PLAYER_MOTION_BACK0;
-		else m_imotion_num = PLAYER_MOTION_BACK1;
+		if (!m_bjumpflag)
+		{
+			if (m_imotion_num != PLAYER_MOTION_BACK0)
+				m_imotion_num = PLAYER_MOTION_BACK0;
+			else m_imotion_num = PLAYER_MOTION_BACK1;
+		}
 	}
 	if (GetKeyState(VK_RIGHT) & 0x8000)
 	{
-		if (m_imotion_num != PLAYER_MOTION_RUN1)
-			m_imotion_num = PLAYER_MOTION_RUN1;
-		else m_imotion_num = PLAYER_MOTION_RUN2;
+		if (!m_bjumpflag)
+		{
+			if (m_imotion_num != PLAYER_MOTION_RUN1)
+				m_imotion_num = PLAYER_MOTION_RUN1;
+			else m_imotion_num = PLAYER_MOTION_RUN2;
+		}	
 	}
 }
 
@@ -58,6 +64,7 @@ void Player::Jump()
 		m_ivelocity = MOVESPEED * 5;//초기화 후 리턴
 		m_bjumpflag = false;
 		m_ijump_y = 0;
+		m_imotion_num = PLAYER_MOTION_STAND;
 		return;
 	}
 	m_ijump_y -= m_ivelocity;//점프할 크기를 속도만큼 빼고

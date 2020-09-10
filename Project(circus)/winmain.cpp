@@ -3,7 +3,6 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;//글로벌 인스턴스핸들값
 LPCTSTR lpszClass = TEXT("CIRCUS"); //창이름
 HDC hdc;
-PAINTSTRUCT ps;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -41,6 +40,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 		else
 		{
 			//SetPixel(hdc, rand() % 500, rand() % 400, RGB(rand() % 256, rand() % 256, rand() % 256));
+			InvalidateRect(hWnd, NULL, FALSE);
 			GameManager::GetInstance()->Update(hdc);
 		}
 	}
@@ -52,6 +52,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
+	HDC hdc;
+	PAINTSTRUCT ps;
 	switch (iMessage)
 	{
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
@@ -65,12 +67,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_TIMER:
 		GameManager::GetInstance()->PlayGame();
 		InvalidateRect(hWnd, NULL, FALSE);
-		return 0;
+		//return 0;
 	//case WM_KEYDOWN:
 		//return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		GameManager::GetInstance()->GameDraw(hdc);
+		GameManager::GetInstance()->GameDraw(hdc, g_hInst);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}
