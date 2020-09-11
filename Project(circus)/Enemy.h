@@ -5,8 +5,7 @@
 class Enemy
 {
 protected:
-	int m_ix;
-	int m_iy;
+	POINT m_point;
 public:
 	Enemy();
 	virtual void Move() = 0;

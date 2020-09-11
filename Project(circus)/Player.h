@@ -2,7 +2,7 @@
 #include"BitMap.h"
 #include"Item.h"
 
-class Player : public BitMap
+class Player
 {
 private:
 	static Player* m_this;
@@ -10,12 +10,14 @@ private:
 	int m_ijump_x;
 	int m_ijump_y;
 	int m_ivelocity;
-	int m_ix;
-	int m_iy;
+	POINT m_point;
 	int m_isprite_sequence;
 	int m_ichargejump;
 	int m_imotion_num;
-	BitMap m_BitMap[PLAYER_MOTION_SIZE];
+	int m_iwinmotion_num;
+	BitMap m_MotionBitMap[PLAYER_MOTION_SIZE];
+	BitMap m_WinMotionBitMap[PLAYER_WIN_MOTION_SIZE];
+	BitMap m_DieBitMap;
 public:
 	inline static Player* GetInstance()
 	{
@@ -26,12 +28,16 @@ public:
 	~Player();
 	inline bool getjumpflag() { return m_bjumpflag; }
 	inline void setjumpflag(bool b) { m_bjumpflag = b; }
-	inline void setx(int i) { m_ix = i; }
-	inline void sety(int i) { m_iy = i; }
-	inline int getx() { return m_ix; }
-	inline int gety() { return m_iy; }
+	inline void setx(int i) { m_point.x = i; }
+	inline void sety(int i) { m_point.y = i; }
+	inline int getx() { return m_point.x; }
+	inline int gety() { return m_point.y; }
+	inline POINT getPoint() { return m_point; }
+	BitMap getWinMotionBitMap() { return m_WinMotionBitMap[0]; }
 	void Init(HDC hdc, HINSTANCE hInst);
 	void Draw(HDC hdc);
+	void WinDraw(HDC hdc);
+	void DieDraw(HDC hdc);
 	void KeyInput();
 	void Jump();
 };

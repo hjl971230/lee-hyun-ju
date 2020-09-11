@@ -11,6 +11,7 @@ GameManager::GameManager()
 	m_imiter = 100;
 	wsprintf(nowMiter, TEXT("%d"), m_imiter);
 	m_imovemiter = 0;
+	winflag = false;
 }
 
 GameManager::~GameManager()
@@ -20,34 +21,47 @@ GameManager::~GameManager()
 
 void GameManager::GameInit(HDC hdc, HINSTANCE hInst)
 {
+	m_ibacksize = 0;
+	m_idecosize = 0;
+	m_inormalcount = 0;
+	m_imitercount = 0;
+	m_imiter = 100;
+	wsprintf(nowMiter, TEXT("%d"), m_imiter);
+	m_imovemiter = 0;
+	winflag = false;
 	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
-	m_BG[BG_CODE_BACK].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "back.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
-	m_BG[BG_CODE_DECO].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "back_deco.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
-	m_BG[BG_CODE_NORMAL].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "back_normal.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
-	m_BG[BG_CODE_NORMAL2].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "back_normal2.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
-	m_Miter.Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "miter.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
-	Player::GetInstance()->Init(hdc, hInst);
+	m_BG[BG_CODE_BACK].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	m_BG[BG_CODE_DECO].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back_deco.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	m_BG[BG_CODE_NORMAL].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back_normal.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	m_BG[BG_CODE_NORMAL2].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back_normal2.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	End.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\end.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	m_Miter.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\miter.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	Player::GetInstance()->Init(m_BitMap.getMemDC(), hInst);
 }
 
 void GameManager::GameDraw(HDC hdc, HINSTANCE hInst)
 {
 	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
 	BGDraw(m_BitMap.getMemDC());
+	End.Draw(m_BitMap.getMemDC(), ((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter, 600);
 	Player::GetInstance()->Draw(m_BitMap.getMemDC());
 	BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
 }
 
 void GameManager::BGDraw(HDC hdc)
 {
-	while (m_ibacksize + m_imovemiter <= 1800)
+	while (m_ibacksize <= 1800)
 	{
 		if (m_imitercount % 10 == 0)
 		{
-			m_Miter.Draw(hdc, m_ibacksize, 670);
-			wsprintf(nowMiter, TEXT("%d"), m_imiter);
-			TextOut(hdc, m_ibacksize + 25, 675, nowMiter, lstrlen(nowMiter));
-			m_imitercount = 0;
-			if (m_imiter > 0) m_imiter -= 10;
+			if (m_imiter >= 0)
+			{
+				m_Miter.Draw(hdc, m_ibacksize, 670);
+				wsprintf(nowMiter, TEXT("%d"), m_imiter);
+				TextOut(hdc, m_ibacksize + 25, 675, nowMiter, lstrlen(nowMiter));
+				m_imitercount = 0;
+				m_imiter -= 10;
+			}
 		}
 		m_BG[BG_CODE_BACK].Draw(hdc, m_ibacksize, 480);
 		if (m_inormalcount < 12)
@@ -73,9 +87,41 @@ void GameManager::BGDraw(HDC hdc)
 	wsprintf(nowMiter, TEXT("%d"), m_imiter);
 }
 
-void GameManager::Update(HDC hdc)
+void GameManager::Update(HDC hdc, HWND hWnd, HINSTANCE hInst)
 {
-	//GameDraw(hdc);
+	int drawcount = 6;
+	if (finishcheck())
+	{
+		winflag = true;
+		Player::GetInstance()->setx(((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter + 10);
+		Player::GetInstance()->sety((600 - Player::GetInstance()->getWinMotionBitMap().getsize().cy));
+		while (drawcount > 0)
+		{
+			Sleep(1000);
+			m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
+			BGDraw(m_BitMap.getMemDC());
+			End.Draw(m_BitMap.getMemDC(), ((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter, 600);
+			Player::GetInstance()->WinDraw(m_BitMap.getMemDC());
+			BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
+			drawcount--;
+		}
+		if ((MessageBox(hWnd, TEXT("게임을 다시 하시겠습니까?"), TEXT("Game Clear"), MB_YESNO) == IDYES))
+		{
+			GameInit(hdc, hInst);
+		}
+		else
+		{
+			PostQuitMessage(0);
+		}
+	}
+}
+
+bool GameManager::finishcheck()
+{
+	RECT EndCollider = { ((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter, 600 ,((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter + End.getsize().cx, 600 + End.getsize().cy};
+	if (PtInRect(&EndCollider, Player::GetInstance()->getPoint()))
+		return true;
+	else return false;
 }
 
 void GameManager::PlayGame()
@@ -90,16 +136,19 @@ void GameManager::PlayGame()
 
 void GameManager::KeyInput()
 {
-	if (GetKeyState(VK_SPACE) & 0x8000)
+	if (!winflag)
 	{
-		
-	}
-	if (GetKeyState(VK_LEFT) & 0x8000)
-	{
-		m_imovemiter += MOVESPEED * 2;
-	}
-	if (GetKeyState(VK_RIGHT) & 0x8000)
-	{
-		m_imovemiter -= MOVESPEED * 2;
+		if (GetKeyState(VK_SPACE) & 0x8000)
+		{
+
+		}
+		if (GetKeyState(VK_LEFT) & 0x8000)
+		{
+			if (m_imovemiter <= 0) m_imovemiter += MOVESPEED;
+		}
+		if (GetKeyState(VK_RIGHT) & 0x8000)
+		{
+			if (m_imovemiter >= -1800 * MOVESPEED) m_imovemiter -= MOVESPEED;
+		}
 	}
 }

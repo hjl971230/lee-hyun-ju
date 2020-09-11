@@ -2,8 +2,8 @@
 
 Enemy::Enemy()
 {
-	m_ix = 0;
-	m_iy = 0;
+	m_point.x = 0;
+	m_point.y = 0;
 }
 
 Enemy::~Enemy()

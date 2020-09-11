@@ -5,10 +5,12 @@
 #include<vector>
 #include<list>
 
-#define MOVESPEED 10
+#define MOVESPEED 20
+#define JUMPSPEED 20
 #define GRAVITY 10
 #define OBJECT_MAX 10
 #define PLAYER_MOTION_SIZE 3
+#define PLAYER_WIN_MOTION_SIZE 2
 
 using namespace std;
 

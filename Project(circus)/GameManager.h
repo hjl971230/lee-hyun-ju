@@ -15,7 +15,9 @@ private:
 	int m_imitercount;
 	int m_imiter;
 	int m_imovemiter;
+	bool winflag;
 	TCHAR nowMiter[128];
+	BitMap End;
 public:
 	static GameManager* GetInstance()
 	{
@@ -28,8 +30,9 @@ public:
 	void GameInit(HDC, HINSTANCE);
 	void GameDraw(HDC, HINSTANCE);
 	void BGDraw(HDC);
-	void Update(HDC);
+	void Update(HDC, HWND, HINSTANCE);
 	void PlayGame();
 	void KeyInput();
+	bool finishcheck();
 };
 

@@ -41,7 +41,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 		{
 			//SetPixel(hdc, rand() % 500, rand() % 400, RGB(rand() % 256, rand() % 256, rand() % 256));
 			InvalidateRect(hWnd, NULL, FALSE);
-			GameManager::GetInstance()->Update(hdc);
+			GameManager::GetInstance()->Update(hdc, hWnd, g_hInst);
 		}
 	}
 	delete GameManager::GetInstance();
