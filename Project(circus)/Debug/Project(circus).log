@@ -1,2 +1,2 @@
 ﻿  GameManager.cpp
-  Project(circus).vcxproj -> D:\학원\github\project\Project(circus)\Debug\Project(circus).exe
+LINK : fatal error LNK1168: F:\학원\github\lee-hyun-ju\Project(circus)\Debug\Project(circus).exe을(를) 쓰기용으로 열 수 없습니다.
