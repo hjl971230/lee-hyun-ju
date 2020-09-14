@@ -44,9 +44,9 @@ void Player::Draw(HDC hdc)
 
 void Player::WinDraw(HDC hdc)
 {
+	m_WinMotionBitMap[m_iwinmotion_num].Draw(hdc, m_point.x, m_point.y + m_ijump_y); 
 	if (m_iwinmotion_num == 1) m_iwinmotion_num = 0;
-	else m_iwinmotion_num = 1;
-	m_WinMotionBitMap[m_iwinmotion_num].Draw(hdc, m_point.x, m_point.y + m_ijump_y);
+	else if(m_iwinmotion_num == 0) m_iwinmotion_num = 1;
 }
 
 void Player::DieDraw(HDC hdc)

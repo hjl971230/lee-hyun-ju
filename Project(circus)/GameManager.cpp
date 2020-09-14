@@ -12,6 +12,7 @@ GameManager::GameManager()
 	wsprintf(nowMiter, TEXT("%d"), m_imiter);
 	m_imovemiter = 0;
 	winflag = false;
+	m_iNormal_ver = BG_CODE_NORMAL;
 }
 
 GameManager::~GameManager()
@@ -50,7 +51,7 @@ void GameManager::GameDraw(HDC hdc, HINSTANCE hInst)
 
 void GameManager::BGDraw(HDC hdc)
 {
-	while (m_ibacksize <= 1800)
+	while (m_ibacksize <= 1800 || m_idecosize <= 1800)
 	{
 		if (m_imitercount % 10 == 0)
 		{
@@ -66,8 +67,8 @@ void GameManager::BGDraw(HDC hdc)
 		m_BG[BG_CODE_BACK].Draw(hdc, m_ibacksize, 480);
 		if (m_inormalcount < 12)
 		{
-			m_BG[BG_CODE_NORMAL].Draw(hdc, m_idecosize, 416);
-			m_idecosize += m_BG[BG_CODE_NORMAL].getsize().cx;
+			m_BG[m_iNormal_ver].Draw(hdc, m_idecosize, 416);
+			m_idecosize += m_BG[m_iNormal_ver].getsize().cx;
 			m_inormalcount++;
 		}
 		else
@@ -89,12 +90,12 @@ void GameManager::BGDraw(HDC hdc)
 
 void GameManager::Update(HDC hdc, HWND hWnd, HINSTANCE hInst)
 {
-	int drawcount = 6;
+	int drawcount = 10;
 	if (finishcheck())
 	{
 		winflag = true;
 		Player::GetInstance()->setx(((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter + 10);
-		Player::GetInstance()->sety((600 - Player::GetInstance()->getWinMotionBitMap().getsize().cy));
+		Player::GetInstance()->sety((600 - End.getsize().cy));
 		while (drawcount > 0)
 		{
 			Sleep(1000);
@@ -104,6 +105,8 @@ void GameManager::Update(HDC hdc, HWND hWnd, HINSTANCE hInst)
 			Player::GetInstance()->WinDraw(m_BitMap.getMemDC());
 			BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
 			drawcount--;
+			if (m_iNormal_ver == BG_CODE_NORMAL2) m_iNormal_ver = BG_CODE_NORMAL;
+			else m_iNormal_ver = BG_CODE_NORMAL2;
 		}
 		if ((MessageBox(hWnd, TEXT("게임을 다시 하시겠습니까?"), TEXT("Game Clear"), MB_YESNO) == IDYES))
 		{

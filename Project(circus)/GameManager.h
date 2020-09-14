@@ -18,6 +18,7 @@ private:
 	bool winflag;
 	TCHAR nowMiter[128];
 	BitMap End;
+	int m_iNormal_ver;
 public:
 	static GameManager* GetInstance()
 	{
