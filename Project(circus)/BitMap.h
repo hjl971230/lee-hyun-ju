@@ -11,7 +11,7 @@ protected:
 public:
 	BitMap();
 	void Init(HDC hdc, HINSTANCE hInst, HBITMAP hBitMap);
-	void Draw(HDC hdc, int x, int y);
+	void Draw(HDC hdc, int x, int y, int scale = 1);
 	~BitMap();
 	inline HDC& getMemDC() { return MemDC; }
 	inline SIZE getsize() { return m_size; }

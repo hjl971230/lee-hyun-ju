@@ -15,5 +15,8 @@ public:
 	}
 	EnemyManager();
 	~EnemyManager();
+	void Init(HDC, HINSTANCE);
+	void release();
+	Enemy* EnemyFactory(HDC, HINSTANCE, int);
 };
 

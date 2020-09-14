@@ -36,6 +36,7 @@ void GameManager::GameInit(HDC hdc, HINSTANCE hInst)
 	m_BG[BG_CODE_NORMAL].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back_normal.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_BG[BG_CODE_NORMAL2].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back_normal2.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	End.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\end.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	Icon.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\icon.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_Miter.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\miter.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	Player::GetInstance()->Init(m_BitMap.getMemDC(), hInst);
 }
@@ -49,8 +50,26 @@ void GameManager::GameDraw(HDC hdc, HINSTANCE hInst)
 	BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
 }
 
+void GameManager::ScoreLifeDraw(HDC hdc)
+{
+	int score_x = 0;
+	int life_x = 1500;
+	int y = 60;
+	TCHAR lifetext[128] = "Life";
+	TCHAR scoretext[128] = "Score : ";
+	wsprintf(scoretext, TEXT("Score : %d"), Player::GetInstance()->getscore());
+	TextOut(hdc, score_x, y, scoretext, lstrlen(scoretext));
+	TextOut(hdc, 1500 - lstrlen(lifetext), y / 2, lifetext, lstrlen(lifetext));
+	for (int i = 0; i < Player::GetInstance()->getlife(); i++)
+	{
+		Icon.Draw(hdc, life_x, y, 2);
+		life_x -= (Icon.getsize().cx + 50);
+	}
+}
+
 void GameManager::BGDraw(HDC hdc)
 {
+	ScoreLifeDraw(m_BitMap.getMemDC());
 	while (m_ibacksize <= 1800 || m_idecosize <= 1800)
 	{
 		if (m_imitercount % 10 == 0)
@@ -94,11 +113,11 @@ void GameManager::Update(HDC hdc, HWND hWnd, HINSTANCE hInst)
 	if (finishcheck())
 	{
 		winflag = true;
-		Player::GetInstance()->setx(((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter + 10);
-		Player::GetInstance()->sety((600 - End.getsize().cy));
 		while (drawcount > 0)
 		{
-			Sleep(1000);
+			Sleep(300);
+			Player::GetInstance()->setx(((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter + 10);
+			Player::GetInstance()->sety((600 - (Player::GetInstance()->getWinMotionBitMap().getsize().cy)));
 			m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
 			BGDraw(m_BitMap.getMemDC());
 			End.Draw(m_BitMap.getMemDC(), ((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter, 600);

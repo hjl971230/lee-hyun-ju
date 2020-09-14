@@ -18,6 +18,8 @@ private:
 	BitMap m_MotionBitMap[PLAYER_MOTION_SIZE];
 	BitMap m_WinMotionBitMap[PLAYER_WIN_MOTION_SIZE];
 	BitMap m_DieBitMap;
+	int m_iscore;
+	int m_ilife;
 public:
 	inline static Player* GetInstance()
 	{
@@ -33,6 +35,10 @@ public:
 	inline int getx() { return m_point.x; }
 	inline int gety() { return m_point.y; }
 	inline POINT getPoint() { return m_point; }
+	inline void setlife(int i) { m_ilife = i; }
+	inline int getlife() { return m_ilife; }
+	inline void setscore(int i) { m_iscore = i; }
+	inline int getscore() { return m_iscore; }
 	BitMap getWinMotionBitMap() { return m_WinMotionBitMap[0]; }
 	void Init(HDC hdc, HINSTANCE hInst);
 	void Draw(HDC hdc);

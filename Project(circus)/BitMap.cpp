@@ -16,11 +16,11 @@ void BitMap::Init(HDC hdc, HINSTANCE hInst, HBITMAP hBitMap)
 	m_size.cy = BitMap_Info.bmHeight;
 }
 
-void BitMap::Draw(HDC hdc, int x, int y)
+void BitMap::Draw(HDC hdc, int x, int y, int scale)
 {
 	//그려준다.
 	//StretchBlt(hdc, x, y, m_size.cx * spX, m_size.cy * spY, MemDC, 0, 0, m_size.cx, m_size.cy, SRCCOPY);
-	TransparentBlt(hdc, x, y, m_size.cx, m_size.cy, MemDC, 0, 0, m_size.cx, m_size.cy, RGB(255, 0, 255));
+	TransparentBlt(hdc, x, y, m_size.cx * scale, m_size.cy * scale, MemDC, 0, 0, m_size.cx, m_size.cy, RGB(255, 0, 255));
 }
 
 BitMap::~BitMap()

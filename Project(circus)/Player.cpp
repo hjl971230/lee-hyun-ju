@@ -12,6 +12,8 @@ Player::Player()
 	m_point.y = 600;
 	m_imotion_num = PLAYER_MOTION_STAND;
 	m_iwinmotion_num = 0;
+	m_iscore = 0;
+	m_ilife = 3;
 }
 
 Player::~Player()
@@ -29,6 +31,8 @@ void Player::Init(HDC hdc, HINSTANCE hInst)
 	m_point.y = 600;
 	m_imotion_num = PLAYER_MOTION_STAND;
 	m_iwinmotion_num = 0;
+	m_iscore = 0;
+	m_ilife = 3;
 	m_MotionBitMap[0].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\player0.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_MotionBitMap[1].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\player1.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_MotionBitMap[2].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\player2.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
@@ -44,7 +48,7 @@ void Player::Draw(HDC hdc)
 
 void Player::WinDraw(HDC hdc)
 {
-	m_WinMotionBitMap[m_iwinmotion_num].Draw(hdc, m_point.x, m_point.y + m_ijump_y); 
+	m_WinMotionBitMap[m_iwinmotion_num].Draw(hdc, m_point.x, m_point.y); 
 	if (m_iwinmotion_num == 1) m_iwinmotion_num = 0;
 	else if(m_iwinmotion_num == 0) m_iwinmotion_num = 1;
 }

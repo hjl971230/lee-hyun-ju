@@ -18,6 +18,7 @@ private:
 	bool winflag;
 	TCHAR nowMiter[128];
 	BitMap End;
+	BitMap Icon;
 	int m_iNormal_ver;
 public:
 	static GameManager* GetInstance()
@@ -31,6 +32,7 @@ public:
 	void GameInit(HDC, HINSTANCE);
 	void GameDraw(HDC, HINSTANCE);
 	void BGDraw(HDC);
+	void ScoreLifeDraw(HDC);
 	void Update(HDC, HWND, HINSTANCE);
 	void PlayGame();
 	void KeyInput();
