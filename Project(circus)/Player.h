@@ -20,6 +20,7 @@ private:
 	BitMap m_DieBitMap;
 	int m_iscore;
 	int m_ilife;
+	RECT collider;
 public:
 	inline static Player* GetInstance()
 	{
@@ -39,6 +40,8 @@ public:
 	inline int getlife() { return m_ilife; }
 	inline void setscore(int i) { m_iscore = i; }
 	inline int getscore() { return m_iscore; }
+	inline RECT getcollider() { return collider; }
+	void UpdateCollider();
 	BitMap getWinMotionBitMap() { return m_WinMotionBitMap[0]; }
 	void Init(HDC hdc, HINSTANCE hInst);
 	void Draw(HDC hdc);

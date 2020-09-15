@@ -5,7 +5,8 @@ class EnemyManager
 {
 private:
 	static EnemyManager* m_this;
-	vector<Enemy*> m_vecEnemyList;
+	vector<Enemy*> m_RingEnemyList;
+	vector<Pot*> m_PotEnemyList;
 public:
 	static EnemyManager* GetInstance()
 	{

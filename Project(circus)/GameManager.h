@@ -34,6 +34,7 @@ public:
 	void BGDraw(HDC);
 	void ScoreLifeDraw(HDC);
 	void Update(HDC, HWND, HINSTANCE);
+	void Win(HDC, HWND, HINSTANCE);
 	void PlayGame();
 	void KeyInput();
 	bool finishcheck();

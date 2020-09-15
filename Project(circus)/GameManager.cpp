@@ -109,32 +109,37 @@ void GameManager::BGDraw(HDC hdc)
 
 void GameManager::Update(HDC hdc, HWND hWnd, HINSTANCE hInst)
 {
-	int drawcount = 10;
 	if (finishcheck())
 	{
-		winflag = true;
-		while (drawcount > 0)
-		{
-			Sleep(300);
-			Player::GetInstance()->setx(((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter + 10);
-			Player::GetInstance()->sety((600 - (Player::GetInstance()->getWinMotionBitMap().getsize().cy)));
-			m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
-			BGDraw(m_BitMap.getMemDC());
-			End.Draw(m_BitMap.getMemDC(), ((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter, 600);
-			Player::GetInstance()->WinDraw(m_BitMap.getMemDC());
-			BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
-			drawcount--;
-			if (m_iNormal_ver == BG_CODE_NORMAL2) m_iNormal_ver = BG_CODE_NORMAL;
-			else m_iNormal_ver = BG_CODE_NORMAL2;
-		}
-		if ((MessageBox(hWnd, TEXT("게임을 다시 하시겠습니까?"), TEXT("Game Clear"), MB_YESNO) == IDYES))
-		{
-			GameInit(hdc, hInst);
-		}
-		else
-		{
-			PostQuitMessage(0);
-		}
+		Win(hdc, hWnd, hInst);
+	}
+}
+
+void GameManager::Win(HDC hdc, HWND hWnd, HINSTANCE hInst)
+{
+	int drawcount = 10;
+	winflag = true;
+	while (drawcount > 0)
+	{
+		Sleep(300);
+		Player::GetInstance()->setx(((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter + 10);
+		Player::GetInstance()->sety((600 - (Player::GetInstance()->getWinMotionBitMap().getsize().cy)));
+		m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
+		BGDraw(m_BitMap.getMemDC());
+		End.Draw(m_BitMap.getMemDC(), ((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter, 600);
+		Player::GetInstance()->WinDraw(m_BitMap.getMemDC());
+		BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
+		drawcount--;
+		if (m_iNormal_ver == BG_CODE_NORMAL2) m_iNormal_ver = BG_CODE_NORMAL;
+		else m_iNormal_ver = BG_CODE_NORMAL2;
+	}
+	if ((MessageBox(hWnd, TEXT("게임을 다시 하시겠습니까?"), TEXT("Game Clear"), MB_YESNO) == IDYES))
+	{
+		GameInit(hdc, hInst);
+	}
+	else
+	{
+		PostQuitMessage(0);
 	}
 }
 

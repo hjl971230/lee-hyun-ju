@@ -2,7 +2,7 @@
 
 Pot::Pot(HDC hdc, HINSTANCE hInst)
 {
-
+	m_itype_code = ENEMY_CODE_POT;
 }
 
 Pot::~Pot()
@@ -10,7 +10,7 @@ Pot::~Pot()
 
 }
 
-void Pot::Init()
+void Pot::Init(HDC hdc, HINSTANCE hInst)
 {
 
 }
@@ -18,4 +18,9 @@ void Pot::Init()
 void Pot::Move()
 {
 
+}
+
+bool Pot::CollideCheck()
+{
+	
 }

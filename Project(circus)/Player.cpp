@@ -39,11 +39,13 @@ void Player::Init(HDC hdc, HINSTANCE hInst)
 	m_WinMotionBitMap[0].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\win.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_WinMotionBitMap[1].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\win2.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_DieBitMap.Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\die.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	UpdateCollider();
 }
 
 void Player::Draw(HDC hdc)
 {
 	m_MotionBitMap[m_imotion_num].Draw(hdc, m_point.x, m_point.y + m_ijump_y);
+	UpdateCollider();
 }
 
 void Player::WinDraw(HDC hdc)
@@ -51,11 +53,13 @@ void Player::WinDraw(HDC hdc)
 	m_WinMotionBitMap[m_iwinmotion_num].Draw(hdc, m_point.x, m_point.y); 
 	if (m_iwinmotion_num == 1) m_iwinmotion_num = 0;
 	else if(m_iwinmotion_num == 0) m_iwinmotion_num = 1;
+	UpdateCollider();
 }
 
 void Player::DieDraw(HDC hdc)
 {
 	m_DieBitMap.Draw(hdc, m_point.x, m_point.y + m_ijump_y);
+	UpdateCollider();
 }
 
 void Player::KeyInput()
@@ -83,6 +87,7 @@ void Player::KeyInput()
 			else m_imotion_num = PLAYER_MOTION_RUN2;
 		}	
 	}
+	UpdateCollider();
 }
 
 void Player::Jump()
@@ -97,4 +102,10 @@ void Player::Jump()
 	}
 	m_ijump_y -= m_ivelocity;//점프할 크기를 속도만큼 빼고
 	m_ivelocity -= GRAVITY;//속도는 중력에 영향을 받아 줄어든다
+	UpdateCollider();
+}
+
+void Player::UpdateCollider()
+{
+	collider = { m_point.x, m_point.y + m_ijump_y,m_point.x + m_MotionBitMap[0].getsize().cx, m_point.y + m_ijump_y + m_MotionBitMap[0].getsize().cy };
 }

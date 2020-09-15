@@ -79,7 +79,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		{
 			c_x = cos(i) * radius;
 			c_y = sin(i) * radius;
-			SetPixel(hdc, x + MID_X + c_x, y + MID_Y + c_y, RGB(0, 0, 0));
+			SetPixel(hdc, x + MID_X + c_x, y + MID_Y + c_y, RGB(255, 0, 0));
 		}
 		EndPaint(hWnd, &ps);
 		return 0;

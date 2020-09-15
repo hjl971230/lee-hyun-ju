@@ -10,3 +10,9 @@ Enemy::~Enemy()
 {
 
 }
+
+void Enemy::Update()
+{
+	m_point.x++;
+	m_halfpoint.x++;
+}

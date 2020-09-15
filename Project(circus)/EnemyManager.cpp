@@ -19,8 +19,8 @@ void EnemyManager::Init(HDC hdc, HINSTANCE hInst)
 
 void EnemyManager::release()
 {
-	vector<Enemy*>::iterator iter = m_vecEnemyList.begin();
-	for (iter; iter != m_vecEnemyList.end(); iter++)
+	vector<Enemy*>::iterator iter = m_RingEnemyList.begin();
+	for (iter; iter != m_RingEnemyList.end(); iter++)
 	{
 		if ((*iter) != NULL)
 		{
@@ -28,7 +28,7 @@ void EnemyManager::release()
 			(*iter) = NULL;
 		}
 	}
-	m_vecEnemyList.clear();
+	m_RingEnemyList.clear();
 }
 
 Enemy* EnemyManager::EnemyFactory(HDC hdc, HINSTANCE hInst, int type)

@@ -7,33 +7,38 @@ class Enemy
 protected:
 	POINT m_point;
 	POINT m_halfpoint;
+	int m_itype_code;
 public:
 	Enemy();
-	virtual void Init() = 0;
+	virtual void Init(HDC, HINSTANCE) = 0;
 	virtual void Move() = 0;
+	virtual bool CollideCheck() = 0;
+	void Update();
 	virtual ~Enemy() = 0;
 };
 
 class Ring : public Enemy
 {
 private:
-	vector<vector<BitMap>> RingImage;
+	BitMap RingImage[2][3];
 public:
 	Ring(HDC, HINSTANCE);
 	~Ring();
-	void Init();
+	void Init(HDC, HINSTANCE);
 	void Move();
+	bool CollideCheck();
 };
 
 class SmallRing : public Enemy
 {
 private:
-	vector<vector<BitMap>> RingImage;
+	BitMap RingImage[2][3];
 public:
 	SmallRing(HDC, HINSTANCE);
 	~SmallRing();
-	void Init();
+	void Init(HDC, HINSTANCE);
 	void Move();
+	bool CollideCheck();
 };
 
 class Pot : public Enemy
@@ -43,6 +48,7 @@ private:
 public:
 	Pot(HDC, HINSTANCE);
 	~Pot();
-	void Init();
+	void Init(HDC, HINSTANCE);
 	void Move();
+	bool CollideCheck();
 };
