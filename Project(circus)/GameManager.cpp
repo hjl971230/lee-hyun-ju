@@ -17,7 +17,8 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
-
+	delete EnemyManager::GetInstance();
+	delete Player::GetInstance();
 }
 
 void GameManager::GameInit(HDC hdc, HINSTANCE hInst)
@@ -30,6 +31,7 @@ void GameManager::GameInit(HDC hdc, HINSTANCE hInst)
 	wsprintf(nowMiter, TEXT("%d"), m_imiter);
 	m_imovemiter = 0;
 	winflag = false;
+	m_iNormal_ver = BG_CODE_NORMAL;
 	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
 	m_BG[BG_CODE_BACK].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_BG[BG_CODE_DECO].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back_deco.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
@@ -39,6 +41,7 @@ void GameManager::GameInit(HDC hdc, HINSTANCE hInst)
 	Icon.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\icon.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_Miter.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\miter.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	Player::GetInstance()->Init(m_BitMap.getMemDC(), hInst);
+	EnemyManager::GetInstance()->Init(m_BitMap.getMemDC(), hInst);
 }
 
 void GameManager::GameDraw(HDC hdc, HINSTANCE hInst)
@@ -46,7 +49,10 @@ void GameManager::GameDraw(HDC hdc, HINSTANCE hInst)
 	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
 	BGDraw(m_BitMap.getMemDC());
 	End.Draw(m_BitMap.getMemDC(), ((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter, 600);
+	EnemyManager::GetInstance()->Draw(m_BitMap.getMemDC());
+	EnemyManager::GetInstance()->B_Draw(m_BitMap.getMemDC());
 	Player::GetInstance()->Draw(m_BitMap.getMemDC());
+	EnemyManager::GetInstance()->F_Draw(m_BitMap.getMemDC());
 	BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
 }
 
@@ -109,6 +115,9 @@ void GameManager::BGDraw(HDC hdc)
 
 void GameManager::Update(HDC hdc, HWND hWnd, HINSTANCE hInst)
 {
+	EnemyManager::GetInstance()->Update();
+	if (EnemyManager::GetInstance()->CollideCheck(Player::GetInstance()->getcollider()))
+		Die(hdc, hWnd, hInst);
 	if (finishcheck())
 	{
 		Win(hdc, hWnd, hInst);
@@ -119,6 +128,7 @@ void GameManager::Win(HDC hdc, HWND hWnd, HINSTANCE hInst)
 {
 	int drawcount = 10;
 	winflag = true;
+	EnemyManager::GetInstance()->release();
 	while (drawcount > 0)
 	{
 		Sleep(300);
@@ -141,6 +151,34 @@ void GameManager::Win(HDC hdc, HWND hWnd, HINSTANCE hInst)
 	{
 		PostQuitMessage(0);
 	}
+}
+
+void GameManager::Die(HDC hdc, HWND hWnd, HINSTANCE hInst)
+{
+	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
+	m_iNormal_ver = BG_CODE_NORMAL2;
+	BGDraw(m_BitMap.getMemDC());
+	EnemyManager::GetInstance()->Draw(m_BitMap.getMemDC());
+	End.Draw(m_BitMap.getMemDC(), ((m_BG[BG_CODE_BACK].getsize().cx) * 100) + m_imovemiter, 600);
+	EnemyManager::GetInstance()->B_Draw(m_BitMap.getMemDC());
+	Player::GetInstance()->DieDraw(m_BitMap.getMemDC());
+	EnemyManager::GetInstance()->F_Draw(m_BitMap.getMemDC());
+	BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
+	Sleep(2000);
+	EnemyManager::GetInstance()->release();
+	GameInit(hdc, hInst);
+	Player::GetInstance()->lifedown();
+	if (Player::GetInstance()->getlife() <= 0)GameOver(hdc, hInst);
+}
+
+void GameManager::GameOver(HDC hdc, HINSTANCE hInst)
+{
+	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
+	TCHAR text[128] = "Game Over";
+	TextOut(m_BitMap.getMemDC(), 700, 400, text, lstrlen(text));
+	BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
+	Sleep(2000);
+	PostQuitMessage(0);
 }
 
 bool GameManager::finishcheck()
@@ -177,5 +215,6 @@ void GameManager::KeyInput()
 		{
 			if (m_imovemiter >= -1800 * MOVESPEED) m_imovemiter -= MOVESPEED;
 		}
+		EnemyManager::GetInstance()->PointUpdate(m_imovemiter);
 	}
 }

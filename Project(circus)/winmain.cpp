@@ -6,6 +6,7 @@ HDC hdc;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
+	srand(time(NULL));
 	HWND hWnd;
 	MSG Message;
 	WNDCLASS WndClass;

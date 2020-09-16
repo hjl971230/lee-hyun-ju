@@ -15,5 +15,6 @@ public:
 	inline POINT getPoint() { return m_point; }
 	void Init(HDC, HINSTANCE);
 	void Draw(HDC);
+	bool CollideCheck(RECT);
 };
 

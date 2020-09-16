@@ -17,5 +17,14 @@ void Item::Init(HDC hdc, HINSTANCE hInst)
 
 void Item::Draw(HDC hdc)
 {
-	Cash.Draw(hdc, 0, 0);
+	Cash.Draw(hdc, m_point.x, m_point.y);
+}
+
+bool Item::CollideCheck(RECT rt)
+{
+	RECT Intersect;
+	RECT collider = { m_point.x,m_point.y,m_point.x + Cash.getsize().cx,m_point.y + Cash.getsize().cy };
+	if (IntersectRect(&Intersect, &rt, &collider))
+		return true;
+	else return false;
 }

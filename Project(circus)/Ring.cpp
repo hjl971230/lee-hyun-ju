@@ -3,6 +3,7 @@
 Ring::Ring(HDC hdc, HINSTANCE hInst)
 {
 	m_itype_code = ENEMY_CODE_RING;
+	Init(hdc, hInst);
 }
 
 Ring::~Ring()
@@ -12,20 +13,46 @@ Ring::~Ring()
 
 void Ring::Init(HDC hdc, HINSTANCE hInst)
 {
-
+	RingImage[RING_IMAGE_1][RING_IMAGE_TYPE_ORIGIN].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Enemy\\enemy.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	RingImage[RING_IMAGE_1][RING_IMAGE_TYPE_B].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Enemy\\enemy_b.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	RingImage[RING_IMAGE_1][RING_IMAGE_TYPE_F].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Enemy\\enemy_f.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	RingImage[RING_IMAGE_2][RING_IMAGE_TYPE_ORIGIN].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Enemy\\enemy1.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	RingImage[RING_IMAGE_2][RING_IMAGE_TYPE_B].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Enemy\\enemy1_b.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	RingImage[RING_IMAGE_2][RING_IMAGE_TYPE_F].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Enemy\\enemy1_f.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 }
 
 void Ring::Move()
 {
-
+	m_point.x -= 5;
+	if (m_point.x <= 0) m_point.x = 7000;
 }
 
-bool Ring::CollideCheck()
+void Ring::Draw(HDC hdc)
 {
-	//타원 공식 : x^ / a^ + y^ / b^ = 1
-		//x^ + y^ * a^ / b^ = a^
-		//x^ * b^ + y^ * a^ = a^ * b^
-	//for (int x = -a; x <= a; x++)
-		//for (int y = -b; y <= b; y++)
-			//if (a * a * b * b > x * x * b * b + y * y * a * a)
+	if (m_simagenum != RING_IMAGE_1) m_simagenum = RING_IMAGE_1;
+	else m_simagenum = RING_IMAGE_2;
+	RingImage[m_simagenum][RING_IMAGE_TYPE_ORIGIN].Draw(hdc, m_point.x + m_iscroll_move, m_point.y);
+}
+
+void Ring::B_Draw(HDC hdc)
+{
+	RingImage[m_simagenum][RING_IMAGE_TYPE_B].Draw(hdc, m_point.x + m_iscroll_move, m_point.y);
+}
+
+void Ring::F_Draw(HDC hdc)
+{
+	if (m_simagenum != RING_IMAGE_1) m_simagenum = RING_IMAGE_1;
+	else m_simagenum = RING_IMAGE_2;
+	RingImage[m_simagenum][RING_IMAGE_TYPE_F].Draw(hdc, m_point.x + ((RingImage[m_simagenum][RING_IMAGE_TYPE_ORIGIN].getsize().cx) / 2) + m_iscroll_move, m_point.y);
+}
+
+bool Ring::CollideCheck(RECT rt)
+{
+	RECT Intersect;
+	collider = { m_point.x + m_iscroll_move,m_point.y,m_point.x + m_iscroll_move + RingImage[RING_IMAGE_1][RING_IMAGE_TYPE_ORIGIN].getsize().cx,m_point.y + RingImage[RING_IMAGE_1][RING_IMAGE_TYPE_ORIGIN].getsize().cy };
+	RECT topcollider = { collider.left + 30, collider.top, collider.right - 30, collider.top + 15 };
+	RECT bottomcollider = { collider.left + 30, collider.bottom - 10, collider.right - 30, collider.bottom };
+	if (IntersectRect(&Intersect, &rt, &topcollider) || IntersectRect(&Intersect, &rt, &bottomcollider))
+		return true;
+	else return false;
 }

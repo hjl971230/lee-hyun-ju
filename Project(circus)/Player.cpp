@@ -32,8 +32,7 @@ void Player::Init(HDC hdc, HINSTANCE hInst)
 	m_imotion_num = PLAYER_MOTION_STAND;
 	m_iwinmotion_num = 0;
 	m_iscore = 0;
-	m_ilife = 3;
-	m_MotionBitMap[0].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\player0.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	m_MotionBitMap[PLAYER_MOTION_STAND].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\player0.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_MotionBitMap[1].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\player1.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_MotionBitMap[2].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\player2.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_WinMotionBitMap[0].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\win.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
@@ -108,4 +107,10 @@ void Player::Jump()
 void Player::UpdateCollider()
 {
 	collider = { m_point.x, m_point.y + m_ijump_y,m_point.x + m_MotionBitMap[0].getsize().cx, m_point.y + m_ijump_y + m_MotionBitMap[0].getsize().cy };
+}
+
+void Player::lifedown()
+{
+	if (m_ilife > 0)
+		m_ilife--;
 }

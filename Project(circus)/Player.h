@@ -49,5 +49,6 @@ public:
 	void DieDraw(HDC hdc);
 	void KeyInput();
 	void Jump();
+	void lifedown();
 };
 
