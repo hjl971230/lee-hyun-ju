@@ -43,7 +43,17 @@ bool Pot::CollideCheck(RECT rt)
 {
 	RECT Intersect;
 	collider = { m_point.x + m_iscroll_move,m_point.y,m_point.x + m_iscroll_move + potImage[POT_IMAGE_1].getsize().cx,m_point.y + potImage[POT_IMAGE_1].getsize().cy };
+	RECT scorecollider = { m_point.x + m_iscroll_move,m_point.y - 100,m_point.x + m_iscroll_move + potImage[POT_IMAGE_1].getsize().cx,m_point.y + potImage[POT_IMAGE_1].getsize().cy };
 	if (IntersectRect(&Intersect, &rt, &collider))
 		return true;
+	else if (IntersectRect(&Intersect, &rt, &scorecollider))
+	{
+		if (!firstcollideflag)
+		{
+			Player::GetInstance()->setscore(Player::GetInstance()->getscore() + 100);
+			firstcollideflag = true;
+		}
+		return false;
+	}
 	else return false;
 }

@@ -10,6 +10,7 @@ protected:
 	int m_iscroll_move;
 	RECT collider;
 	short m_simagenum;
+	bool firstcollideflag;
 public:
 	Enemy();
 	inline void setx(int i) { m_point.x = i; }

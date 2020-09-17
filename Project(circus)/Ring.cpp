@@ -50,9 +50,18 @@ bool Ring::CollideCheck(RECT rt)
 {
 	RECT Intersect;
 	collider = { m_point.x + m_iscroll_move,m_point.y,m_point.x + m_iscroll_move + RingImage[RING_IMAGE_1][RING_IMAGE_TYPE_ORIGIN].getsize().cx,m_point.y + RingImage[RING_IMAGE_1][RING_IMAGE_TYPE_ORIGIN].getsize().cy };
-	RECT topcollider = { collider.left + 30, collider.top, collider.right - 30, collider.top + 15 };
-	RECT bottomcollider = { collider.left + 30, collider.bottom - 10, collider.right - 30, collider.bottom };
+	RECT topcollider = { collider.left + 20, collider.top, collider.right - 20, collider.top + 20 };
+	RECT bottomcollider = { collider.left + 20, collider.bottom - 20, collider.right - 20, collider.bottom };
 	if (IntersectRect(&Intersect, &rt, &topcollider) || IntersectRect(&Intersect, &rt, &bottomcollider))
 		return true;
+	else if (IntersectRect(&Intersect, &rt, &collider) && (!IntersectRect(&Intersect, &rt, &topcollider) || !IntersectRect(&Intersect, &rt, &bottomcollider)))
+	{
+		if (!firstcollideflag)
+		{
+			Player::GetInstance()->setscore(Player::GetInstance()->getscore() + 100);
+			firstcollideflag = true;
+		}
+		return false;
+	}
 	else return false;
 }
