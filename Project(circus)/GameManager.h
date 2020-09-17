@@ -15,11 +15,16 @@ private:
 	int m_imitercount;
 	int m_imiter;
 	int m_imovemiter;
-	bool winflag;
+	bool m_bwinflag;
+	bool m_bgameflag;
 	TCHAR nowMiter[128];
 	BitMap End;
 	BitMap Icon;
+	BitMap Star[3];
 	int m_iNormal_ver;
+	POINT mouse;
+	RECT StartButton;
+	RECT ExitButton;
 public:
 	static GameManager* GetInstance()
 	{
@@ -29,8 +34,11 @@ public:
 	}
 	GameManager();
 	~GameManager();
+	inline bool getgameflag() { return m_bgameflag; }
+	inline void setmouse(int x, int y) { mouse.x = x; mouse.y = y; }
 	void GameInit(HDC, HINSTANCE);
 	void GameDraw(HDC, HINSTANCE);
+	void GameTitle(HDC, HINSTANCE);
 	void BGDraw(HDC);
 	void ScoreLifeDraw(HDC);
 	void Update(HDC, HWND, HINSTANCE);

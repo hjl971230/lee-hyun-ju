@@ -42,7 +42,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 		{
 			//SetPixel(hdc, rand() % 500, rand() % 400, RGB(rand() % 256, rand() % 256, rand() % 256));
 			InvalidateRect(hWnd, NULL, FALSE);
-			GameManager::GetInstance()->Update(hdc, hWnd, g_hInst);
+			if (GameManager::GetInstance()->getgameflag()) GameManager::GetInstance()->Update(hdc, hWnd, g_hInst);
 		}
 	}
 	delete GameManager::GetInstance();
@@ -55,6 +55,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
 	HDC hdc;
 	PAINTSTRUCT ps;
+	int x = 0, y = 0;
 	switch (iMessage)
 	{
 	case WM_CREATE://윈도우 생성 시 할당, 초기화 등
@@ -65,15 +66,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0); //GetMessage함수에 WM_QUIT 메시지를 보낸다.
 		KillTimer(hWnd, 1);
 		return 0; //WndProc의 Switch는 break 대신 return 0; 를 쓴다.
+	case WM_LBUTTONDOWN:
+		x = LOWORD(lParam);
+		y = HIWORD(lParam);
+		GameManager::GetInstance()->setmouse(x, y);
+		return 0;
 	case WM_TIMER:
-		GameManager::GetInstance()->PlayGame();
+		if (GameManager::GetInstance()->getgameflag()) GameManager::GetInstance()->PlayGame();
 		InvalidateRect(hWnd, NULL, FALSE);
 		//return 0;
 	//case WM_KEYDOWN:
 		//return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		GameManager::GetInstance()->GameDraw(hdc, g_hInst);
+		if (!GameManager::GetInstance()->getgameflag())
+		{
+			GameManager::GetInstance()->GameTitle(hdc, g_hInst);
+		}
+		else GameManager::GetInstance()->GameDraw(hdc, g_hInst);
 		EndPaint(hWnd, &ps);
 		return 0;
 	}

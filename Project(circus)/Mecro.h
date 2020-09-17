@@ -14,6 +14,12 @@
 
 using namespace std;
 
+enum BOX_SIZE
+{
+	BOX_SIZE_X = 300,
+	BOX_SIZE_Y = 100
+};
+
 enum PLAYER_MOTION
 {
 	PLAYER_MOTION_STAND = 0,

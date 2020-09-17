@@ -11,8 +11,9 @@ GameManager::GameManager()
 	m_imiter = 100;
 	wsprintf(nowMiter, TEXT("%d"), m_imiter);
 	m_imovemiter = 0;
-	winflag = false;
+	m_bwinflag = false;
 	m_iNormal_ver = BG_CODE_NORMAL;
+	m_bgameflag = false;
 }
 
 GameManager::~GameManager()
@@ -30,7 +31,7 @@ void GameManager::GameInit(HDC hdc, HINSTANCE hInst)
 	m_imiter = 100;
 	wsprintf(nowMiter, TEXT("%d"), m_imiter);
 	m_imovemiter = 0;
-	winflag = false;
+	m_bwinflag = false;
 	m_iNormal_ver = BG_CODE_NORMAL;
 	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
 	m_BG[BG_CODE_BACK].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
@@ -40,8 +41,13 @@ void GameManager::GameInit(HDC hdc, HINSTANCE hInst)
 	End.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\end.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	Icon.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\icon.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_Miter.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\miter.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	Star[0].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\star.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	Star[1].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\star1.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
+	Star[2].Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\star2.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	Player::GetInstance()->Init(m_BitMap.getMemDC(), hInst);
 	EnemyManager::GetInstance()->Init(m_BitMap.getMemDC(), hInst);
+	StartButton = { 570,400,670,413 };
+	ExitButton = { 570,450,670,463 };
 }
 
 void GameManager::GameDraw(HDC hdc, HINSTANCE hInst)
@@ -54,6 +60,33 @@ void GameManager::GameDraw(HDC hdc, HINSTANCE hInst)
 	Player::GetInstance()->Draw(m_BitMap.getMemDC());
 	EnemyManager::GetInstance()->F_Draw(m_BitMap.getMemDC());
 	BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
+}
+
+void GameManager::GameTitle(HDC hdc, HINSTANCE hInst)
+{
+	int starnum = 0;
+	RECT rt = { BOX_SIZE_X + (Star[1].getsize().cx * 10),BOX_SIZE_Y + (Star[1].getsize().cy * 7),BOX_SIZE_X + (Star[1].getsize().cx * 40),BOX_SIZE_Y + (Star[1].getsize().cy * 10) };
+	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 2000, 1000));
+	for (int i = BOX_SIZE_X; i <= BOX_SIZE_X + (Star[1].getsize().cx * 50); i+= Star[1].getsize().cx)
+	{
+		for (int j = BOX_SIZE_Y; j <= BOX_SIZE_Y + (Star[1].getsize().cy * 15); j+= Star[1].getsize().cy)
+		{
+			if (i == BOX_SIZE_X || j == BOX_SIZE_Y || i == BOX_SIZE_X + (Star[starnum].getsize().cx * 50) || j == BOX_SIZE_Y + (Star[starnum].getsize().cy * 15))
+			{
+				Star[starnum].Draw(m_BitMap.getMemDC(), i, j);
+			}
+			starnum++;
+			if (starnum >= 3) starnum = 0;
+		}
+	}
+	BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
+	DrawText(hdc, TEXT("C I R C U S"), -1, &rt, DT_CENTER | DT_WORDBREAK);
+	DrawText(hdc, TEXT("  Game   Start"), -1, &StartButton, DT_CENTER | DT_WORDBREAK);
+	DrawText(hdc, TEXT(" Game      Exit "), -1, &ExitButton, DT_CENTER | DT_WORDBREAK);
+	if (PtInRect(&StartButton, mouse))
+		m_bgameflag = true;
+	if (PtInRect(&ExitButton, mouse))
+		PostQuitMessage(0);
 }
 
 void GameManager::ScoreLifeDraw(HDC hdc)
@@ -127,7 +160,7 @@ void GameManager::Update(HDC hdc, HWND hWnd, HINSTANCE hInst)
 void GameManager::Win(HDC hdc, HWND hWnd, HINSTANCE hInst)
 {
 	int drawcount = 10;
-	winflag = true;
+	m_bwinflag = true;
 	EnemyManager::GetInstance()->release();
 	while (drawcount > 0)
 	{
@@ -149,7 +182,7 @@ void GameManager::Win(HDC hdc, HWND hWnd, HINSTANCE hInst)
 	}
 	else
 	{
-		PostQuitMessage(0);
+		m_bgameflag = false;
 	}
 }
 
@@ -178,7 +211,9 @@ void GameManager::GameOver(HDC hdc, HINSTANCE hInst)
 	TextOut(m_BitMap.getMemDC(), 700, 400, text, lstrlen(text));
 	BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
 	Sleep(2000);
-	PostQuitMessage(0);
+	m_bgameflag = false;
+	mouse.x = 0;
+	mouse.y = 0;
 }
 
 bool GameManager::finishcheck()
@@ -201,7 +236,7 @@ void GameManager::PlayGame()
 
 void GameManager::KeyInput()
 {
-	if (!winflag)
+	if (!m_bwinflag)
 	{
 		if (GetKeyState(VK_SPACE) & 0x8000)
 		{
