@@ -91,18 +91,31 @@ void GameManager::GameTitle(HDC hdc, HINSTANCE hInst)
 
 void GameManager::ScoreLifeDraw(HDC hdc)
 {
-	int score_x = 0;
-	int life_x = 1500;
+	int score_x = Star[1].getsize().cx + 10;
+	int life_x = 1200;
 	int y = 60;
 	TCHAR lifetext[128] = "Life";
 	TCHAR scoretext[128] = "Score : ";
 	wsprintf(scoretext, TEXT("Score : %d"), Player::GetInstance()->getscore());
 	TextOut(hdc, score_x, y, scoretext, lstrlen(scoretext));
-	TextOut(hdc, 1500 - lstrlen(lifetext), y / 2, lifetext, lstrlen(lifetext));
+	TextOut(hdc, life_x - lstrlen(lifetext), y / 2, lifetext, lstrlen(lifetext));
 	for (int i = 0; i < Player::GetInstance()->getlife(); i++)
 	{
 		Icon.Draw(hdc, life_x, y, 2);
 		life_x -= (Icon.getsize().cx + 50);
+	}
+	int starnum = 0;
+	for (int i = 0; i <= (Star[1].getsize().cx * 100); i += Star[1].getsize().cx)
+	{
+		for (int j = 0; j <= (Star[1].getsize().cy * 15); j += Star[1].getsize().cy)
+		{
+			if (i == 0 || j == 0 || i == (Star[starnum].getsize().cx * 100) || j == (Star[starnum].getsize().cy * 15))
+			{
+				Star[starnum].Draw(m_BitMap.getMemDC(), i, j);
+			}
+			starnum++;
+			if (starnum >= 3) starnum = 0;
+		}
 	}
 }
 
@@ -214,6 +227,8 @@ void GameManager::GameOver(HDC hdc, HINSTANCE hInst)
 	m_bgameflag = false;
 	mouse.x = 0;
 	mouse.y = 0;
+	Player::GetInstance()->setlife(3);
+	Player::GetInstance()->setscore(0);
 }
 
 bool GameManager::finishcheck()

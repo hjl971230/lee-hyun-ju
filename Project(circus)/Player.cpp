@@ -31,7 +31,6 @@ void Player::Init(HDC hdc, HINSTANCE hInst)
 	m_point.y = 600;
 	m_imotion_num = PLAYER_MOTION_STAND;
 	m_iwinmotion_num = 0;
-	m_iscore = 0;
 	m_MotionBitMap[PLAYER_MOTION_STAND].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\player0.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_MotionBitMap[1].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\player1.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	m_MotionBitMap[2].Init(hdc, hInst, (HBITMAP)LoadImage(hInst, "BitMap\\Player\\player2.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
