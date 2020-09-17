@@ -1,5 +1,5 @@
 #pragma once
-#include "BitMap.h"
+#include "Player.h"
 class Item
 {
 protected:

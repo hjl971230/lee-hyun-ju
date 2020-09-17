@@ -16,7 +16,7 @@ void BitMap::Init(HDC hdc, HINSTANCE hInst, HBITMAP hBitMap)
 	m_size.cy = BitMap_Info.bmHeight;
 }
 
-void BitMap::Draw(HDC hdc, int x, int y, int scale)
+void BitMap::Draw(HDC hdc, int x, int y, float scale)
 {
 	//그려준다.
 	//StretchBlt(hdc, x, y, m_size.cx * spX, m_size.cy * spY, MemDC, 0, 0, m_size.cx, m_size.cy, SRCCOPY);

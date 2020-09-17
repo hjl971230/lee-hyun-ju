@@ -31,28 +31,30 @@ public:
 
 class Ring : public Enemy
 {
-private:
+protected:
 	BitMap RingImage[2][3];
 public:
 	Ring(HDC, HINSTANCE);
-	~Ring();
+	virtual ~Ring();
 	virtual void Init(HDC, HINSTANCE);
 	void Move();
 	void Draw(HDC);
-	void B_Draw(HDC);
-	void F_Draw(HDC);
-	bool CollideCheck(RECT);
+	virtual void B_Draw(HDC);
+	virtual void F_Draw(HDC);
+	virtual bool CollideCheck(RECT);
 };
 
 class SmallRing : public Ring
 {
 private:
 	BitMap SmallRingImage[3];
-	Item cash;
 public:
 	SmallRing(HDC, HINSTANCE);
 	~SmallRing();
 	void Init(HDC, HINSTANCE);
+	void B_Draw(HDC);
+	void F_Draw(HDC);
+	bool CollideCheck(RECT);
 };
 
 class Pot : public Enemy

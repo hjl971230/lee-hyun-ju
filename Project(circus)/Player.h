@@ -1,6 +1,5 @@
 #pragma once
 #include"BitMap.h"
-#include"Item.h"
 
 class Player
 {

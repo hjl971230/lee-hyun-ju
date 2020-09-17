@@ -24,7 +24,11 @@ void Ring::Init(HDC hdc, HINSTANCE hInst)
 void Ring::Move()
 {
 	m_point.x -= 5;
-	if (m_point.x <= 0) m_point.x = 7000;
+	if (m_point.x <= 0)
+	{
+		m_point.x = 7000;
+		firstcollideflag = false;
+	}
 }
 
 void Ring::Draw(HDC hdc)
@@ -50,8 +54,8 @@ bool Ring::CollideCheck(RECT rt)
 {
 	RECT Intersect;
 	collider = { m_point.x + m_iscroll_move,m_point.y,m_point.x + m_iscroll_move + RingImage[RING_IMAGE_1][RING_IMAGE_TYPE_ORIGIN].getsize().cx,m_point.y + RingImage[RING_IMAGE_1][RING_IMAGE_TYPE_ORIGIN].getsize().cy };
-	RECT topcollider = { collider.left + 20, collider.top, collider.right - 20, collider.top + 20 };
-	RECT bottomcollider = { collider.left + 20, collider.bottom - 20, collider.right - 20, collider.bottom };
+	RECT topcollider = { collider.left + 15, collider.top, collider.right - 15, collider.top + 20 };
+	RECT bottomcollider = { collider.left + 15, collider.bottom - 20, collider.right - 15, collider.bottom };
 	if (IntersectRect(&Intersect, &rt, &topcollider) || IntersectRect(&Intersect, &rt, &bottomcollider))
 		return true;
 	else if (IntersectRect(&Intersect, &rt, &collider) && (!IntersectRect(&Intersect, &rt, &topcollider) || !IntersectRect(&Intersect, &rt, &bottomcollider)))

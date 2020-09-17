@@ -23,7 +23,6 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Pot.cpp" />
     <ClCompile Include="Ring.cpp" />
@@ -35,7 +34,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="Item.h" />
     <ClInclude Include="Mecro.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
