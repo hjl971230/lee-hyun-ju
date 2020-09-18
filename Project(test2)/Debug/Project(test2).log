@@ -3,27 +3,4 @@ D:\학원\github\project\Project(test2)\Draw.h(11,17): warning C4838: 'int'에�
 D:\학원\github\project\Project(test2)\Draw.h(11,20): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
 D:\학원\github\project\Project(test2)\GameManager.cpp(159,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 D:\학원\github\project\Project(test2)\GameManager.cpp(224,12): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _getch. See online help for details.
-  Interface.cpp
-D:\학원\github\project\Project(test2)\Draw.h(11,17): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-D:\학원\github\project\Project(test2)\Draw.h(11,20): warning C4838: 'int'에서 'SHORT'(으)로의 변환에는 축소 변환이 필요합니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(21,67): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(22,59): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(23,61): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(24,53): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(25,58): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(25,38): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(26,43): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(18,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-D:\학원\github\project\Project(test2)\Interface.cpp(35,68): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(36,73): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(37,75): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(38,73): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(39,53): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(40,58): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(40,38): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(41,43): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(test2)\Interface.cpp(32,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-D:\학원\github\project\Project(test2)\Interface.cpp(47,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-D:\학원\github\project\Project(test2)\Interface.cpp(58,37): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다...
   Project(test2).vcxproj -> D:\학원\github\project\Project(test2)\Debug\Project(test2).exe
