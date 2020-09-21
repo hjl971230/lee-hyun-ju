@@ -7,6 +7,7 @@ INT_PTR CALLBACK SettingDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
+	srand(time(NULL));
 	HWND hWnd;
 	MSG Message;
 	WNDCLASS WndClass;
@@ -30,10 +31,19 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 
-	while (GetMessage(&Message, NULL, 0, 0))
+	while (true)
 	{
-		TranslateMessage(&Message);
-		DispatchMessage(&Message);
+		if (PeekMessage(&Message, NULL, 0, 0, PM_REMOVE))
+		{
+			if (Message.message == WM_QUIT)
+				break;
+			TranslateMessage(&Message);
+			DispatchMessage(&Message);
+		}
+		else
+		{
+			
+		}
 	}
 	return (int)Message.wParam;
 }
@@ -56,6 +66,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			DialogBox(g_hInst, MAKEINTRESOURCE(IDD_DIALOG1), HWND_DESKTOP, SettingDlg);
 			break;
 		}
+		return 0;
+	case WM_TIMER:
 		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);

@@ -1,2 +1,4 @@
 D:\학원\github\project\Project(Mine)\Debug\Project(Mine).exe
 D:\학원\github\project\Project(Mine)\Debug\Project(Mine).pdb
+F:\학원\github\lee-hyun-ju\Project(Mine)\Debug\Project(Mine).exe
+F:\학원\github\lee-hyun-ju\Project(Mine)\Debug\Project(Mine).pdb
