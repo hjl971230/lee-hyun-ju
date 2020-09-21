@@ -1,9 +1,10 @@
-#include"Mecro.h"
+#include"GameManager.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;
 LPCTSTR lpszClass = TEXT("Menu");
 INT_PTR CALLBACK SettingDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+HDC hdc;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -31,6 +32,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 	hWnd = CreateWindow(lpszClass, lpszClass, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, (HMENU)NULL, hInstance, NULL);
 	ShowWindow(hWnd, nCmdShow);
 
+	hdc = GetDC(hWnd);
+	GameManager::GetInstance()->Init(hdc, g_hInst);
 	while (true)
 	{
 		if (PeekMessage(&Message, NULL, 0, 0, PM_REMOVE))
@@ -42,7 +45,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 		}
 		else
 		{
-			
+			InvalidateRect(hWnd, NULL, FALSE);
 		}
 	}
 	return (int)Message.wParam;
@@ -50,8 +53,15 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
+	HDC hdc;
+	PAINTSTRUCT ps;
+	int x = 0, y = 0;
 	switch (iMessage)
 	{
+	case WM_CREATE:
+		SetTimer(hWnd, 1, 1000, NULL);
+		SendMessage(hWnd, WM_TIMER, 1, 0);
+		return 0;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
@@ -67,7 +77,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		return 0;
+	case WM_LBUTTONDOWN:
+		x = LOWORD(lParam);
+		y = HIWORD(lParam);
+		GameManager::GetInstance()->setLmousepoint(x, y);
+		return 0;
+	case WM_RBUTTONDOWN:
+		x = LOWORD(lParam);
+		y = HIWORD(lParam);
+		GameManager::GetInstance()->setRmousepoint(x, y);
+		return 0;
 	case WM_TIMER:
+		GameManager::GetInstance()->TimeUpdate();
+		InvalidateRect(hWnd, NULL, FALSE);
+	case WM_PAINT:
+		hdc = BeginPaint(hWnd, &ps);
+		GameManager::GetInstance()->Draw(hdc, g_hInst);
+		GameManager::GetInstance()->Click();
+		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);
