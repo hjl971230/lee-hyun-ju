@@ -7,6 +7,7 @@ GameManager::GameManager()
 	m_imin = 0;
 	m_isec = 0;
 	m_ilevel = LEVEL_EASY;
+	m_itrapcount = MINE_LEVEL_EASY;
 	MouseReset();
 }
 
@@ -23,7 +24,23 @@ void GameManager::Init(HDC hdc, HINSTANCE hInst)
 
 void GameManager::MapInit(HDC hdc, HINSTANCE hInst)
 {
-	
+	if (!m_vecmap.empty())
+		m_vecmap.clear();
+	int tmp;
+	vector<Block> vectmp;
+	Block blocktmp;
+	vector<vector<Block>>::iterator y_iter = m_vecmap.begin();
+	m_vecmap.reserve(MAPSIZE_LEVEL_HARD);
+	vectmp.reserve(MAPSIZE_LEVEL_HARD);
+	m_vecmap.assign(MAPSIZE_LEVEL_HARD, vectmp);
+	for (vector<vector<Block>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+	{
+		(*iter_height).assign(MAPSIZE_LEVEL_HARD, blocktmp);
+		for (vector<Block>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+		{
+
+		}
+	}
 }
 
 void GameManager::Draw(HDC hdc, HINSTANCE hInst)

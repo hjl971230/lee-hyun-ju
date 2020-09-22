@@ -16,6 +16,7 @@ private:
 	BitMap m_BG;
 	int m_ilevel;
 	vector<vector<Block>> m_vecmap;
+	int m_itrapcount;
 public:
 	inline static GameManager* GetInstance()
 	{

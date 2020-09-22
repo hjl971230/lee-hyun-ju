@@ -2,9 +2,17 @@
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HINSTANCE g_hInst;
-LPCTSTR lpszClass = TEXT("Menu");
+LPCTSTR lpszClass = TEXT("MineSweeper");
 INT_PTR CALLBACK SettingDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 HDC hdc;
+HWND r1, r2, r3;
+enum
+{
+	ID_R1 = 101,
+	ID_R2,
+	ID_R3,
+};
+int num = ID_R1;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
 {
@@ -108,11 +116,41 @@ INT_PTR CALLBACK SettingDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 	switch (message)
 	{
 	case WM_INITDIALOG:
+		CreateWindow(TEXT("button"), TEXT("Level"), WS_CHILD | WS_VISIBLE |
+			BS_GROUPBOX, 5, 5, 120, 110, hDlg, (HMENU)0, g_hInst, NULL);
+		r1 = CreateWindow(TEXT("button"), TEXT("Easy"), WS_CHILD | WS_VISIBLE |
+			BS_AUTORADIOBUTTON | WS_GROUP, 10, 20, 100, 30, hDlg, (HMENU)ID_R1, g_hInst, NULL);
+		r2 = CreateWindow(TEXT("button"), TEXT("Normal"), WS_CHILD | WS_VISIBLE |
+			BS_AUTORADIOBUTTON, 10, 50, 100, 30, hDlg, (HMENU)ID_R2, g_hInst, NULL);
+		r3 = CreateWindow(TEXT("button"), TEXT("Hard"), WS_CHILD | WS_VISIBLE |
+			BS_AUTORADIOBUTTON, 10, 80, 100, 30, hDlg, (HMENU)ID_R3, g_hInst, NULL);
+		CheckRadioButton(hDlg, ID_R1, ID_R3, num);
 		return (INT_PTR)TRUE;
 
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		switch (LOWORD(wParam))
 		{
+		case IDOK:
+			//setting save
+			if (IsDlgButtonChecked(hDlg, ID_R1) == BST_CHECKED)
+			{
+				num = ID_R1;
+				MessageBox(hDlg, "Beginner", "초급자", MB_OK);
+			}
+			else if (IsDlgButtonChecked(hDlg, ID_R2) == BST_CHECKED)
+			{
+				num = ID_R2;
+				MessageBox(hDlg, "Intermediate", "중급자", MB_OK);
+			}
+			else if (IsDlgButtonChecked(hDlg, ID_R3) == BST_CHECKED)
+			{
+				num = ID_R3;
+				MessageBox(hDlg, "Advanced ", "고급자", MB_OK);
+			}
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		case IDCANCEL:
+			//setting cancel
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;
 		}
