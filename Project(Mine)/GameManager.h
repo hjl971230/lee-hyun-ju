@@ -15,6 +15,8 @@ private:
 	BitMap m_BitMap;
 	BitMap m_BG;
 	int m_ilevel;
+	int m_imapheight;
+	int m_imapwidth;
 	vector<vector<Block>> m_vecmap;
 	int m_itrapcount;
 public:
@@ -29,9 +31,11 @@ public:
 	inline void setRmousepoint(int x, int y) { Rmouse.x = x; Rmouse.y = y; }
 	void Init(HDC, HINSTANCE);
 	void Draw(HDC, HINSTANCE);
+	void BGDraw();
 	void TimeUpdate();
 	void Click();
 	void MouseReset();
 	void MapInit(HDC, HINSTANCE);
+	void MapDraw();
 };
 

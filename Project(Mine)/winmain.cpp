@@ -98,6 +98,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_TIMER:
 		GameManager::GetInstance()->TimeUpdate();
 		InvalidateRect(hWnd, NULL, FALSE);
+		return 0;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		GameManager::GetInstance()->Draw(hdc, g_hInst);
