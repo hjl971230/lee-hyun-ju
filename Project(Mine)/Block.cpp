@@ -3,8 +3,7 @@
 Block::Block()
 {
 	m_iminecount = 0;
-	m_bhideflag = true;
-	m_buseflag = true;
+	m_ihideflag = MINE_HIDE;
 }
 
 Block::~Block()
@@ -29,5 +28,8 @@ void Block::numbersload(HDC hdc, HINSTANCE hInst)
 
 void Block::Draw(HDC hdc, int x, int y, float scale_x, float scale_y)
 {
-	m_block.Draw(hdc, x, y);
+	if (m_ihideflag == MINE_HIDE)
+		m_block.Draw(hdc, x, y);
+	else if (m_ihideflag == MINE_FLAG) m_flag.Draw(hdc, x, y);
+	else m_numbers.Draw(hdc, x, y);
 }

@@ -6,12 +6,7 @@ LPCTSTR lpszClass = TEXT("MineSweeper");
 INT_PTR CALLBACK SettingDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 HDC hdc;
 HWND r1, r2, r3;
-enum
-{
-	ID_R1 = 101,
-	ID_R2,
-	ID_R3,
-};
+
 int num = ID_R1;
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmdParam, int nCmdShow)
@@ -136,18 +131,18 @@ INT_PTR CALLBACK SettingDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
 			if (IsDlgButtonChecked(hDlg, ID_R1) == BST_CHECKED)
 			{
 				num = ID_R1;
-				MessageBox(hDlg, "Beginner", "초급자", MB_OK);
 			}
 			else if (IsDlgButtonChecked(hDlg, ID_R2) == BST_CHECKED)
 			{
 				num = ID_R2;
-				MessageBox(hDlg, "Intermediate", "중급자", MB_OK);
 			}
 			else if (IsDlgButtonChecked(hDlg, ID_R3) == BST_CHECKED)
 			{
 				num = ID_R3;
-				MessageBox(hDlg, "Advanced ", "고급자", MB_OK);
 			}
+			MessageBox(hDlg, "난이도가 변경되었습니다.", "Changed Level", MB_OK);
+			GameManager::GetInstance()->setlevel(num - ID_R1);
+			GameManager::GetInstance()->ChangeLevel(g_hInst);
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;
 		case IDCANCEL:

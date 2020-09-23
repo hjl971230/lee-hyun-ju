@@ -4,8 +4,7 @@ class Block
 {
 private:
 	int m_iminecount;
-	bool m_bhideflag;
-	bool m_buseflag;
+	int m_ihideflag;
 	POINT m_point;
 	RECT collider;
 	BitMap m_flag;
