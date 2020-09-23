@@ -22,19 +22,19 @@ void GameManager::Init(HDC hdc, HINSTANCE hInst)
 {
 	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 900, 700));
 	m_BG.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
-	MapInit(m_BitMap.getMemDC(), hInst);
+	//MapInit(m_BitMap.getMemDC(), hInst);
 }
 
 void GameManager::MapInit(HDC hdc, HINSTANCE hInst)
 {
 	vector<Block> vectmp;
 	Block blocktmp;
-	m_vecmap.reserve(MAPSIZE_HEIGHT_HARD);
-	vectmp.reserve(MAPSIZE_WIDTH_HARD);
-	m_vecmap.assign(MAPSIZE_HEIGHT_HARD, vectmp);
+	m_vecmap.reserve(MAPSIZE_HEIGHT_EASY);
+	vectmp.reserve(MAPSIZE_WIDTH_EASY);
+	m_vecmap.assign(MAPSIZE_HEIGHT_EASY, vectmp);
 	for (vector<vector<Block>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
 	{
-		(*iter_height).assign(MAPSIZE_WIDTH_HARD, blocktmp);
+		(*iter_height).assign(MAPSIZE_WIDTH_EASY, blocktmp);
 		for (vector<Block>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
 		{
 			(*iter_width).Init(hdc, hInst);
@@ -63,7 +63,7 @@ void GameManager::Draw(HDC hdc, HINSTANCE hInst)
 {
 	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 900, 700));
 	BGDraw();
-	MapDraw();
+	//MapDraw();
 	BitBlt(hdc, 0, 0, m_BitMap.getsize().cx, m_BitMap.getsize().cy, m_BitMap.getMemDC(), 0, 0, SRCCOPY);
 }
 
@@ -74,12 +74,26 @@ void GameManager::BGDraw()
 	int mapsize_x = m_BG.getsize().cx;
 	int mapsize_y = m_BG.getsize().cy;
 	//m_BG.Draw(m_BitMap.getMemDC(), 0, 0);
-	//m_BG.CutDraw(m_BitMap.getMemDC(), 0, 0, 43 + (blocksize_x * ((m_imapwidth / 2))), 45 + (blocksize_y * m_imapheight / 2), 0, 0, 43 + (blocksize_x * ((m_imapwidth / 2))), 45 + (blocksize_y * m_imapheight / 2));
 	m_BG.CutDraw(m_BitMap.getMemDC(), 
-		693, 0, 
-		mapsize_x, 45 + (blocksize_y * m_imapheight / 2),
-		693, 0,
-		mapsize_x, 45 + (blocksize_y * m_imapheight / 2));
+		0, 0, 
+		43 + (blocksize_x * ((m_imapwidth / 2))), 45 + (blocksize_y * m_imapheight / 2), 
+		0, 0, 
+		43 + (blocksize_x * ((m_imapwidth / 2))), 45 + (blocksize_y * m_imapheight / 2));
+	m_BG.CutDraw(m_BitMap.getMemDC(), 
+		43 + (blocksize_x * ((m_imapwidth / 2))), 0,
+		45 + (blocksize_x * ((m_imapwidth / 2))), 45 + (blocksize_y * m_imapheight / 2),
+		mapsize_x - (45 + (blocksize_x * ((m_imapwidth / 2)))), 0,
+		45 + (blocksize_x * ((m_imapwidth / 2))), 45 + (blocksize_y * m_imapheight / 2));
+	m_BG.CutDraw(m_BitMap.getMemDC(),
+		0, 45 + (blocksize_y * m_imapheight / 2),
+		43 + (blocksize_x * ((m_imapwidth / 2))), 45 + (blocksize_y * m_imapheight / 2),
+		0, mapsize_y - (46 + (blocksize_y * m_imapheight / 2)),
+		43 + (blocksize_x * ((m_imapwidth / 2))), (46 + (blocksize_y * m_imapheight / 2)));
+	m_BG.CutDraw(m_BitMap.getMemDC(),
+		43 + (blocksize_x * ((m_imapwidth / 2))), 45 + (blocksize_y * m_imapheight / 2),
+		45 + (blocksize_x * ((m_imapwidth / 2))), 45 + (blocksize_y * m_imapheight / 2),
+		mapsize_x - (45 + (blocksize_x * ((m_imapwidth / 2)))), mapsize_y - (46 + (blocksize_y * m_imapheight / 2)),
+		45 + (blocksize_x * ((m_imapwidth / 2))), (46 + (blocksize_y * m_imapheight / 2)));
 	TextOut(m_BitMap.getMemDC(), TIMER_X, UI_Y, m_timer, lstrlen(m_timer));
 }
 
