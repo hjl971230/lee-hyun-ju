@@ -49,6 +49,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 		else
 		{
 			//InvalidateRect(hWnd, NULL, FALSE);
+			GameManager::GetInstance()->FinishCheck(hWnd, hdc, g_hInst);
 		}
 	}
 	return (int)Message.wParam;
@@ -69,7 +70,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 		case ID_MENU_RESTART:
-			MessageBox(hWnd, TEXT("Restart"), TEXT("restart"), MB_OK);
+			if (MessageBox(hWnd, TEXT("게임을 다시하시겠습니까?"), TEXT("Game Reset"), MB_YESNO) == IDYES)
+				GameManager::GetInstance()->Init(GetDC(hWnd), g_hInst);
 			break;
 		case ID_MENU_EXIT:
 			if (MessageBox(hWnd, TEXT("게임을 종료하시겠습니까?"), TEXT("Game Exit"), MB_YESNO) == IDYES)

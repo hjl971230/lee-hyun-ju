@@ -7,6 +7,8 @@ GameManager::GameManager()
 	m_imin = 0;
 	m_isec = 0;
 	m_ilevel = LEVEL_EASY;
+	m_btrapflag = false;
+	m_bAllsearchflag = false;
 	LevelInit();
 	MouseReset();
 }
@@ -18,6 +20,11 @@ GameManager::~GameManager()
 
 void GameManager::Init(HDC hdc, HINSTANCE hInst)
 {
+	m_imin = 0;
+	m_isec = 0;
+	wsprintf(m_timer, "%d : %d", m_imin, m_isec);
+	m_btrapflag = false;
+	m_bAllsearchflag = false;
 	m_BitMap.Init(hdc, hInst, CreateCompatibleBitmap(hdc, 900, 700));
 	m_BG.Init(m_BitMap.getMemDC(), hInst, (HBITMAP)LoadImage(hInst, "BitMap\\back.bmp", IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_DEFAULTSIZE | LR_LOADFROMFILE));
 	MapInit(m_BitMap.getMemDC(), hInst);
@@ -164,9 +171,12 @@ void GameManager::LevelInit()
 		m_imapwidth = MAPSIZE_WIDTH_HARD;
 		break;
 	}
+	m_igametrapcount = m_itrapcount;
 	m_imin = 0; 
 	m_isec = 0;
 	wsprintf(m_timer, "%d : %d", m_imin, m_isec);
+	m_btrapflag = false;
+	m_bAllsearchflag = false;
 }
 
 void GameManager::ChangeLevel(HINSTANCE hInst)
@@ -183,7 +193,11 @@ void GameManager::Lbutton_Click()
 		{
 			if (m_vecmap[i][j]->Click(Lmouse, MINE_CLICKED, m_itrapcount))
 			{
-				DefaultCheck(j, i);
+				if (m_vecmap[i][j]->getcount() >= TRAP)
+				{
+					m_btrapflag = true;
+				}
+				DefaultCheck(j, i, DIRECTION_ALL);
 			}
 		}
 	}
@@ -197,9 +211,26 @@ void GameManager::Rbutton_Click()
 		{
 			if ((*iter_width)->Click(Rmouse, MINE_FLAG, m_itrapcount))
 			{
+				if(m_itrapcount <= 0 && ClearCheck())
+					m_bAllsearchflag = true;
 			}
 		}
 	}
+}
+
+bool GameManager::ClearCheck()
+{
+	int count = 0;
+	for (vector<vector<Block*>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+	{
+		for (vector<Block*>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+		{
+			if ((*iter_width)->getcount() >= TRAP && (*iter_width)->gethideflag() == MINE_FLAG) count++;
+		}
+	}
+	if (count == m_igametrapcount) return true;
+	else return false;
+	return false;
 }
 
 void GameManager::MouseReset()
@@ -293,7 +324,7 @@ void GameManager::trap_setcount(HINSTANCE hInst)
 	}
 }
 
-void GameManager::DefaultCheck(int x, int y)
+void GameManager::DefaultCheck(int x, int y, int direction)
 {
 	if (x <= 0 || y <= 0 || x >= m_imapwidth || y >= m_imapheight)
 		return;
@@ -304,15 +335,85 @@ void GameManager::DefaultCheck(int x, int y)
 			return;
 		else
 		{
-			DefaultCheck(x - 1, y);
-			DefaultCheck(x + 1, y);
-			DefaultCheck(x, y - 1);
-			DefaultCheck(x, y + 1);
-			DefaultCheck(x - 1, y - 1);
-			DefaultCheck(x - 1, y + 1);
-			DefaultCheck(x + 1, y - 1);
-			DefaultCheck(x + 1, y + 1);
+			switch (direction)
+			{
+			case DIRECTION_UP:
+				DefaultCheck(x, y - 1, DIRECTION_UP);
+				DefaultCheck(x - 1, y - 1, DIRECTION_LEFTUP);
+				DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP);
+				break;
+			case DIRECTION_DOWN:
+				DefaultCheck(x, y - 1, DIRECTION_DOWN);
+				DefaultCheck(x - 1, y - 1, DIRECTION_LEFTDOWN);
+				DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTDOWN);
+				break;
+			case DIRECTION_LEFT:
+				DefaultCheck(x - 1, y, DIRECTION_LEFT);
+				DefaultCheck(x - 1, y - 1, DIRECTION_LEFTUP);
+				DefaultCheck(x - 1, y + 1, DIRECTION_LEFTDOWN);
+				break;
+			case DIRECTION_RIGHT:
+				DefaultCheck(x + 1, y, DIRECTION_RIGHT);
+				DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP);
+				DefaultCheck(x + 1, y + 1, DIRECTION_RIGHTDOWN);
+				break;
+			case DIRECTION_LEFTUP:
+				DefaultCheck(x - 1, y - 1, DIRECTION_LEFTUP);
+				break;
+			case DIRECTION_LEFTDOWN:
+				DefaultCheck(x - 1, y + 1, DIRECTION_LEFTDOWN);
+				break;
+			case DIRECTION_RIGHTUP:
+				DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP);
+				break;
+			case DIRECTION_RIGHTDOWN:
+				DefaultCheck(x + 1, y + 1, DIRECTION_RIGHTDOWN);
+				break;
+			case DIRECTION_ALL:
+				DefaultCheck(x - 1, y, DIRECTION_LEFT);
+				DefaultCheck(x + 1, y, DIRECTION_RIGHT);
+				DefaultCheck(x, y - 1, DIRECTION_UP);
+				DefaultCheck(x, y + 1, DIRECTION_DOWN);
+				DefaultCheck(x - 1, y - 1, DIRECTION_LEFTUP);
+				DefaultCheck(x - 1, y + 1, DIRECTION_LEFTDOWN);
+				DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP);
+				DefaultCheck(x + 1, y + 1, DIRECTION_RIGHTDOWN);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 	else return;
+}
+
+void GameManager::FinishCheck(HWND hWnd, HDC hdc, HINSTANCE hInst)
+{
+	if (m_btrapflag)
+	{
+		for (vector<vector<Block*>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+		{
+			for (vector<Block*>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+			{
+				if((*iter_width)->getcount() >= TRAP) (*iter_width)->sethideflag(MINE_CLICKED);
+			}
+		}
+		MapDraw();
+		if (MessageBox(hWnd, "지뢰가 터졌습니다. 게임을 다시 하시겠습니까?", "Game Over", MB_YESNO) == IDYES)
+		{
+			LevelInit();
+			Init(hdc, hInst);
+		}	
+		else PostQuitMessage(0);
+	}
+	if (m_bAllsearchflag)
+	{
+		if (MessageBox(hWnd, "지뢰를 모두 찾았습니다. 게임을 다시 하시겠습니까?", "Game Over", MB_YESNO) == IDYES)
+		{
+			m_ilevel = LEVEL_EASY;
+			LevelInit();
+			Init(hdc, hInst);
+		}
+		else PostQuitMessage(0);
+	}
 }

@@ -18,6 +18,9 @@ private:
 	int m_imapwidth;
 	vector<vector<Block*>> m_vecmap;
 	int m_itrapcount;
+	int m_igametrapcount;
+	bool m_btrapflag;
+	bool m_bAllsearchflag;
 public:
 	inline static GameManager* GetInstance()
 	{
@@ -43,6 +46,8 @@ public:
 	void ChangeLevel(HINSTANCE);
 	void trap_setrandom(int count);
 	void trap_setcount(HINSTANCE);
-	void DefaultCheck(int x, int y);
+	void DefaultCheck(int x, int y, int direction);
+	void FinishCheck(HWND, HDC, HINSTANCE);
+	bool ClearCheck();
 };
 
