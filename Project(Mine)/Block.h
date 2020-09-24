@@ -23,5 +23,7 @@ public:
 	void Init(HDC, HINSTANCE);
 	void numbersload(HDC, HINSTANCE);
 	void Draw(HDC hdc, int x, int y, float scale_x = 1, float scale_y = 1);
+	void UpdateCollider(int x, int y);
+	bool Click(POINT pt, int type, int& count);
 };
 

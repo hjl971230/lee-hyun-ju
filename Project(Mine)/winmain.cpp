@@ -48,7 +48,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPervlnstance, LPSTR lpszCmd
 		}
 		else
 		{
-			InvalidateRect(hWnd, NULL, FALSE);
+			//InvalidateRect(hWnd, NULL, FALSE);
 		}
 	}
 	return (int)Message.wParam;
@@ -84,11 +84,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		x = LOWORD(lParam);
 		y = HIWORD(lParam);
 		GameManager::GetInstance()->setLmousepoint(x, y);
+		GameManager::GetInstance()->Lbutton_Click();
 		return 0;
 	case WM_RBUTTONDOWN:
 		x = LOWORD(lParam);
 		y = HIWORD(lParam);
 		GameManager::GetInstance()->setRmousepoint(x, y);
+		GameManager::GetInstance()->Rbutton_Click();
 		return 0;
 	case WM_TIMER:
 		GameManager::GetInstance()->TimeUpdate();
@@ -97,7 +99,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
 		GameManager::GetInstance()->Draw(hdc, g_hInst);
-		GameManager::GetInstance()->Click();
 		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_DESTROY:

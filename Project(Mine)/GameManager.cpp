@@ -51,6 +51,7 @@ void GameManager::MapDraw()
 		for (vector<Block>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
 		{
 			(*iter_width).Draw(m_BitMap.getMemDC(), x, y);
+			(*iter_width).UpdateCollider(x, y);
 			x += 26;
 		}
 		y += size_y;
@@ -155,9 +156,31 @@ void GameManager::ChangeLevel(HINSTANCE hInst)
 	MapInit(m_BitMap.getMemDC(), hInst);
 }
 
-void GameManager::Click()
+void GameManager::Lbutton_Click()
 {
-	//MouseReset();
+	for (vector<vector<Block>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+	{
+		for (vector<Block>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+		{
+			if ((*iter_width).Click(Lmouse, MINE_CLICKED, m_itrapcount))
+			{
+				
+			}
+		}
+	}
+}
+
+void GameManager::Rbutton_Click()
+{
+	for (vector<vector<Block>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+	{
+		for (vector<Block>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+		{
+			if ((*iter_width).Click(Rmouse, MINE_FLAG, m_itrapcount))
+			{
+			}
+		}
+	}
 }
 
 void GameManager::MouseReset()

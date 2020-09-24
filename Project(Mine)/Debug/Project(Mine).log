@@ -1,9 +1,3 @@
-﻿  BitMap.cpp
-D:\학원\github\project\Project(Mine)\BitMap.cpp(23,59): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\학원\github\project\Project(Mine)\BitMap.cpp(23,38): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Block.cpp
-  GameManager.cpp
-  winmain.cpp
-D:\학원\github\project\Project(Mine)\winmain.cpp(14,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다...
-  Project(Mine).vcxproj -> D:\학원\github\project\Project(Mine)\Debug\Project(Mine).exe
+﻿  Block.cpp
+F:\학원\github\lee-hyun-ju\Project(Mine)\Block.cpp(71): warning C4715: 'Block::Click': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  Project(Mine).vcxproj -> F:\학원\github\lee-hyun-ju\Project(Mine)\Debug\Project(Mine).exe

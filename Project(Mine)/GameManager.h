@@ -33,7 +33,8 @@ public:
 	void Draw(HDC, HINSTANCE);
 	void BGDraw();
 	void TimeUpdate();
-	void Click();
+	void Lbutton_Click();
+	void Rbutton_Click();
 	void MouseReset();
 	void MapInit(HDC, HINSTANCE);
 	void MapDraw();
