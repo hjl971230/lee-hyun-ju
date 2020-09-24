@@ -13,7 +13,7 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
-
+	MapRelease();
 }
 
 void GameManager::Init(HDC hdc, HINSTANCE hInst)
@@ -25,20 +25,39 @@ void GameManager::Init(HDC hdc, HINSTANCE hInst)
 
 void GameManager::MapInit(HDC hdc, HINSTANCE hInst)
 {
-	if (!m_vecmap.empty()) m_vecmap.clear();
-	vector<Block> vectmp;
-	Block blocktmp;
+	MapRelease();
+	vector<Block*> vectmp;
+	Block* blocktmp = NULL;
 	m_vecmap.reserve(m_imapheight);
 	vectmp.reserve(m_imapwidth);
 	m_vecmap.assign(m_imapheight, vectmp);
-	for (vector<vector<Block>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+	for (vector<vector<Block*>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
 	{
 		(*iter_height).assign(m_imapwidth, blocktmp);
-		for (vector<Block>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+		for (vector<Block*>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
 		{
-			(*iter_width).Init(hdc, hInst);
+			(*iter_width) = new Block;
+			(*iter_width)->Init(hdc, hInst);
 		}
 	}
+	trap_setrandom(m_itrapcount);
+	trap_setcount(hInst);
+}
+
+void GameManager::MapRelease()
+{
+	for (vector<vector<Block*>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+	{
+		for (vector<Block*>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+		{
+			if ((*iter_width) != NULL)
+			{
+				delete (*iter_width);
+				(*iter_width) = NULL;
+			}
+		}
+	}
+	m_vecmap.clear();
 }
 
 void GameManager::MapDraw()
@@ -46,12 +65,12 @@ void GameManager::MapDraw()
 	int x = 43;
 	int y = 45;
 	int size_y = 26;
-	for (vector<vector<Block>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+	for (vector<vector<Block*>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
 	{
-		for (vector<Block>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+		for (vector<Block*>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
 		{
-			(*iter_width).Draw(m_BitMap.getMemDC(), x, y);
-			(*iter_width).UpdateCollider(x, y);
+			(*iter_width)->Draw(m_BitMap.getMemDC(), x, y);
+			(*iter_width)->UpdateCollider(x, y);
 			x += 26;
 		}
 		y += size_y;
@@ -158,13 +177,13 @@ void GameManager::ChangeLevel(HINSTANCE hInst)
 
 void GameManager::Lbutton_Click()
 {
-	for (vector<vector<Block>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+	for (int i = 0; i < m_imapheight; i++)
 	{
-		for (vector<Block>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+		for (int j = 0; j < m_imapwidth; j++)
 		{
-			if ((*iter_width).Click(Lmouse, MINE_CLICKED, m_itrapcount))
+			if (m_vecmap[i][j]->Click(Lmouse, MINE_CLICKED, m_itrapcount))
 			{
-				
+				DefaultCheck(j, i);
 			}
 		}
 	}
@@ -172,11 +191,11 @@ void GameManager::Lbutton_Click()
 
 void GameManager::Rbutton_Click()
 {
-	for (vector<vector<Block>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+	for (vector<vector<Block*>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
 	{
-		for (vector<Block>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+		for (vector<Block*>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
 		{
-			if ((*iter_width).Click(Rmouse, MINE_FLAG, m_itrapcount))
+			if ((*iter_width)->Click(Rmouse, MINE_FLAG, m_itrapcount))
 			{
 			}
 		}
@@ -189,4 +208,111 @@ void GameManager::MouseReset()
 	Lmouse.y = 0;
 	Rmouse.x = 0;
 	Rmouse.y = 0;
+}
+
+void GameManager::trap_setrandom(int count)
+{
+	int trap_count = count;
+	for (int i = 0; i < m_imapheight; i++)
+	{
+		for (int j = 0; j < m_imapwidth; j++)
+		{
+			if (m_vecmap[i][j]->getcount() == 0)
+			{
+				if (trap_count == 0)
+					break;
+				if (rand() % 100 < 1)
+				{
+					trap_count--;
+					m_vecmap[i][j]->setcount(TRAP);
+				}
+			}
+		}
+	}
+	if (trap_count > 0)
+		trap_setrandom(trap_count);
+}
+
+void GameManager::trap_setcount(HINSTANCE hInst)
+{
+	for (int i = 0; i < m_imapheight; i++)
+	{
+		for (int j = 0; j < m_imapwidth; j++)
+		{
+			if (m_vecmap[i][j]->getcount() == TRAP)
+			{
+				if (i > 0)
+				{
+					if (j > 0)
+					{
+						if (m_vecmap[i - 1][j - 1]->getcount() < TRAP)
+							m_vecmap[i - 1][j - 1]->countup();
+					}
+					if (j < m_imapwidth - 1)
+					{
+						if (m_vecmap[i - 1][j + 1]->getcount() < TRAP)
+							m_vecmap[i - 1][j + 1]->countup();
+					}
+					if (m_vecmap[i - 1][j]->getcount() < TRAP)
+						m_vecmap[i - 1][j]->countup();
+				}
+				if (j > 0)
+				{
+					if (m_vecmap[i][j - 1]->getcount() < TRAP)
+						m_vecmap[i][j - 1]->countup();
+				}
+				if (j < m_imapwidth - 1)
+				{
+					if (m_vecmap[i][j + 1]->getcount() < TRAP)
+						m_vecmap[i][j + 1]->countup();
+				}
+				if (i < m_imapheight - 1)
+				{
+					if (j > 0)
+					{
+						if (m_vecmap[i + 1][j - 1]->getcount() < TRAP)
+							m_vecmap[i + 1][j - 1]->countup();
+					}
+					if (j < m_imapwidth - 1)
+					{
+						if (m_vecmap[i + 1][j + 1]->getcount() < TRAP)
+							m_vecmap[i + 1][j + 1]->countup();
+					}
+					if (m_vecmap[i + 1][j]->getcount() < TRAP)
+						m_vecmap[i + 1][j]->countup();
+				}
+			}
+		}
+	}
+	for (vector<vector<Block*>>::iterator iter_height = m_vecmap.begin(); iter_height != m_vecmap.end(); iter_height++)
+	{
+		for (vector<Block*>::iterator iter_width = (*iter_height).begin(); iter_width != (*iter_height).end(); iter_width++)
+		{
+			(*iter_width)->numbersload(m_BitMap.getMemDC(), hInst);
+		}
+	}
+}
+
+void GameManager::DefaultCheck(int x, int y)
+{
+	if (x <= 0 || y <= 0 || x >= m_imapwidth || y >= m_imapheight)
+		return;
+	if (m_vecmap[y][x]->getcount() < TRAP && m_vecmap[y][x]->gethideflag() != MINE_FLAG)
+	{
+		m_vecmap[y][x]->sethideflag(MINE_CLICKED);
+		if (m_vecmap[y][x]->getcount() > 0)
+			return;
+		else
+		{
+			DefaultCheck(x - 1, y);
+			DefaultCheck(x + 1, y);
+			DefaultCheck(x, y - 1);
+			DefaultCheck(x, y + 1);
+			DefaultCheck(x - 1, y - 1);
+			DefaultCheck(x - 1, y + 1);
+			DefaultCheck(x + 1, y - 1);
+			DefaultCheck(x + 1, y + 1);
+		}
+	}
+	else return;
 }

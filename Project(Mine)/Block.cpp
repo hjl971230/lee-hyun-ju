@@ -31,7 +31,11 @@ void Block::Draw(HDC hdc, int x, int y, float scale_x, float scale_y)
 	if (m_ihideflag == MINE_HIDE)
 		m_block.Draw(hdc, x, y);
 	else if (m_ihideflag == MINE_FLAG) m_flag.Draw(hdc, x, y);
-	else m_numbers.Draw(hdc, x, y);
+	else
+	{
+		if (m_iminecount == TRAP) m_mine.Draw(hdc, x, y);
+		else m_numbers.Draw(hdc, x, y);
+	}
 }
 
 void Block::UpdateCollider(int x, int y)

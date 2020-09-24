@@ -13,6 +13,7 @@ using namespace std;
 #define BLOCK_COUNT 9
 #define START_X 40
 #define START_Y 40
+#define TRAP 10
 
 enum
 {

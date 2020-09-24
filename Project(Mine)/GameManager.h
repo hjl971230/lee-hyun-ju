@@ -16,7 +16,7 @@ private:
 	int m_ilevel;
 	int m_imapheight;
 	int m_imapwidth;
-	vector<vector<Block>> m_vecmap;
+	vector<vector<Block*>> m_vecmap;
 	int m_itrapcount;
 public:
 	inline static GameManager* GetInstance()
@@ -38,7 +38,11 @@ public:
 	void MouseReset();
 	void MapInit(HDC, HINSTANCE);
 	void MapDraw();
+	void MapRelease();
 	void LevelInit();
 	void ChangeLevel(HINSTANCE);
+	void trap_setrandom(int count);
+	void trap_setcount(HINSTANCE);
+	void DefaultCheck(int x, int y);
 };
 

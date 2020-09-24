@@ -1,3 +1,2 @@
-﻿  Block.cpp
-F:\학원\github\lee-hyun-ju\Project(Mine)\Block.cpp(71): warning C4715: 'Block::Click': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  Project(Mine).vcxproj -> F:\학원\github\lee-hyun-ju\Project(Mine)\Debug\Project(Mine).exe
+﻿  GameManager.cpp
+  Project(Mine).vcxproj -> D:\학원\github\project\Project(Mine)\Debug\Project(Mine).exe
