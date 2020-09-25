@@ -326,7 +326,7 @@ void GameManager::trap_setcount(HINSTANCE hInst)
 
 void GameManager::DefaultCheck(int x, int y, int direction)
 {
-	if (x <= 0 || y <= 0 || x >= m_imapwidth || y >= m_imapheight)
+	if (x < 0 || y < 0 || x >= m_imapwidth || y >= m_imapheight)
 		return;
 	if (m_vecmap[y][x]->getcount() < TRAP && m_vecmap[y][x]->gethideflag() != MINE_FLAG)
 	{
@@ -410,7 +410,6 @@ void GameManager::FinishCheck(HWND hWnd, HDC hdc, HINSTANCE hInst)
 	{
 		if (MessageBox(hWnd, "지뢰를 모두 찾았습니다. 게임을 다시 하시겠습니까?", "Game Over", MB_YESNO) == IDYES)
 		{
-			m_ilevel = LEVEL_EASY;
 			LevelInit();
 			Init(hdc, hInst);
 		}
