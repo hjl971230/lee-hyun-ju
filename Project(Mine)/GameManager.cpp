@@ -330,51 +330,54 @@ void GameManager::DefaultCheck(int x, int y, int direction)
 		return;
 	if (m_vecmap[y][x]->getcount() < TRAP && m_vecmap[y][x]->gethideflag() != MINE_FLAG)
 	{
-		if(m_vecmap[y][x]->gethideflag() == MINE_HIDE)
+		if (m_vecmap[y][x]->gethideflag() == MINE_HIDE)
+		{
 			m_vecmap[y][x]->sethideflag(MINE_CLICKED);
-		if (m_vecmap[y][x]->getcount() > 0 && m_vecmap[y][x]->gethideflag() == MINE_CLICKED)
+			DefaultCheck(x, y, DIRECTION_ALL_ONE);
+		}
+		if (m_vecmap[y][x]->getcount() > 0)
 			return;
-
+		
 		switch (direction)
 		{
 		case DIRECTION_UP:
-			DefaultCheck(x - 1, y - 1, DIRECTION_LEFTUP_ONE);
-			DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP_ONE);
+			/*DefaultCheck(x - 1, y - 1, DIRECTION_LEFTUP_ONE);
+			DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP_ONE);*/
 			DefaultCheck(x, y - 1, DIRECTION_UP);
 			break;
 		case DIRECTION_DOWN:
-			DefaultCheck(x - 1, y - 1, DIRECTION_LEFTDOWN_ONE);
-			DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTDOWN_ONE);
+			/*DefaultCheck(x - 1, y - 1, DIRECTION_LEFTDOWN_ONE);
+			DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTDOWN_ONE);*/
 			DefaultCheck(x, y - 1, DIRECTION_DOWN);
 			break;
 		case DIRECTION_LEFT:
-			DefaultCheck(x - 1, y - 1, DIRECTION_LEFTUP_ONE);
-			DefaultCheck(x - 1, y + 1, DIRECTION_LEFTDOWN_ONE);
+			/*DefaultCheck(x - 1, y - 1, DIRECTION_LEFTUP_ONE);
+			DefaultCheck(x - 1, y + 1, DIRECTION_LEFTDOWN_ONE);*/
 			DefaultCheck(x - 1, y, DIRECTION_LEFT);
 			break;
 		case DIRECTION_RIGHT:
-			DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP_ONE);
-			DefaultCheck(x + 1, y + 1, DIRECTION_RIGHTDOWN_ONE);
+			/*DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP_ONE);
+			DefaultCheck(x + 1, y + 1, DIRECTION_RIGHTDOWN_ONE);*/
 			DefaultCheck(x + 1, y, DIRECTION_RIGHT);
 			break;
 		case DIRECTION_LEFTUP:
-			DefaultCheck(x, y - 1, DIRECTION_UP_ONE);
-			DefaultCheck(x - 1, y, DIRECTION_LEFT_ONE);
+			/*DefaultCheck(x, y - 1, DIRECTION_UP_ONE);
+			DefaultCheck(x - 1, y, DIRECTION_LEFT_ONE);*/
 			DefaultCheck(x - 1, y - 1, DIRECTION_LEFTUP);
 			break;
 		case DIRECTION_LEFTDOWN:
-			DefaultCheck(x, y - 1, DIRECTION_DOWN_ONE);
-			DefaultCheck(x - 1, y, DIRECTION_LEFT_ONE);
+			/*DefaultCheck(x, y - 1, DIRECTION_DOWN_ONE);
+			DefaultCheck(x - 1, y, DIRECTION_LEFT_ONE);*/
 			DefaultCheck(x - 1, y + 1, DIRECTION_LEFTDOWN);
 			break;
 		case DIRECTION_RIGHTUP:
-			DefaultCheck(x, y - 1, DIRECTION_UP_ONE);
-			DefaultCheck(x - 1, y, DIRECTION_RIGHT_ONE);
+		  /*DefaultCheck(x, y - 1, DIRECTION_UP_ONE);
+			DefaultCheck(x - 1, y, DIRECTION_RIGHT_ONE);*/
 			DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP);
 			break;
 		case DIRECTION_RIGHTDOWN:
-			DefaultCheck(x, y - 1, DIRECTION_DOWN_ONE);
-			DefaultCheck(x - 1, y, DIRECTION_RIGHT_ONE);
+			/*DefaultCheck(x, y - 1, DIRECTION_DOWN_ONE);
+			DefaultCheck(x - 1, y, DIRECTION_RIGHT_ONE);*/
 			DefaultCheck(x + 1, y + 1, DIRECTION_RIGHTDOWN);
 			break;
 		case DIRECTION_UP_ONE:
@@ -410,6 +413,16 @@ void GameManager::DefaultCheck(int x, int y, int direction)
 			DefaultCheck(x - 1, y + 1, DIRECTION_LEFTDOWN);
 			DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP);
 			DefaultCheck(x + 1, y + 1, DIRECTION_RIGHTDOWN);
+			break;
+		case DIRECTION_ALL_ONE:
+			DefaultCheck(x - 1, y, DIRECTION_LEFT_ONE);
+			DefaultCheck(x + 1, y, DIRECTION_RIGHT_ONE);
+			DefaultCheck(x, y - 1, DIRECTION_UP_ONE);
+			DefaultCheck(x, y + 1, DIRECTION_DOWN_ONE);
+			DefaultCheck(x - 1, y - 1, DIRECTION_LEFTUP_ONE);
+			DefaultCheck(x - 1, y + 1, DIRECTION_LEFTDOWN_ONE);
+			DefaultCheck(x + 1, y - 1, DIRECTION_RIGHTUP_ONE);
+			DefaultCheck(x + 1, y + 1, DIRECTION_RIGHTDOWN_ONE);
 			break;
 		default:
 			break;
